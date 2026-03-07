@@ -1,0 +1,669 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Welsh Vocabulary Quiz</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Source+Sans+3:wght@300;400;600&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --cream: #faf7f2; --dark: #1c1c1c; --mid: #5a5a5a; --light: #e8e2d9; --gold: #c8a84b; --hgreen: #1a6b3c;
+    --col-fem: #b83232; --col-masc: #2471a3; --col-verb: #7a7a7a; --col-adj: #1a6b3c; --col-other: #7d5fa5;
+  }
+  body { font-family: 'Source Sans 3', sans-serif; background: var(--cream); min-height: 100vh; display: flex; flex-direction: column; align-items: center; padding: 0 16px 48px; color: var(--dark); }
+  header { width: 100%; max-width: 720px; padding: 28px 0 20px; text-align: center; border-bottom: 2px solid var(--light); margin-bottom: 20px; }
+  .flag { display: flex; justify-content: center; margin-bottom: 14px; }
+  .flag svg { width: 56px; height: 34px; border-radius: 4px; box-shadow: 0 2px 8px rgba(0,0,0,.18); }
+  h1 { font-family: 'Playfair Display', serif; font-size: 1.9rem; letter-spacing: -0.02em; }
+  h1 span { color: var(--hgreen); }
+  .subtitle { font-size: 0.85rem; color: var(--mid); margin-top: 4px; letter-spacing: 0.08em; text-transform: uppercase; }
+
+  .toolbar { width: 100%; max-width: 720px; display: flex; flex-direction: column; gap: 10px; margin-bottom: 16px; }
+  .filter-bar { display: flex; flex-wrap: wrap; gap: 7px; justify-content: center; }
+  .filter-btn { border: 1.5px solid var(--light); background: white; color: var(--mid); font-family: 'Source Sans 3', sans-serif; font-size: 0.78rem; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; padding: 5px 13px; border-radius: 20px; cursor: pointer; transition: all .18s; }
+  .filter-btn:hover { border-color: var(--hgreen); color: var(--hgreen); }
+  .filter-btn.active                  { background: var(--dark);       border-color: var(--dark);       color: white; }
+  .filter-btn[data-cat="nouns"].active{ background: var(--col-masc);   border-color: var(--col-masc); }
+  .filter-btn[data-cat="adjective"].active{ background: var(--col-adj);border-color: var(--col-adj); }
+  .filter-btn[data-cat="verb"].active { background: var(--col-verb);   border-color: var(--col-verb); }
+  .filter-btn[data-cat="other"].active{ background: var(--col-other);  border-color: var(--col-other); }
+
+  .direction-row { display: flex; justify-content: center; }
+  .dir-btn { font-family: 'Source Sans 3', sans-serif; font-size: 0.8rem; font-weight: 600; letter-spacing: 0.04em; padding: 7px 18px; border: 1.5px solid var(--light); background: white; color: var(--mid); cursor: pointer; transition: all .18s; }
+  .dir-btn:first-child { border-radius: 20px 0 0 20px; border-right: none; }
+  .dir-btn:last-child  { border-radius: 0 20px 20px 0; }
+  .dir-btn.active { background: var(--dark); border-color: var(--dark); color: white; }
+
+  .legend { display: flex; flex-wrap: wrap; gap: 6px 14px; justify-content: center; margin-bottom: 12px; font-size: 0.72rem; color: var(--mid); }
+  .legend-item { display: flex; align-items: center; gap: 5px; }
+  .legend-dot  { width: 9px; height: 9px; border-radius: 50%; flex-shrink: 0; }
+
+  .progress-bar-wrap { width: 100%; max-width: 720px; margin-bottom: 8px; }
+  .progress-info { display: flex; justify-content: space-between; font-size: 0.76rem; color: var(--mid); margin-bottom: 5px; }
+  .progress-track { height: 4px; background: var(--light); border-radius: 2px; overflow: hidden; }
+  .progress-fill  { height: 100%; background: var(--hgreen); border-radius: 2px; transition: width .4s ease; }
+
+  .card-area { perspective: 1200px; width: 100%; max-width: 520px; margin: 16px auto 14px; cursor: pointer; user-select: none; }
+  .card-inner { position: relative; width: 100%; height: 290px; transform-style: preserve-3d; transition: transform .55s cubic-bezier(.4,0,.2,1); }
+  .card-inner.flipped { transform: rotateY(180deg); }
+  .card-face { position: absolute; inset: 0; backface-visibility: hidden; -webkit-backface-visibility: hidden; border-radius: 16px; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 32px 36px; box-shadow: 0 8px 32px rgba(0,0,0,.1), 0 2px 8px rgba(0,0,0,.06); }
+  .card-front { background: white; border: 1.5px solid var(--light); }
+  .card-back  { transform: rotateY(180deg); color: white; background: var(--col-adj); }
+  .card-back.cat-feminine  { background: var(--col-fem); }
+  .card-back.cat-masculine { background: var(--col-masc); }
+  .card-back.cat-verb      { background: var(--col-verb); }
+  .card-back.cat-adjective { background: var(--col-adj); }
+  .card-back.cat-other     { background: var(--col-other); }
+
+  .card-hint { font-size: 0.7rem; letter-spacing: 0.12em; text-transform: uppercase; font-weight: 600; margin-bottom: 18px; opacity: 0.45; }
+  .card-word { font-family: 'Playfair Display', serif; font-size: clamp(1.35rem,4vw,2rem); text-align: center; line-height: 1.3; font-weight: 700; }
+  .card-back .card-word { font-size: clamp(1.5rem,4.5vw,2.3rem); margin-bottom: 10px; }
+  .card-category { display: inline-block; margin-top: 14px; font-size: 0.76rem; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; background: rgba(255,255,255,.2); padding: 3px 11px; border-radius: 20px; }
+  .flip-cue { margin-top: 18px; font-size: 0.72rem; opacity: 0.32; letter-spacing: 0.08em; }
+
+  .complete-banner { display: none; background: var(--hgreen); color: white; border-radius: 16px; padding: 28px 36px; text-align: center; width: 100%; max-width: 520px; margin: 16px auto 14px; box-shadow: 0 8px 32px rgba(0,0,0,.1); }
+  .complete-banner h2 { font-family: 'Playfair Display', serif; font-size: 1.7rem; margin-bottom: 8px; }
+  .complete-banner p  { opacity: 0.85; margin-bottom: 18px; }
+
+  .controls { display: flex; gap: 10px; align-items: center; justify-content: center; flex-wrap: wrap; margin-bottom: 16px; }
+  .btn { font-family: 'Source Sans 3', sans-serif; font-size: 0.84rem; font-weight: 600; letter-spacing: 0.04em; padding: 9px 22px; border-radius: 8px; border: none; cursor: pointer; transition: all .18s; }
+  .btn-prev    { background: var(--light); color: var(--dark); }
+  .btn-prev:hover { background: #d8d2c9; }
+  .btn-next    { background: var(--dark); color: white; }
+  .btn-next:hover { background: #333; }
+  .btn-shuffle { background: white; color: var(--mid); border: 1.5px solid var(--light); }
+  .btn-shuffle:hover { border-color: var(--gold); color: var(--gold); }
+  .btn-restart { background: white; color: var(--mid); border: 1.5px solid var(--light); }
+  .btn-restart:hover { border-color: var(--col-fem); color: var(--col-fem); }
+  .btn-hint { background: white; color: var(--mid); border: 1.5px solid var(--light); }
+  .btn-hint:hover { border-color: var(--gold); color: var(--gold); }
+  .btn-hint:disabled { opacity: 0.35; cursor: default; }
+  .hint-text { margin-top: 10px; font-size: 0.82rem; color: var(--mid); letter-spacing: 0.06em; min-height: 1.2em; text-align: center; }
+  .hint-row { display: flex; flex-direction: column; align-items: center; gap: 0; margin-bottom: 10px; width: 100%; max-width: 520px; }
+
+  .stats { display: flex; gap: 22px; justify-content: center; flex-wrap: wrap; }
+  .stat { text-align: center; font-size: 0.76rem; }
+  .stat-num { font-family: 'Playfair Display', serif; font-size: 1.5rem; font-weight: 700; display: block; line-height: 1; margin-bottom: 2px; }
+  .stat-num.gold  { color: var(--gold); }
+  .stat-num.green { color: var(--hgreen); }
+  .stat-label { color: var(--mid); letter-spacing: 0.06em; text-transform: uppercase; font-size: 0.68rem; }
+  .key-hint { margin-top: 16px; font-size: 0.71rem; color: var(--mid); opacity: 0.55; text-align: center; }
+  .key-hint kbd { background: var(--light); border-radius: 4px; padding: 2px 6px; font-family: monospace; font-size: 0.76rem; }
+  @media (max-width: 480px) { h1 { font-size: 1.5rem; } .card-face { padding: 22px; } .card-inner { height: 260px; } }
+
+  /* Mode toggle */
+  .mode-row { display: flex; align-items: center; justify-content: center; gap: 6px; }
+  .mode-label { font-size: 0.78rem; color: var(--mid); font-weight: 600; letter-spacing: 0.05em; text-transform: uppercase; }
+  .mode-btn { font-family: 'Source Sans 3', sans-serif; font-size: 0.78rem; font-weight: 600; letter-spacing: 0.04em; padding: 5px 14px; border: 1.5px solid var(--light); background: white; color: var(--mid); cursor: pointer; transition: all .18s; border-radius: 20px; }
+  .mode-btn.active { background: var(--dark); border-color: var(--dark); color: white; }
+
+  /* Pile badge on card front */
+  .pile-badge { position: absolute; top: 12px; right: 14px; font-size: 0.65rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; padding: 2px 8px; border-radius: 20px; opacity: 0; }
+  .pile-badge.pile-0 { opacity: 0; }
+  .pile-badge.pile-1 { opacity: 1; background: #fff3cd; color: #856404; }
+  .pile-badge.pile-2 { opacity: 1; background: #d1e7dd; color: #0a3622; }
+
+  /* Rating row */
+  .rating-row { display: flex; align-items: center; justify-content: center; gap: 8px; flex-wrap: wrap; margin-bottom: 10px; }
+  .rating-label { font-size: 0.78rem; color: var(--mid); font-weight: 600; letter-spacing: 0.04em; margin-right: 4px; }
+  .btn-hard  { font-family: 'Source Sans 3', sans-serif; font-size: 0.84rem; font-weight: 700; letter-spacing: 0.03em; padding: 8px 18px; border-radius: 8px; border: none; cursor: pointer; transition: all .18s; background: #f8d7da; color: #842029; }
+  .btn-hard:hover  { background: #f1aeb5; }
+  .btn-okay  { font-family: 'Source Sans 3', sans-serif; font-size: 0.84rem; font-weight: 700; letter-spacing: 0.03em; padding: 8px 18px; border-radius: 8px; border: none; cursor: pointer; transition: all .18s; background: #fff3cd; color: #664d03; }
+  .btn-okay:hover  { background: #ffe69c; }
+  .btn-known { font-family: 'Source Sans 3', sans-serif; font-size: 0.84rem; font-weight: 700; letter-spacing: 0.03em; padding: 8px 18px; border-radius: 8px; border: none; cursor: pointer; transition: all .18s; background: #d1e7dd; color: #0a3622; }
+  .btn-known:hover { background: #a3cfbb; }
+
+  /* Typing area */
+  .typing-area { width: 100%; max-width: 520px; margin: 16px auto 14px; background: white; border: 1.5px solid var(--light); border-radius: 16px; padding: 32px 36px; box-shadow: 0 8px 32px rgba(0,0,0,.1), 0 2px 8px rgba(0,0,0,.06); display: flex; flex-direction: column; align-items: center; gap: 14px; }
+  .typing-prompt { font-family: 'Playfair Display', serif; font-size: clamp(1.35rem,4vw,2rem); text-align: center; font-weight: 700; line-height: 1.3; }
+  .typing-input  { width: 100%; max-width: 340px; font-family: 'Source Sans 3', sans-serif; font-size: 1.05rem; padding: 10px 14px; border: 1.5px solid var(--light); border-radius: 8px; outline: none; transition: border-color .18s; }
+  .typing-input:focus { border-color: var(--hgreen); }
+  .typing-actions { display: flex; gap: 10px; }
+  .typing-feedback { font-size: 0.9rem; font-weight: 600; min-height: 1.4em; text-align: center; }
+  .typing-feedback.correct { color: var(--hgreen); }
+  .typing-feedback.wrong   { color: var(--col-fem); }
+
+  /* SR stats bar */
+  .sr-stats { display: flex; gap: 10px; justify-content: center; align-items: center; flex-wrap: wrap; margin-top: 10px; font-size: 0.75rem; font-weight: 600; }
+  .sr-stat  { padding: 3px 10px; border-radius: 20px; }
+  .sr-hard  { background: #f8d7da; color: #842029; }
+  .sr-okay  { background: #fff3cd; color: #664d03; }
+  .sr-known { background: #d1e7dd; color: #0a3622; }
+  .btn-clear-data { font-family: 'Source Sans 3', sans-serif; font-size: 0.72rem; color: var(--mid); background: none; border: none; cursor: pointer; text-decoration: underline; opacity: 0.5; padding: 0 4px; }
+  .btn-clear-data:hover { opacity: 1; }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="flag">
+    <svg viewBox="0 0 60 36" xmlns="http://www.w3.org/2000/svg">
+      <rect width="60" height="18" fill="white"/>
+      <rect y="18" width="60" height="18" fill="#00843D"/>
+      <g transform="translate(22,4)" fill="#C8102E">
+        <ellipse cx="8" cy="6" rx="7" ry="5"/>
+        <polygon points="0,8 4,14 8,8"/>
+        <polygon points="16,8 12,14 8,8"/>
+        <ellipse cx="8" cy="5.5" rx="3" ry="2.5" fill="white"/>
+        <circle cx="6.5" cy="5" r="0.8" fill="#C8102E"/>
+        <circle cx="9.5" cy="5" r="0.8" fill="#C8102E"/>
+      </g>
+    </svg>
+  </div>
+  <h1>Welsh <span>Vocabulary</span> Quiz</h1>
+  <p class="subtitle">908 words · Flip to reveal</p>
+</header>
+
+<div class="toolbar">
+  <div class="filter-bar" id="filterBar"></div>
+  <div class="direction-row">
+    <button class="dir-btn active" id="dirEW" onclick="setDirection('en-cy')">English → Welsh</button>
+    <button class="dir-btn"        id="dirWE" onclick="setDirection('cy-en')">Welsh → English</button>
+  </div>
+  <div class="mode-row">
+    <span class="mode-label">Mode:</span>
+    <button class="mode-btn active" id="modeFlip" onclick="setTypingMode(false)">Flip cards</button>
+    <button class="mode-btn"        id="modeType" onclick="setTypingMode(true)">Typing</button>
+  </div>
+</div>
+
+<div class="legend">
+  <div class="legend-item"><div class="legend-dot" style="background:var(--col-fem)"></div>Feminine noun</div>
+  <div class="legend-item"><div class="legend-dot" style="background:var(--col-masc)"></div>Masculine noun</div>
+  <div class="legend-item"><div class="legend-dot" style="background:var(--col-adj)"></div>Adjective</div>
+  <div class="legend-item"><div class="legend-dot" style="background:var(--col-verb)"></div>Verb</div>
+  <div class="legend-item"><div class="legend-dot" style="background:var(--col-other)"></div>Other</div>
+</div>
+
+<div class="progress-bar-wrap">
+  <div class="progress-info"><span id="progressLabel">Card 1 of 908</span><span id="progressPct">0%</span></div>
+  <div class="progress-track"><div class="progress-fill" id="progressFill" style="width:0%"></div></div>
+</div>
+
+<div class="card-area" id="cardArea" onclick="flipCard()">
+  <div class="card-inner" id="cardInner">
+    <div class="card-face card-front">
+      <div class="card-hint" id="frontHint">English</div>
+      <div class="card-word" id="frontWord">Loading…</div>
+      <span class="pile-badge pile-0" id="pileBadge"></span>
+      <div class="flip-cue">tap to flip</div>
+    </div>
+    <div class="card-face card-back" id="cardBack">
+      <div class="card-hint" id="backHint">Welsh</div>
+      <div class="card-word" id="backWord"></div>
+      <div class="card-category" id="backCategory"></div>
+    </div>
+  </div>
+</div>
+
+<div class="typing-area" id="typingArea" style="display:none">
+  <div class="card-hint" id="typingLang">Welsh</div>
+  <div class="typing-prompt" id="typingPrompt"></div>
+  <input type="text" class="typing-input" id="typingInput" placeholder="Type your answer…" onkeydown="if(event.key==='Enter')checkTyping()">
+  <div class="typing-actions">
+    <button class="btn btn-next" id="typingSubmit" onclick="checkTyping()">Check</button>
+    <button class="btn btn-prev" id="typingReveal" style="display:none" onclick="nextCard()">Next →</button>
+  </div>
+  <div class="typing-feedback" id="typingFeedback"></div>
+</div>
+
+<div id="ratingRow" class="rating-row" style="display:none">
+  <span class="rating-label">How did you do?</span>
+  <button class="btn btn-hard"  onclick="rateCard(0)">Hard</button>
+  <button class="btn btn-okay"  onclick="rateCard(1)">Okay</button>
+  <button class="btn btn-known" onclick="rateCard(2)">Got it</button>
+</div>
+
+<div class="hint-row" id="hint-row-wrap">
+  <button class="btn btn-hint" id="hintBtn" onclick="showHint()">Hint — first letter</button>
+  <div class="hint-text" id="hintText"></div>
+</div>
+
+<div class="complete-banner" id="completeBanner">
+  <h2>Da iawn!</h2>
+  <p>You've been through all the cards in this set.</p>
+  <button class="btn btn-next" onclick="restart()">Start Again</button>
+</div>
+
+<div class="controls" id="controls">
+  <button class="btn btn-prev"    onclick="prevCard()">← Prev</button>
+  <button class="btn btn-shuffle" onclick="shuffle()">⇌ Shuffle</button>
+  <button class="btn btn-restart" onclick="restart()">↺ Reset</button>
+  <button class="btn btn-next"    onclick="nextCard()">Next →</button>
+</div>
+
+<div class="stats">
+  <div class="stat"><span class="stat-num gold"  id="statTotal">908</span><span class="stat-label">Total</span></div>
+  <div class="stat"><span class="stat-num green" id="statSeen">0</span><span class="stat-label">Seen</span></div>
+  <div class="stat"><span class="stat-num"       id="statLeft">908</span><span class="stat-label">Remaining</span></div>
+</div>
+
+<div class="sr-stats">
+  <div class="sr-stat sr-hard" ><span id="srHard">0</span> Hard</div>
+  <div class="sr-stat sr-okay" ><span id="srOkay">0</span> Okay</div>
+  <div class="sr-stat sr-known"><span id="srKnown">0</span> Known</div>
+  <button class="btn-clear-data" onclick="clearAllData()">Clear all progress</button>
+</div>
+
+<div class="key-hint"><kbd>Space</kbd> flip &nbsp;·&nbsp; <kbd>→</kbd> next &nbsp;·&nbsp; <kbd>←</kbd> prev</div>
+
+<script>
+const ALL_VOCAB = [{"e":"society (societies)","c":"cymdeithas(au)","g":"feminine noun"},{"e":"stream(s), creek(s)","c":"nant (nentydd)","g":"feminine noun"},{"e":"relative(s), relations(s)","c":"perthynas (perthnasau)","g":"feminine noun"},{"e":"ward(s)","c":"ward(iau)","g":"feminine noun"},{"e":"opening(s)","c":"agoriad(au)","g":"masculine noun"},{"e":"conductor(s); leader(s)","c":"arweinydd (arweinyddion)","g":"masculine noun"},{"e":"patient(s)","c":"claf (cleifion)","g":"masculine noun"},{"e":"event(s)","c":"digwyddiad(au)","g":"masculine noun"},{"e":"difference(s)","c":"gwahaniaeth(au)","g":"masculine noun"},{"e":"age(s)","c":"oedran(nau)","g":"masculine noun"},{"e":"partner(s)","c":"partner(iaid)","g":"masculine noun"},{"e":"attention, remark(s)","c":"sylw(adau)","g":"masculine noun"},{"e":"meddlesome, nosy","c":"busneslyd","g":"adjective"},{"e":"lucky","c":"lwcus","g":"adjective"},{"e":"to greet","c":"cyfarch","g":"verb"},{"e":"to introduce, to present","c":"cyflwyno","g":"verb"},{"e":"to sound","c":"swnio","g":"verb"},{"e":"to join","c":"ymuno (â)","g":"verb"},{"e":"at the moment","c":"ar hyn o bryd","g":"other"},{"e":"lockdown","c":"cyfnod clo","g":"other"},{"e":"by the way","c":"gyda llaw","g":"other"},{"e":"in my element","c":"wrth fy modd","g":"other"},{"e":"brick(s)","c":"bricsen (brics)","g":"feminine noun"},{"e":"branch(es)","c":"cangen (canghennau)","g":"feminine noun"},{"e":"orchestra(s)","c":"cerddorfa (cerddorfeydd)","g":"feminine noun"},{"e":"favour(s)","c":"cymwynas(au)","g":"feminine noun"},{"e":"rule(s)","c":"rheol(au)","g":"feminine noun"},{"e":"chance(s)","c":"siawns(iau)","g":"feminine noun"},{"e":"order, arrangement(s)","c":"trefn(iadau)","g":"feminine noun"},{"e":"Member(s) of the Senedd","c":"Aelod(au) o'r Senedd","g":"masculine noun"},{"e":"Member(s) of Parliament","c":"Aelod(au) Seneddol","g":"masculine noun"},{"e":"dirt","c":"baw","g":"masculine noun"},{"e":"lie(s)","c":"celwydd(au)","g":"masculine noun"},{"e":"summit(s)","c":"copa(on)","g":"masculine noun"},{"e":"wage(s), salary (salaries)","c":"cyflog(au)","g":"masculine noun"},{"e":"drug(s)","c":"cyffur(iau)","g":"masculine noun"},{"e":"waste","c":"gwastraff","g":"masculine noun"},{"e":"policy(-ies)","c":"polisi (polisïau)","g":"masculine noun"},{"e":"unhappy","c":"anhapus","g":"adjective"},{"e":"certain","c":"sicr","g":"adjective"},{"e":"stuck","c":"sownd","g":"adjective"},{"e":"official","c":"swyddogol","g":"adjective"},{"e":"talented","c":"talentog","g":"adjective"},{"e":"to create","c":"creu","g":"verb"},{"e":"to make a noise","c":"cadw sŵn","g":"verb"},{"e":"to cross","c":"croesi","g":"verb"},{"e":"to heat up","c":"cynhesu","g":"verb"},{"e":"to accept, to receive","c":"derbyn","g":"verb"},{"e":"to drop","c":"gollwng","g":"verb"},{"e":"to lie down","c":"gorwedd","g":"verb"},{"e":"to insist","c":"mynnu","g":"verb"},{"e":"to jump","c":"neidio","g":"verb"},{"e":"to grow dark","c":"tywyllu","g":"verb"},{"e":"awake","c":"ar ddihun","g":"other"},{"e":"apart from","c":"heblaw am","g":"other"},{"e":"supposed to","c":"i fod i","g":"other"},{"e":"below","c":"isod","g":"other"},{"e":"small change","c":"newid mân (arian)","g":"other"},{"e":"in front of","c":"o flaen","g":"other"},{"e":"small hours","c":"oriau mân","g":"other"},{"e":"lately, recently","c":"yn ddiweddar","g":"other"},{"e":"series","c":"cyfres(i)","g":"feminine noun"},{"e":"article(s)","c":"erthygl(au)","g":"feminine noun"},{"e":"death(s)","c":"marwolaeth(au)","g":"feminine noun"},{"e":"situation(s)","c":"sefyllfa(oedd)","g":"feminine noun"},{"e":"collection(s)","c":"casgliad(au)","g":"masculine noun"},{"e":"councillor(s)","c":"cynghorydd (cynghorwyr)","g":"masculine noun"},{"e":"sleet","c":"eirlaw","g":"masculine noun"},{"e":"slope(s)","c":"llethr(au)","g":"masculine noun"},{"e":"plastic(s)","c":"plastig(au)","g":"masculine noun"},{"e":"obvious, evident","c":"amlwg","g":"adjective"},{"e":"nasty, unpleasant","c":"annifyr","g":"adjective"},{"e":"tired","c":"blinedig","g":"adjective"},{"e":"comfortable","c":"cyfforddus","g":"adjective"},{"e":"complicated","c":"cymhleth","g":"adjective"},{"e":"entertaining","c":"difyr","g":"adjective"},{"e":"depressed, depressing","c":"digalon","g":"adjective"},{"e":"slippery","c":"llithrig","g":"adjective"},{"e":"excellent","c":"rhagorol","g":"adjective"},{"e":"icy","c":"rhewllyd","g":"adjective"},{"e":"steep","c":"serth","g":"adjective"},{"e":"twisty, windy","c":"troellog","g":"adjective"},{"e":"to recycle","c":"ailgylchu","g":"verb"},{"e":"to save","c":"arbed","g":"verb"},{"e":"to argue (with)","c":"dadlau (â)","g":"verb"},{"e":"to kill","c":"lladd","g":"verb"},{"e":"to slip","c":"llithro","g":"verb"},{"e":"to surprise; to be surprised","c":"synnu","g":"verb"},{"e":"to have your say","c":"dweud eich dweud","g":"other"},{"e":"application form","c":"ffurflen gais","g":"other"},{"e":"away from home","c":"oddi cartre","g":"other"},{"e":"mwy (quantity)","c":"rhagor","g":"other"},{"e":"air, sky","c":"awyr","g":"feminine noun"},{"e":"community (communities)","c":"cymuned(au)","g":"feminine noun"},{"e":"trip(s), excursion(s)","c":"gwibdaith (gwibdeithiau)","g":"feminine noun"},{"e":"fire engine(s)","c":"injan dân (injans tân)","g":"feminine noun"},{"e":"spade(s)","c":"rhaw(iau)","g":"feminine noun"},{"e":"lifeboat(s)","c":"bad(au) achub","g":"masculine noun"},{"e":"business(es)","c":"busnes(au)","g":"masculine noun"},{"e":"help","c":"cymorth","g":"masculine noun"},{"e":"safety","c":"diogelwch","g":"masculine noun"},{"e":"cold (tywydd)","c":"oerfel","g":"masculine noun"},{"e":"owner(s)","c":"perchennog (perchnogion)","g":"masculine noun"},{"e":"committee(s)","c":"pwyllgor(au)","g":"masculine noun"},{"e":"noise(s)","c":"sŵn (synau)","g":"masculine noun"},{"e":"officer(s), official(s)","c":"swyddog(ion)","g":"masculine noun"},{"e":"to injure","c":"anafu","g":"verb"},{"e":"to appeal (to)","c":"apelio (at)","g":"verb"},{"e":"to push","c":"gwthio","g":"verb"},{"e":"to dig","c":"palu","g":"verb"},{"e":"to mention","c":"sôn","g":"verb"},{"e":"useful","c":"defnyddiol","g":"adjective"},{"e":"real","c":"go iawn","g":"adjective"},{"e":"definite","c":"pendant","g":"adjective"},{"e":"first aid","c":"cymorth cyntaf","g":"other"},{"e":"health and safety","c":"iechyd a diogelwch","g":"other"},{"e":"to give up","c":"rhoi'r gorau i","g":"other"},{"e":"fun and games","c":"sbort a sbri","g":"other"},{"e":"education","c":"addysg","g":"feminine noun"},{"e":"quarry (-ies)","c":"chwarel(i)","g":"feminine noun"},{"e":"tale(s)","c":"chwedl(au)","g":"feminine noun"},{"e":"shore(s), bank(s)","c":"glan(nau)","g":"feminine noun"},{"e":"seagull(s)","c":"gwylan(od)","g":"feminine noun"},{"e":"slate(s)","c":"llechen (llechi)","g":"feminine noun"},{"e":"lightning","c":"mellten (mellt)","g":"feminine noun"},{"e":"cruise(s)","c":"mordaith (mordeithiau)","g":"feminine noun"},{"e":"gallery (-ies)","c":"oriel(au)","g":"feminine noun"},{"e":"standard(s)","c":"safon(au)","g":"feminine noun"},{"e":"torch(es)","c":"tortsh(ys)","g":"feminine noun"},{"e":"bone(s)","c":"asgwrn (esgyrn)","g":"masculine noun"},{"e":"judge(s), adjudicator(s)","c":"beirniad (beirniaid)","g":"masculine noun"},{"e":"cowshed(s)","c":"beudy (beudai)","g":"masculine noun"},{"e":"facility (-ies)","c":"cyfleuster(au)","g":"masculine noun"},{"e":"period(s) (amser)","c":"cyfnod(au)","g":"masculine noun"},{"e":"use","c":"defnydd","g":"masculine noun"},{"e":"guest(s)","c":"gwestai (gwesteion)","g":"masculine noun"},{"e":"questionnaire(s)","c":"holiadur(on)","g":"masculine noun"},{"e":"location(s)","c":"lleoliad(au)","g":"masculine noun"},{"e":"lake(s)","c":"llyn(noedd)","g":"masculine noun"},{"e":"mark(s)","c":"marc(iau)","g":"masculine noun"},{"e":"pleasure(s)","c":"pleser(au)","g":"masculine noun"},{"e":"skeleton(s)","c":"sgerbwd (sgerbydau)","g":"masculine noun"},{"e":"silk","c":"sidan","g":"masculine noun"},{"e":"tourist(s)","c":"twrist(iaid)","g":"masculine noun"},{"e":"to cause","c":"achosi","g":"verb"},{"e":"to wander, to roam","c":"crwydro","g":"verb"},{"e":"to hold (event)","c":"cynnal","g":"verb"},{"e":"to come to an end","c":"dod i ben","g":"verb"},{"e":"absent","c":"absennol","g":"adjective"},{"e":"huge","c":"anferth","g":"adjective"},{"e":"pricey","c":"costus","g":"adjective"},{"e":"frightening","c":"dychrynllyd","g":"adjective"},{"e":"folk","c":"gwerin","g":"adjective"},{"e":"brand new","c":"newydd sbon","g":"adjective"},{"e":"along","c":"ar hyd","g":"other"},{"e":"despite","c":"er gwaetha","g":"other"},{"e":"bellyful (fed up)","c":"llond bola","g":"other"},{"e":"at least","c":"o leia","g":"other"},{"e":"department(s)","c":"adran(nau)","g":"feminine noun"},{"e":"envelope(s)","c":"amlen(ni)","g":"feminine noun"},{"e":"support","c":"cefnogaeth","g":"feminine noun"},{"e":"audience(s); congregation(s)","c":"cynulleidfa(oedd)","g":"feminine noun"},{"e":"loop(s); link(s); handle(s)","c":"dolen(ni)","g":"feminine noun"},{"e":"cathedral(s)","c":"eglwys gadeiriol (eglwysi cadeiriol)","g":"feminine noun"},{"e":"mood(s)","c":"hwyl(iau)","g":"feminine noun"},{"e":"entrance(s)","c":"mynedfa (mynedfeydd)","g":"feminine noun"},{"e":"tourism","c":"twristiaeth","g":"feminine noun"},{"e":"environment","c":"amgylchedd","g":"masculine noun"},{"e":"memory (-ies); recollection(s)","c":"atgof(ion)","g":"masculine noun"},{"e":"dream(s)","c":"breuddwyd (ion)","g":"masculine noun"},{"e":"note, (written) record, (minutes)","c":"cofnod(ion)","g":"masculine noun"},{"e":"friend(s)","c":"cyfaill (cyfeillion)","g":"masculine noun"},{"e":"accountant(s)","c":"cyfrifydd (cyfrifwyr)","g":"masculine noun"},{"e":"boredom","c":"diflastod","g":"masculine noun"},{"e":"industry (-ies)","c":"diwydiant (diwydiannau)","g":"masculine noun"},{"e":"chemist(s)","c":"fferyllydd (fferyllwyr)","g":"masculine noun"},{"e":"fitness","c":"ffitrwydd","g":"masculine noun"},{"e":"laptop(s)","c":"gliniadur(on)","g":"masculine noun"},{"e":"hairdresser's","c":"siop trin gwallt","g":"masculine noun"},{"e":"rest","c":"gorffwys","g":"masculine noun"},{"e":"workplace(s)","c":"gweithle(oedd)","g":"masculine noun"},{"e":"note(s)","c":"nodyn (nodiadau)","g":"masculine noun"},{"e":"injection(s)","c":"pigiad(au)","g":"masculine noun"},{"e":"poster(s)","c":"poster(i)","g":"masculine noun"},{"e":"prescription(s)","c":"presgripsiwn (presgripsiynau)","g":"masculine noun"},{"e":"scissor(s)","c":"siswrn (sisyrnau)","g":"masculine noun"},{"e":"essay(s)","c":"traethawd (traethodau)","g":"masculine noun"},{"e":"to blush","c":"cochi","g":"verb"},{"e":"to plan","c":"cynllunio","g":"verb"},{"e":"to escape","c":"dianc","g":"verb"},{"e":"to succeed (in doing)","c":"llwyddo (i)","g":"verb"},{"e":"to market, marketing","c":"marchnata","g":"verb"},{"e":"to last","c":"para","g":"verb"},{"e":"to persuade","c":"perswadio","g":"verb"},{"e":"to trust","c":"ymddiried","g":"verb"},{"e":"useful","c":"defnyddiol","g":"adjective"},{"e":"safe","c":"diogel","g":"adjective"},{"e":"away","c":"bant","g":"other"},{"e":"dentures, false teeth","c":"dannedd gosod","g":"other"},{"e":"to come over","c":"dod draw","g":"other"},{"e":"you poor thing","c":"druan â ti","g":"other"},{"e":"to check, to look over","c":"edrych dros","g":"other"},{"e":"including","c":"gan gynnwys","g":"other"},{"e":"in the evening","c":"gyda'r hwyr / gyda'r nos","g":"other"},{"e":"junction(s)","c":"cyffordd (cyffyrdd)","g":"feminine noun"},{"e":"talent(s)","c":"dawn (doniau)","g":"feminine noun"},{"e":"witch(es)","c":"gwrach(od)","g":"feminine noun"},{"e":"bike lane","c":"lôn feicio","g":"feminine noun"},{"e":"auction(s)","c":"ocsiwn (ocsiynau)","g":"feminine noun"},{"e":"estuary (-ies)","c":"aber(oedd)","g":"masculine noun"},{"e":"artist(s)","c":"artist(iaid)","g":"masculine noun"},{"e":"sign(s)","c":"arwydd(ion)","g":"masculine noun"},{"e":"calendar(s)","c":"calendr(au)","g":"masculine noun"},{"e":"speed camera","c":"camera cyflymder","g":"masculine noun"},{"e":"giant(s)","c":"cawr (cewri)","g":"masculine noun"},{"e":"cricketer(s)","c":"cricedwr (-wyr)","g":"masculine noun"},{"e":"direction(s), instruction(s)","c":"cyfarwyddyd (cyfarwyddiadau)","g":"masculine noun"},{"e":"energy","c":"egni","g":"masculine noun"},{"e":"election(s)","c":"etholiad(au)","g":"masculine noun"},{"e":"accommodation","c":"llety","g":"masculine noun"},{"e":"court(s)","c":"llys(oedd)","g":"masculine noun"},{"e":"country park","c":"parc gwledig","g":"masculine noun"},{"e":"target(s)","c":"targed(au)","g":"masculine noun"},{"e":"subject(s); text(s)","c":"testun(au)","g":"masculine noun"},{"e":"to adapt","c":"addasu","g":"verb"},{"e":"to kick","c":"cicio","g":"verb"},{"e":"to frighten","c":"codi ofn (ar)","g":"verb"},{"e":"to employ","c":"cyflogi","g":"verb"},{"e":"to contribute (to)","c":"cyfrannu (at)","g":"verb"},{"e":"to put; to set","c":"gosod","g":"verb"},{"e":"to deny","c":"gwadu","g":"verb"},{"e":"to serve","c":"gweini","g":"verb"},{"e":"to establish","c":"sefydlu","g":"verb"},{"e":"to apologise (to)","c":"ymddiheuro (i)","g":"verb"},{"e":"dirty","c":"brwnt / budr","g":"adjective"},{"e":"correct","c":"cywir","g":"adjective"},{"e":"fierce","c":"ffyrnig","g":"adjective"},{"e":"generous","c":"hael","g":"adjective"},{"e":"successful","c":"llwyddiannus","g":"adjective"},{"e":"adventurous","c":"mentrus","g":"adjective"},{"e":"romantic","c":"rhamantus","g":"adjective"},{"e":"charming","c":"swynol","g":"adjective"},{"e":"in a hurry","c":"ar frys","g":"other"},{"e":"front door","c":"drws ffrynt","g":"other"},{"e":"better late than never","c":"gwell hwyr na hwyrach","g":"other"},{"e":"if it weren't for...","c":"oni bai am...","g":"other"},{"e":"...per cent","c":"...y cant","g":"other"},{"e":"leek(s)","c":"cenhinen (cennin)","g":"feminine noun"},{"e":"crossroads","c":"croesffordd","g":"feminine noun"},{"e":"law(s)","c":"cyfraith (cyfreithiau)","g":"feminine noun"},{"e":"earth","c":"daear","g":"feminine noun"},{"e":"fact(s)","c":"ffaith (ffeithiau)","g":"feminine noun"},{"e":"frame(s)","c":"ffrâm (fframiau)","g":"feminine noun"},{"e":"operation(s)","c":"llawdriniaeth(au)","g":"feminine noun"},{"e":"heaven","c":"nefoedd","g":"feminine noun"},{"e":"main road(s)","c":"priffordd (priffyrdd)","g":"feminine noun"},{"e":"shock(s)","c":"sioc(iau)","g":"feminine noun"},{"e":"tart(s)","c":"tarten(ni)","g":"feminine noun"},{"e":"ladder(s)","c":"ysgol(ion)","g":"feminine noun"},{"e":"toe(s)","c":"bys troed (bysedd traed)","g":"masculine noun"},{"e":"excuse(s)","c":"esgus(odion)","g":"masculine noun"},{"e":"vicar(s)","c":"ficer(iaid)","g":"masculine noun"},{"e":"horizon(s)","c":"gorwel(ion)","g":"masculine noun"},{"e":"gravy","c":"grefi","g":"masculine noun"},{"e":"Jesus","c":"Iesu","g":"masculine noun"},{"e":"sunset","c":"machlud","g":"masculine noun"},{"e":"distance","c":"pellter","g":"masculine noun"},{"e":"spice(s)","c":"sbeis(ys)","g":"masculine noun"},{"e":"feeling(s)","c":"teimlad(au)","g":"masculine noun"},{"e":"to hold (on to)","c":"cydio (yn)","g":"verb"},{"e":"to find","c":"dod o hyd i","g":"verb"},{"e":"to stink","c":"drewi","g":"verb"},{"e":"to become quiet; to calm down","c":"tawelu","g":"verb"},{"e":"to stretch","c":"ymestyn","g":"verb"},{"e":"to shake","c":"ysgwyd","g":"verb"},{"e":"unfortunate","c":"anffodus","g":"adjective"},{"e":"double","c":"dwbl","g":"adjective"},{"e":"bilingual","c":"dwyieithog","g":"adjective"},{"e":"salty","c":"hallt","g":"adjective"},{"e":"tight","c":"tyn(n)","g":"adjective"},{"e":"outpatients department","c":"adran cleifion allanol","g":"other"},{"e":"to laugh at","c":"chwerthin am ben","g":"other"},{"e":"although","c":"er","g":"other"},{"e":"up until now","c":"hyd yn hyn","g":"other"},{"e":"around","c":"o gwmpas","g":"other"},{"e":"especially","c":"yn enwedig","g":"other"},{"e":"soon","c":"yn fuan","g":"other"},{"e":"armchair(s)","c":"cadair freichiau (cadeiriau breichiau)","g":"feminine noun"},{"e":"bell(s)","c":"cloch (clychau)","g":"feminine noun"},{"e":"cushion(s)","c":"clustog(au)","g":"feminine noun"},{"e":"effect(s)","c":"effaith (effeithiau)","g":"feminine noun"},{"e":"rainbow(s)","c":"enfys(au)","g":"feminine noun"},{"e":"bean(s)","c":"ffeuen (ffa)","g":"feminine noun"},{"e":"violin(s)","c":"ffidil (ffidlau)","g":"feminine noun"},{"e":"smile(s)","c":"gwên (gwenau)","g":"feminine noun"},{"e":"sunshine","c":"heulwen","g":"feminine noun"},{"e":"sofa(s)","c":"soffa(s)","g":"feminine noun"},{"e":"fairy (fairies)","c":"tylwythen deg (tylwyth teg)","g":"feminine noun"},{"e":"decoration(s)","c":"addurn(iadau)","g":"masculine noun"},{"e":"allergy (allergies)","c":"alergedd(au)","g":"masculine noun"},{"e":"smell(s)","c":"arogl(euon)","g":"masculine noun"},{"e":"step(s)","c":"cam(au)","g":"masculine noun"},{"e":"sleep","c":"cwsg","g":"masculine noun"},{"e":"hallway(s)","c":"cyntedd(au)","g":"masculine noun"},{"e":"shortcoming(s); lack of","c":"diffyg(ion)","g":"masculine noun"},{"e":"snowdrop(s)","c":"eirlys(iau)","g":"masculine noun"},{"e":"youth","c":"ieuenctid","g":"masculine noun"},{"e":"jungle(s)","c":"jyngl(s)","g":"masculine noun"},{"e":"fireplace(s)","c":"lle(oedd) tân","g":"masculine noun"},{"e":"mask(s)","c":"mwgwd (mygydau)","g":"masculine noun"},{"e":"respect","c":"parch","g":"masculine noun"},{"e":"warning(s)","c":"rhybudd(ion)","g":"masculine noun"},{"e":"shape(s)","c":"siâp (siapiau)","g":"masculine noun"},{"e":"response(s)","c":"ymateb(ion)","g":"masculine noun"},{"e":"to reopen","c":"ailagor","g":"verb"},{"e":"to breathe","c":"anadlu","g":"verb"},{"e":"to smell","c":"arogli","g":"verb"},{"e":"to taste","c":"blasu","g":"verb"},{"e":"to bully","c":"bwlio","g":"verb"},{"e":"to exchange","c":"cyfnewid","g":"verb"},{"e":"to weed","c":"chwynnu","g":"verb"},{"e":"to squeeze, to squash","c":"gwasgu","g":"verb"},{"e":"to waste","c":"gwastraffu","g":"verb"},{"e":"to venture, to dare","c":"mentro","g":"verb"},{"e":"to graze; to browse","c":"pori","g":"verb"},{"e":"to prance, to gambol","c":"prancio","g":"verb"},{"e":"to rent","c":"rhentu","g":"verb"},{"e":"to realise","c":"sylweddoli","g":"verb"},{"e":"untidy","c":"anniben","g":"adjective"},{"e":"keen","c":"awyddus","g":"adjective"},{"e":"courteous, polite","c":"cwrtais","g":"adjective"},{"e":"deep","c":"dwfn","g":"adjective"},{"e":"convenient","c":"hwylus","g":"adjective"},{"e":"luxurious","c":"moethus","g":"adjective"},{"e":"nervous","c":"nerfus","g":"adjective"},{"e":"locked","c":"ar glo","g":"other"},{"e":"to knock the door","c":"curo'r drws","g":"other"},{"e":"to reminisce","c":"hel atgofion","g":"other"},{"e":"hen bobl","c":"henoed","g":"other"},{"e":"ground floor","c":"llawr gwaelod","g":"other"},{"e":"a dweud y gwir","c":"mewn gwirionedd","g":"other"},{"e":"within","c":"o fewn","g":"other"},{"e":"far end; long run","c":"pen draw","g":"other"},{"e":"rhywbeth yn bod","c":"rhywbeth o'i le","g":"other"},{"e":"semi-detached house","c":"tŷ pâr/tŷ semi","g":"other"},{"e":"completely, exactly","c":"yn hollol","g":"other"},{"e":"exhibition(s)","c":"arddangosfa (arddangosfeydd)","g":"feminine noun"},{"e":"stone(s)","c":"carreg (cerrig)","g":"feminine noun"},{"e":"memorial(s)","c":"cofeb(au)","g":"feminine noun"},{"e":"bog(s)","c":"cors(ydd)","g":"feminine noun"},{"e":"craft(s)","c":"crefft(au)","g":"feminine noun"},{"e":"grape(s)","c":"grawnwinen (grawnwin)","g":"feminine noun"},{"e":"government(s)","c":"llywodraeth(au)","g":"feminine noun"},{"e":"maid(s)","c":"morwyn (morynion)","g":"feminine noun"},{"e":"graveyard(s), cemetery(-ies)","c":"mynwent(ydd)","g":"feminine noun"},{"e":"disease(s)","c":"afiechyd(on)","g":"masculine noun"},{"e":"blame; fault(s)","c":"bai (beiau)","g":"masculine noun"},{"e":"lock(s)","c":"clo(eon)","g":"masculine noun"},{"e":"cliff(s)","c":"clogwyn(i)","g":"masculine noun"},{"e":"memory","c":"cof","g":"masculine noun"},{"e":"wealth","c":"cyfoeth","g":"masculine noun"},{"e":"shadow(s); shade(s)","c":"cysgod(ion)","g":"masculine noun"},{"e":"use","c":"defnydd","g":"masculine noun"},{"e":"economy (economies)","c":"economi (economïau)","g":"masculine noun"},{"e":"twin(s)","c":"gefell (gefeilliaid)","g":"masculine noun"},{"e":"activity(-ies)","c":"gweithgaredd(au)","g":"masculine noun"},{"e":"wool","c":"gwlân","g":"masculine noun"},{"e":"training","c":"hyfforddiant","g":"masculine noun"},{"e":"success(es)","c":"llwyddiant (llwyddiannau)","g":"masculine noun"},{"e":"stage(s)","c":"llwyfan(nau)","g":"masculine noun"},{"e":"childhood","c":"plentyndod","g":"masculine noun"},{"e":"purpose(s)","c":"pwrpas(au)","g":"masculine noun"},{"e":"stance(s), viewpoint(s)","c":"safbwynt(iau)","g":"masculine noun"},{"e":"love","c":"serch","g":"masculine noun"},{"e":"roof(s)","c":"to(eon)","g":"masculine noun"},{"e":"to remind","c":"atgoffa","g":"verb"},{"e":"to communicate","c":"cyfathrebu","g":"verb"},{"e":"to suffer","c":"dioddef","g":"verb"},{"e":"to mean; to edit","c":"golygu","g":"verb"},{"e":"to graduate","c":"graddio","g":"verb"},{"e":"to knit","c":"gwau","g":"verb"},{"e":"to snorkel","c":"snorclo","g":"verb"},{"e":"to raft","c":"rafftio","g":"verb"},{"e":"to prevent","c":"rhwystro","g":"verb"},{"e":"to melt","c":"toddi","g":"verb"},{"e":"loving","c":"cariadus","g":"adjective"},{"e":"creative","c":"creadigol","g":"adjective"},{"e":"common; general","c":"cyffredin","g":"adjective"},{"e":"social; sociable","c":"cymdeithasol","g":"adjective"},{"e":"serious","c":"difrifol","g":"adjective"},{"e":"detailed","c":"manwl","g":"adjective"},{"e":"soft","c":"meddal","g":"adjective"},{"e":"professional","c":"proffesiynol","g":"adjective"},{"e":"talkative","c":"siaradus","g":"adjective"},{"e":"sour","c":"sur","g":"adjective"},{"e":"thick","c":"trwchus","g":"adjective"},{"e":"tourist","c":"twristaidd","g":"adjective"},{"e":"on behalf of","c":"ar ran","g":"other"},{"e":"fresh air","c":"awyr iach","g":"other"},{"e":"around","c":"o amgylch","g":"other"},{"e":"named, called","c":"o’r enw","g":"other"},{"e":"the majority","c":"y rhan fwya","g":"other"},{"e":"eisiau","c":"isio","g":"other"},{"e":"period(s) of time","c":"adeg(au)","g":"feminine noun"},{"e":"agriculture","c":"amaethyddiaeth","g":"feminine noun"},{"e":"easy chair","c":"cadair esmwyth","g":"feminine noun"},{"e":"understanding","c":"dealltwriaeth","g":"feminine noun"},{"e":"debt(s)","c":"dyled(ion)","g":"feminine noun"},{"e":"flame(s)","c":"fflam(au)","g":"feminine noun"},{"e":"lip(s)","c":"gwefus(au)","g":"feminine noun"},{"e":"politics","c":"gwleidyddiaeth","g":"feminine noun"},{"e":"shelter(s)","c":"lloches(au)","g":"feminine noun"},{"e":"medication(s)","c":"meddyginiaeth(au)","g":"feminine noun"},{"e":"rope(s)","c":"rhaff(au)","g":"feminine noun"},{"e":"injury (-ies)","c":"anaf(iadau)","g":"masculine noun"},{"e":"cap(s)","c":"cap(iau)","g":"masculine noun"},{"e":"cradle(s), cot(s)","c":"crud(au)","g":"masculine noun"},{"e":"knot(s)","c":"cwlwm (clymau)","g":"masculine noun"},{"e":"tear(s)","c":"deigryn (dagrau)","g":"masculine noun"},{"e":"mirror(s)","c":"drych(au)","g":"masculine noun"},{"e":"extension(s)","c":"estyniad(au)","g":"masculine noun"},{"e":"refugee(s)","c":"ffoadur(iaid)","g":"masculine noun"},{"e":"fireplace(s)","c":"lle tân (llefydd tân)","g":"masculine noun"},{"e":"leather","c":"lledr","g":"masculine noun"},{"e":"spokesperson (spokespeople)","c":"llefarydd (llefarwyr)","g":"masculine noun"},{"e":"flood(s)","c":"llif(ogydd)","g":"masculine noun"},{"e":"metal(s)","c":"metel(au)","g":"masculine noun"},{"e":"smoke","c":"mwg","g":"masculine noun"},{"e":"pattern(s)","c":"patrwm (patrymau)","g":"masculine noun"},{"e":"danger(s)","c":"perygl(on)","g":"masculine noun"},{"e":"fisherman (-men)","c":"pysgotwr (-wyr)","g":"masculine noun"},{"e":"cyclist(s)","c":"seiclwr (-wyr)","g":"masculine noun"},{"e":"square(s)","c":"sgwâr (sgwariau)","g":"masculine noun"},{"e":"land; ground(s)","c":"tir(oedd)","g":"masculine noun"},{"e":"to recite, to relate","c":"adrodd","g":"verb"},{"e":"to arrest","c":"arestio","g":"verb"},{"e":"to print","c":"argraffu","g":"verb"},{"e":"to hit","c":"bwrw","g":"verb"},{"e":"to tie; to knot","c":"clymu","g":"verb"},{"e":"to disappear","c":"diflannu","g":"verb"},{"e":"to destroy","c":"dinistrio","g":"verb"},{"e":"to name","c":"enwi","g":"verb"},{"e":"to overflow","c":"gorlifo","g":"verb"},{"e":"to swallow","c":"llyncu","g":"verb"},{"e":"to pause; to delay","c":"oedi","g":"verb"},{"e":"to bend, to fold","c":"plygu","g":"verb"},{"e":"to protest","c":"protestio","g":"verb"},{"e":"to record","c":"recordio","g":"verb"},{"e":"to whisper","c":"sibrwd","g":"verb"},{"e":"to rock; to shake","c":"siglo","g":"verb"},{"e":"to store","c":"storio","g":"verb"},{"e":"to resign","c":"ymddiswyddo","g":"verb"},{"e":"agricultural","c":"amaethyddol","g":"adjective"},{"e":"round","c":"crwn","g":"adjective"},{"e":"impatient","c":"diamynedd","g":"adjective"},{"e":"restful; smooth","c":"esmwyth","g":"adjective"},{"e":"oval","c":"hirgrwn","g":"adjective"},{"e":"rectangular","c":"petryal","g":"adjective"},{"e":"spotty","c":"smotiog","g":"adjective"},{"e":"striped","c":"streipiog","g":"adjective"},{"e":"thick, dense","c":"trwchus","g":"adjective"},{"e":"long time ago","c":"amser maith yn ôl","g":"other"},{"e":"at the time","c":"ar y pryd","g":"other"},{"e":"Olympic Games","c":"Gemau Olympaidd","g":"other"},{"e":"that","c":"hynny","g":"other"},{"e":"from bad to worse","c":"o ddrwg i waeth","g":"other"},{"e":"achos","c":"oherwydd","g":"other"},{"e":"First/Prime Minister","c":"Prif Weinidog","g":"other"},{"e":"within (amser)","c":"ymhen","g":"other"},{"e":"as well as, in addition to","c":"yn ogystal â","g":"other"},{"e":"these","c":"y rhain","g":"other"},{"e":"exit(s)","c":"allanfa (allanfeydd)","g":"feminine noun"},{"e":"area(s), region(s)","c":"bro(ydd)","g":"feminine noun"},{"e":"breast(s), chest(s)","c":"bron(nau)","g":"feminine noun"},{"e":"loss(es)","c":"colled(ion)","g":"feminine noun"},{"e":"secret(s)","c":"cyfrinach(au)","g":"feminine noun"},{"e":"desk(s)","c":"desg(iau)","g":"feminine noun"},{"e":"birth(s)","c":"genedigaeth(au)","g":"feminine noun"},{"e":"great-grandmother","c":"hen fam-gu","g":"feminine noun"},{"e":"personality (-ies)","c":"personoliaeth(au)","g":"feminine noun"},{"e":"political party (-ies)","c":"plaid (pleidiau)","g":"feminine noun"},{"e":"row(s)","c":"rhes(i)","g":"feminine noun"},{"e":"net(s)","c":"rhwyd(i)","g":"feminine noun"},{"e":"voucher(s)","c":"taleb(au)","g":"feminine noun"},{"e":"female harpist(s)","c":"telynores(au)","g":"feminine noun"},{"e":"crowd(s)","c":"torf(eydd)","g":"feminine noun"},{"e":"treatment(s)","c":"triniaeth(au)","g":"feminine noun"},{"e":"crowd(s)","c":"tyrfa(oedd)","g":"feminine noun"},{"e":"artist(s)","c":"arlunydd (-wyr)","g":"masculine noun"},{"e":"inspector(s)","c":"arolygydd (-wyr)","g":"masculine noun"},{"e":"taste(s)","c":"blas(au)","g":"masculine noun"},{"e":"box(es)","c":"blwch (blychau)","g":"masculine noun"},{"e":"hill(s)","c":"bryn(iau)","g":"masculine noun"},{"e":"mistake(s)","c":"camgymeriad(au)","g":"masculine noun"},{"e":"cancer(s)","c":"canser(au)","g":"masculine noun"},{"e":"body (bodies)","c":"corff (cyrff)","g":"masculine noun"},{"e":"crew(s)","c":"criw(iau)","g":"masculine noun"},{"e":"strength(s)","c":"cryfder(au)","g":"masculine noun"},{"e":"total(s)","c":"cyfanswm (cyfansymiau)","g":"masculine noun"},{"e":"drawing(s)","c":"darlun(iau)","g":"masculine noun"},{"e":"damage","c":"difrod","g":"masculine noun"},{"e":"culture(s)","c":"diwylliant (diwylliannau)","g":"masculine noun"},{"e":"piece(s) of furniture","c":"dodrefnyn (dodrefn)","g":"masculine noun"},{"e":"great-grand father","c":"hen dad-cu","g":"masculine noun"},{"e":"lad(s), youth(s)","c":"llanc(iau)","g":"masculine noun"},{"e":"place(s)","c":"man(nau)","g":"masculine noun"},{"e":"movement(s), organisation(s)","c":"mudiad(au)","g":"masculine noun"},{"e":"package(s)","c":"pecyn(nau)","g":"masculine noun"},{"e":"position(s), site(s)","c":"safle(oedd)","g":"masculine noun"},{"e":"institution(s), establishment(s)","c":"sefydliad(au)","g":"masculine noun"},{"e":"male harpist(s)","c":"telynor(ion)","g":"masculine noun"},{"e":"sadness","c":"tristwch","g":"masculine noun"},{"e":"temperature","c":"tymheredd","g":"masculine noun"},{"e":"darkness","c":"tywyllwch","g":"masculine noun"},{"e":"individual(s)","c":"unigolyn (unigolion)","g":"masculine noun"},{"e":"research","c":"ymchwil","g":"masculine noun"},{"e":"to exhibit","c":"arddangos","g":"verb"},{"e":"to imprison","c":"carcharu","g":"verb"},{"e":"to welcome","c":"croesawu","g":"verb"},{"e":"to laze","c":"diogi","g":"verb"},{"e":"to say goodbye (to)","c":"ffarwelio (â)","g":"verb"},{"e":"to claim","c":"hawlio","g":"verb"},{"e":"to spread; to widen","c":"lledu","g":"verb"},{"e":"to reduce","c":"lleihau","g":"verb"},{"e":"to continue","c":"parhau","g":"verb"},{"e":"to plant","c":"plannu","g":"verb"},{"e":"to rush","c":"rhuthro","g":"verb"},{"e":"to warn","c":"rhybuddio","g":"verb"},{"e":"to shoot","c":"saethu","g":"verb"},{"e":"to heat (up)","c":"twymo","g":"verb"},{"e":"second-hand","c":"ail-law","g":"adjective"},{"e":"bach","c":"bychan","g":"adjective"},{"e":"lively","c":"bywiog","g":"adjective"},{"e":"equal","c":"cyfartal","g":"adjective"},{"e":"innocent, not guilty","c":"dieuog","g":"adjective"},{"e":"electronic","c":"electronig","g":"adjective"},{"e":"guilty","c":"euog","g":"adjective"},{"e":"leisurely","c":"hamddenol","g":"adjective"},{"e":"full of fun","c":"hwyliog","g":"adjective"},{"e":"oral","c":"llafar","g":"adjective"},{"e":"physical education","c":"addysg gorfforol","g":"other"},{"e":"mwynhau","c":"cael blas ar","g":"other"},{"e":"to find, to discover","c":"cael hyd i","g":"other"},{"e":"hundredth","c":"canfed","g":"other"},{"e":"breast cancer","c":"canser y fron","g":"other"},{"e":"draw","c":"gêm gyfartal","g":"other"},{"e":"drizzle","c":"glaw mân","g":"other"},{"e":"exactly","c":"i’r dim","g":"other"},{"e":"from now on","c":"o hyn ymlaen","g":"other"},{"e":"exit(s)","c":"allanfa (allanfeydd)","g":"feminine noun"},{"e":"basket(s)","c":"basged(i)","g":"feminine noun"},{"e":"gravestone(s)","c":"carreg fedd (cerrig beddau)","g":"feminine noun"},{"e":"nut(s)","c":"cneuen (cnau)","g":"feminine noun"},{"e":"coconut(s)","c":"cneuen goco (cnau coco)","g":"feminine noun"},{"e":"number(s), quantity(-ies)","c":"nifer(oedd)","g":"feminine noun"},{"e":"racket(s)","c":"raced(i)","g":"feminine noun"},{"e":"dialect(s)","c":"tafodiaith (tafodieithoedd)","g":"feminine noun"},{"e":"state(s)","c":"talaith (taleithiau)","g":"feminine noun"},{"e":"handwriting","c":"ysgrifen","g":"feminine noun"},{"e":"authority (-ies)","c":"awdurdod(au)","g":"masculine noun"},{"e":"prison(s)","c":"carchar(dai)","g":"masculine noun"},{"e":"supporter(s)","c":"cefnogwr (-wyr)","g":"masculine noun"},{"e":"caretaker(s); carer(s)","c":"gofalwr (-wyr)","g":"masculine noun"},{"e":"grammar","c":"gramadeg","g":"masculine noun"},{"e":"location(s)","c":"lleoliad(au)","g":"masculine noun"},{"e":"enjoyment","c":"mwynhad","g":"masculine noun"},{"e":"prairie(s)","c":"paith (peithiau)","g":"masculine noun"},{"e":"war(s)","c":"rhyfel(oedd)","g":"masculine noun"},{"e":"arrangement(s)","c":"trefniad(-au)","g":"masculine noun"},{"e":"to chair","c":"cadeirio","g":"verb"},{"e":"to get wet","c":"gwlychu","g":"verb"},{"e":"to age","c":"heneiddio","g":"verb"},{"e":"to wrap","c":"lapio","g":"verb"},{"e":"to treat","c":"trin","g":"verb"},{"e":"open","c":"agored","g":"adjective"},{"e":"necessary","c":"angenrheidiol","g":"adjective"},{"e":"annual","c":"blynyddol","g":"adjective"},{"e":"clever","c":"clyfar","g":"adjective"},{"e":"responsible","c":"cyfrifol","g":"adjective"},{"e":"intelligent","c":"deallus","g":"adjective"},{"e":"capable, brainy","c":"galluog","g":"adjective"},{"e":"hardworking","c":"gweithgar","g":"adjective"},{"e":"likeable","c":"hoffus","g":"adjective"},{"e":"private","c":"preifat","g":"adjective"},{"e":"stable, fixed, unchanging","c":"sefydlog","g":"adjective"},{"e":"to make do, to answer the purpose","c":"gwneud y tro","g":"other"},{"e":"personal details","c":"manylion personol","g":"other"},{"e":"from afar","c":"o bell","g":"other"},{"e":"attitude(s)","c":"agwedd(au)","g":"feminine noun"},{"e":"cage(s)","c":"caets(ys) / cawell (cewyll)","g":"feminine noun"},{"e":"poem(s)","c":"cerdd(i)","g":"feminine noun"},{"e":"complaint(s)","c":"cwyn(ion)","g":"feminine noun"},{"e":"level(s)","c":"lefel(au)","g":"feminine noun"},{"e":"nest(s)","c":"nyth(od)","g":"feminine noun"},{"e":"pipe(s)","c":"pibell(i)","g":"feminine noun"},{"e":"traffic jam(s)","c":"tagfa (tagfeydd)","g":"feminine noun"},{"e":"thunder","c":"taran(au)","g":"feminine noun"},{"e":"patience","c":"amynedd","g":"masculine noun"},{"e":"athletics","c":"athletau","g":"masculine noun"},{"e":"chat","c":"clonc","g":"masculine noun"},{"e":"cotton","c":"cotwm","g":"masculine noun"},{"e":"counter(s)","c":"cownter(i)","g":"masculine noun"},{"e":"contact","c":"cyswllt","g":"masculine noun"},{"e":"diet","c":"deiet","g":"masculine noun"},{"e":"unemployment","c":"diweithdra","g":"masculine noun"},{"e":"climber(s)","c":"dringwr (-wyr)","g":"masculine noun"},{"e":"care","c":"gofal","g":"masculine noun"},{"e":"confidence","c":"hyder","g":"masculine noun"},{"e":"burglary (burglaries)","c":"lladrad(au)","g":"masculine noun"},{"e":"thief (thieves)","c":"lleidr (lladron)","g":"masculine noun"},{"e":"plural(s)","c":"lluosog(ion)","g":"masculine noun"},{"e":"load(s)","c":"llwyth(i)","g":"masculine noun"},{"e":"mud","c":"mwd","g":"masculine noun"},{"e":"profession(s)","c":"proffesiwn (proffesiynau)","g":"masculine noun"},{"e":"runner(s)","c":"rhedwr (-wyr)","g":"masculine noun"},{"e":"stuffing","c":"stwffin","g":"masculine noun"},{"e":"drought; dryness","c":"sychder","g":"masculine noun"},{"e":"track(s)","c":"trac(iau)","g":"masculine noun"},{"e":"witness(es)","c":"tyst(ion)","g":"masculine noun"},{"e":"to repeat","c":"ailadrodd","g":"verb"},{"e":"to appeal","c":"apelio (at)","g":"verb"},{"e":"to suggest","c":"awgrymu","g":"verb"},{"e":"to transport","c":"cludo","g":"verb"},{"e":"to crown","c":"coroni","g":"verb"},{"e":"to itch","c":"cosi","g":"verb"},{"e":"to mix (with)","c":"cymysgu (â)","g":"verb"},{"e":"to deal (with)","c":"delio (â)","g":"verb"},{"e":"to press; to weigh","c":"pwyso","g":"verb"},{"e":"to race","c":"rasio","g":"verb"},{"e":"to apply (for)","c":"ymgeisio (am)","g":"verb"},{"e":"intense; intensive","c":"dwys","g":"adjective"},{"e":"wild","c":"gwyllt","g":"adjective"},{"e":"all-important","c":"hollbwysig","g":"adjective"},{"e":"muddy","c":"mwdlyd","g":"adjective"},{"e":"odd","c":"od","g":"adjective"},{"e":"rare, scarce","c":"prin","g":"adjective"},{"e":"experienced","c":"profiadol","g":"adjective"},{"e":"single","c":"sengl","g":"adjective"},{"e":"thirsty","c":"sychedig","g":"adjective"},{"e":"The Brecon Beacons","c":"Bannau Brycheiniog","g":"other"},{"e":"over; overleaf","c":"drosodd","g":"other"},{"e":"to make a mess of","c":"gwneud cawl o","g":"other"},{"e":"chit-chat","c":"mân siarad","g":"other"},{"e":"seriously","c":"o ddifri","g":"other"},{"e":"popeth","c":"pob dim","g":"other"},{"e":"foster parent(s)","c":"rhiant (rhieni) maeth","g":"other"},{"e":"cross country","c":"traws gwlad","g":"other"},{"e":"hard of hearing","c":"trwm ei glyw/chlyw","g":"other"},{"e":"exhausted","c":"wedi blino’n lân","g":"other"},{"e":"mainly","c":"yn bennaf","g":"other"},{"e":"alive and kicking","c":"yn fyw ac yn iach","g":"other"},{"e":"immediately","c":"yn syth bin","g":"other"},{"e":"scar(s)","c":"craith (creithiau)","g":"feminine noun"},{"e":"border(s)","c":"ffin(iau)","g":"feminine noun"},{"e":"stick(s)","c":"ffon (ffyn)","g":"feminine noun"},{"e":"printing press(es)","c":"gwasg (gweisg)","g":"feminine noun"},{"e":"yard(s)","c":"iard(iau)","g":"feminine noun"},{"e":"rocket(s)","c":"roced(i)","g":"feminine noun"},{"e":"strike(s)","c":"streic(iau)","g":"feminine noun"},{"e":"task(s)","c":"tasg(au)","g":"feminine noun"},{"e":"China","c":"Tsieina","g":"feminine noun"},{"e":"temperature","c":"tymheredd","g":"feminine noun"},{"e":"result(s)","c":"canlyniad(au)","g":"masculine noun"},{"e":"cloth(s), rag(s)","c":"clwtyn (clytiau)","g":"masculine noun"},{"e":"hay hut","c":"cwt gwair","g":"masculine noun"},{"e":"hen coop","c":"cwt ieir","g":"masculine noun"},{"e":"drill(s)","c":"dril(iau)","g":"masculine noun"},{"e":"steel","c":"dur","g":"masculine noun"},{"e":"virus(es)","c":"feirws (feirysau)","g":"masculine noun"},{"e":"gum","c":"gwm","g":"masculine noun"},{"e":"dust","c":"llwch","g":"masculine noun"},{"e":"decision(s)","c":"penderfyniad(au)","g":"masculine noun"},{"e":"headline(s)","c":"pennawd (penawdau)","g":"masculine noun"},{"e":"earth, soil","c":"pridd","g":"masculine noun"},{"e":"sauce(s)","c":"saws(iau)","g":"masculine noun"},{"e":"style","c":"steil","g":"masculine noun"},{"e":"payment(s)","c":"tâl (taliadau)","g":"masculine noun"},{"e":"tape(s)","c":"tâp (tapiau)","g":"masculine noun"},{"e":"sty (sties)","c":"twlc (tylciau)","g":"masculine noun"},{"e":"to renew, to refurbish","c":"adnewyddu","g":"verb"},{"e":"to promise","c":"addo","g":"verb"},{"e":"gorffen","c":"cwblhau","g":"verb"},{"e":"to flow","c":"llifo","g":"verb"},{"e":"to measure","c":"mesur","g":"verb"},{"e":"to slink, to sneak, to sidle","c":"sleifio","g":"verb"},{"e":"disgusting; sickly","c":"afiach","g":"adjective"},{"e":"a few","c":"ambell","g":"adjective"},{"e":"unusual","c":"anarferol","g":"adjective"},{"e":"unlucky","c":"anlwcus","g":"adjective"},{"e":"usual","c":"arferol","g":"adjective"},{"e":"narrow","c":"cul","g":"adjective"},{"e":"strange","c":"dieithr","g":"adjective"},{"e":"daily","c":"dyddiol","g":"adjective"},{"e":"flat","c":"gwastad","g":"adjective"},{"e":"healthy (bwyd)","c":"iachus","g":"adjective"},{"e":"wide","c":"llydan","g":"adjective"},{"e":"severe","c":"llym","g":"adjective"},{"e":"enjoyable","c":"pleserus","g":"adjective"},{"e":"pure","c":"pur","g":"adjective"},{"e":"sudden","c":"sydyn","g":"adjective"},{"e":"weekly","c":"wythnosol","g":"adjective"},{"e":"to keep an eye on; to keep track of","c":"cadw golwg ar","g":"other"},{"e":"maintenance","c":"cynnal a chadw","g":"other"},{"e":"under pressure","c":"dan bwysau","g":"other"},{"e":"closing date","c":"dyddiad cau","g":"other"},{"e":"chewing gum","c":"gwm cnoi","g":"other"},{"e":"exactly! perfect!","c":"i’r dim!","g":"other"},{"e":"per head","c":"y pen","g":"other"},{"e":"Argentina","c":"Yr Ariannin","g":"feminine noun"},{"e":"masters degree","c":"gradd meistr","g":"feminine noun"},{"e":"literature","c":"llenyddiaeth","g":"feminine noun"},{"e":"medal(s)","c":"medal(au)","g":"feminine noun"},{"e":"venture(s); initiative(s)","c":"menter (mentrau)","g":"feminine noun"},{"e":"championship(s)","c":"pencampwriaeth(au)","g":"feminine noun"},{"e":"transport","c":"trafnidiaeth","g":"feminine noun"},{"e":"habit(s)","c":"arfer(ion)","g":"masculine noun"},{"e":"review(s); survey(s)","c":"arolwg (arolygon)","g":"masculine noun"},{"e":"tiredness","c":"blinder","g":"masculine noun"},{"e":"bulb(s)","c":"bylb(iau)","g":"masculine noun"},{"e":"middle part, region (mewn gwlad)","c":"canolbarth","g":"masculine noun"},{"e":"chemical(s)","c":"cemegyn (cemegau)","g":"masculine noun"},{"e":"partner, companion","c":"cymar","g":"masculine noun"},{"e":"plan(s); design(s)","c":"cynllun(iau)","g":"masculine noun"},{"e":"silence","c":"distawrwydd","g":"masculine noun"},{"e":"valley(s)","c":"dyffryn(noedd)","g":"masculine noun"},{"e":"explanations(s)","c":"esboniad(au)","g":"masculine noun"},{"e":"space","c":"gofod","g":"masculine noun"},{"e":"lighthouse(s)","c":"goleudy (goleudai)","g":"masculine noun"},{"e":"happiness","c":"hapusrwydd","g":"masculine noun"},{"e":"lollypop(s)","c":"lolipop(s)","g":"masculine noun"},{"e":"obsession(s)","c":"obsesiwn (obsesiynau)","g":"masculine noun"},{"e":"pavement(s)","c":"palmant (palmentydd)","g":"masculine noun"},{"e":"striker(s)","c":"streiciwr (-wyr)","g":"masculine noun"},{"e":"cut(s)","c":"toriad(au)","g":"masculine noun"},{"e":"mutation(s)","c":"treiglad(au)","g":"masculine noun"},{"e":"union(s)","c":"undeb(au)","g":"masculine noun"},{"e":"energy","c":"ynni","g":"masculine noun"},{"e":"to encourage","c":"annog","g":"verb"},{"e":"to explain","c":"egluro","g":"verb"},{"e":"to launch","c":"lansio","g":"verb"},{"e":"to fall (gogledd Cymru)","c":"syrthio","g":"verb"},{"e":"to mutate","c":"treiglo","g":"verb"},{"e":"well-known","c":"adnabyddus","g":"adjective"},{"e":"grand","c":"crand","g":"adjective"},{"e":"contemporary","c":"cyfoes","g":"adjective"},{"e":"public","c":"cyhoeddus","g":"adjective"},{"e":"ddim yn siarad Cymraeg","c":"di-Gymraeg","g":"adjective"},{"e":"countless","c":"di-ri(f)","g":"adjective"},{"e":"evident; clear","c":"eglur","g":"adjective"},{"e":"vegan","c":"figan","g":"adjective"},{"e":"vegetarian","c":"llysieuol","g":"adjective"},{"e":"etc.","c":"ac yn y blaen","g":"other"},{"e":"spoken; orally","c":"ar lafar","g":"other"},{"e":"in the lead","c":"ar y blaen","g":"other"},{"e":"downstairs","c":"lawr llawr","g":"other"},{"e":"from (on); off; down from","c":"oddi ar","g":"other"},{"e":"common sense","c":"synnwyr cyffredin","g":"other"},{"e":"one-day","c":"undydd","g":"other"},{"e":"above","c":"uwchben","g":"other"},{"e":"against","c":"yn erbyn","g":"other"},{"e":"the colony (Patagonia)","c":"y Wladfa","g":"other"},{"e":"wing(s)","c":"adain (adenydd)","g":"feminine noun"},{"e":"variety (-ies); variation(s)","c":"amrywiaeth(au)","g":"feminine noun"},{"e":"lecture(s)","c":"darlith(oedd)","g":"feminine noun"},{"e":"blackthorn","c":"draenen ddu","g":"feminine noun"},{"e":"lovespoon(s)","c":"llwy garu (llwyau caru)","g":"feminine noun"},{"e":"forehead(s)","c":"talcen(ni)","g":"feminine noun"},{"e":"licence(s)","c":"trwydded(au)","g":"feminine noun"},{"e":"thumb(s)","c":"bawd (bodiau)","g":"masculine noun"},{"e":"kangaroo(s)","c":"cangarŵ(od)","g":"masculine noun"},{"e":"vehicle(s)","c":"cerbyd(au)","g":"masculine noun"},{"e":"account(s)","c":"cyfrif(on)","g":"masculine noun"},{"e":"circle(s)","c":"cylch(oedd)","g":"masculine noun"},{"e":"historian(s)","c":"hanesydd (-wyr)","g":"masculine noun"},{"e":"mayor(s)","c":"maer (meiri)","g":"masculine noun"},{"e":"beauty","c":"prydferthwch","g":"masculine noun"},{"e":"power(s)","c":"pŵer (pwerau)","g":"masculine noun"},{"e":"sex(es)","c":"rhyw(iau)","g":"masculine noun"},{"e":"symbol(s)","c":"symbol(au)","g":"masculine noun"},{"e":"type(s)","c":"teip(iau)","g":"masculine noun"},{"e":"tradition(s)","c":"traddodiad(au)","g":"masculine noun"},{"e":"retirement(s)","c":"ymddeoliad(au)","g":"masculine noun"},{"e":"to time","c":"amseru","g":"verb"},{"e":"to dream","c":"breuddwydio","g":"verb"},{"e":"to intend","c":"bwriadu","g":"verb"},{"e":"to chatter","c":"clebran","g":"verb"},{"e":"to comb","c":"cribo","g":"verb"},{"e":"to film","c":"ffilmio","g":"verb"},{"e":"to twin (with)","c":"gefeillio (â)","g":"verb"},{"e":"to fear","c":"ofni","g":"verb"},{"e":"to count","c":"rhifo","g":"verb"},{"e":"to release","c":"rhyddhau","g":"verb"},{"e":"historical","c":"hanesyddol","g":"adjective"},{"e":"on the whole","c":"ar y cyfan","g":"other"},{"e":"leap year","c":"blwyddyn naid","g":"other"},{"e":"at that time","c":"bryd hynny","g":"other"},{"e":"finger buffet","c":"bwffe bys a bawd","g":"other"},{"e":"May Day","c":"Calan Mai","g":"other"},{"e":"to clap, to applaud","c":"curo dwylo","g":"other"},{"e":"playgroup","c":"cylch chwarae","g":"other"},{"e":"Valentine’s Day","c":"Dydd Ffolant","g":"other"},{"e":"even so","c":"eto i gyd","g":"other"},{"e":"tides; ebb and flow","c":"llanw a thrai","g":"other"},{"e":"beforehand","c":"ymlaen llaw","g":"other"},{"e":"the Middle Ages","c":"yr Oesoedd Canol","g":"other"},{"e":"order(s)","c":"archeb(ion)","g":"feminine noun"},{"e":"cross(es)","c":"croes(au)","g":"feminine noun"},{"e":"spoonful(s)","c":"llwyaid (llwyeidiau)","g":"feminine noun"},{"e":"gwraig o Brydain","c":"Prydeinwraig","g":"feminine noun"},{"e":"effort(s)","c":"ymdrech(ion)","g":"feminine noun"},{"e":"bat(s)","c":"bat(iau)","g":"masculine noun"},{"e":"bomb(s)","c":"bom(iau)","g":"masculine noun"},{"e":"catalogue(s)","c":"catalog(au)","g":"masculine noun"},{"e":"foam","c":"ewyn","g":"masculine noun"},{"e":"reduction(s)","c":"gostyngiad(au)","g":"masculine noun"},{"e":"old age","c":"henaint","g":"masculine noun"},{"e":"strength","c":"nerth","g":"masculine noun"},{"e":"pobl o Brydain","c":"Prydeiniwr (-wyr)","g":"masculine noun"},{"e":"storehouse(s)","c":"stordy (stordai)","g":"masculine noun"},{"e":"lead","c":"tennyn","g":"masculine noun"},{"e":"top(s)","c":"top(iau)","g":"masculine noun"},{"e":"to advise","c":"cynghori","g":"verb"},{"e":"to explode","c":"ffrwydro","g":"verb"},{"e":"to avoid","c":"osgoi","g":"verb"},{"e":"to point","c":"pwyntio","g":"verb"},{"e":"to roast","c":"rhostio","g":"verb"},{"e":"to look (Gogledd)","c":"sbio","g":"verb"},{"e":"to stare (at), to gaze (at)","c":"syllu (ar)","g":"verb"},{"e":"to splutter; to choke","c":"tagu","g":"verb"},{"e":"to fight","c":"ymladd","g":"verb"},{"e":"fortunate","c":"ffodus","g":"adjective"},{"e":"native","c":"genedigol","g":"adjective"},{"e":"punctual, prompt","c":"prydlon","g":"adjective"},{"e":"belly button","c":"botwm bol","g":"other"},{"e":"weightlifting","c":"codi pwysau","g":"other"},{"e":"to lose hold (of)","c":"colli gafael (ar)","g":"other"},{"e":"food craving","c":"chwant bwyd","g":"other"},{"e":"full to the rafters","c":"dan ei sang","g":"other"},{"e":"set book","c":"llyfr gosod","g":"other"},{"e":"from time to time","c":"o dro i dro","g":"other"},{"e":"to gaze in amazement","c":"syllu’n syn","g":"other"},{"e":"amongst","c":"ymhlith","g":"other"},{"e":"merch o Iwerddon","c":"Gwyddeles","g":"feminine noun"},{"e":"hero(es)","c":"arwr (-wyr)","g":"masculine noun"},{"e":"judge(s)","c":"barnwr (-wyr)","g":"masculine noun"},{"e":"make-up","c":"colur","g":"masculine noun"},{"e":"copy (-ies)","c":"copi (copïau)","g":"masculine noun"},{"e":"excitement","c":"cyffro","g":"masculine noun"},{"e":"dyn (pobl) o Iwerddon","c":"Gwyddel(od)","g":"masculine noun"},{"e":"mural(s)","c":"murlun(iau)","g":"masculine noun"},{"e":"heath(s), moor(s)","c":"rhos(ydd)","g":"masculine noun"},{"e":"Romans","c":"Rhufeiniaid","g":"masculine noun"},{"e":"obstacle(s)","c":"rhwystr(au)","g":"masculine noun"},{"e":"treasure(s)","c":"trysor(au)","g":"masculine noun"},{"e":"ghost(s), spirit(s)","c":"ysbryd(ion)","g":"masculine noun"},{"e":"to beat","c":"curo","g":"verb"},{"e":"to affect","c":"effeithio (ar)","g":"verb"},{"e":"to staff","c":"staffio","g":"verb"},{"e":"to unite (with)","c":"uno (â)","g":"verb"},{"e":"fearful; frightened","c":"ofnus","g":"adjective"},{"e":"British","c":"Prydeinig","g":"adjective"},{"e":"the length and breadth","c":"ar hyd a lled","g":"other"},{"e":"for rent","c":"ar osod","g":"other"},{"e":"to get rid of","c":"cael gwared ar","g":"other"},{"e":"to wave (to)","c":"codi llaw (ar)","g":"other"},{"e":"to keep at it, to persevere","c":"dal ati","g":"other"},{"e":"apparently","c":"yn ôl pob sôn","g":"other"},{"e":"disadvantage(s)","c":"anfantais (anfanteision)","g":"feminine noun"},{"e":"example(s)","c":"esiampl(au)","g":"feminine noun"},{"e":"gymnastics","c":"gymnasteg","g":"feminine noun"},{"e":"advantage(s)","c":"mantais (manteision)","g":"feminine noun"},{"e":"process(es)","c":"proses(au)","g":"feminine noun"},{"e":"circus(es)","c":"syrcas(au)","g":"feminine noun"},{"e":"system(s)","c":"system(au)","g":"feminine noun"},{"e":"cyclist(s)","c":"beiciwr (-wyr)","g":"masculine noun"},{"e":"chairperson(s)","c":"cadeirydd(ion)","g":"masculine noun"},{"e":"background(s)","c":"cefndir(oedd)","g":"masculine noun"},{"e":"edge(s), fringe(s)","c":"cwr (cyrion)","g":"masculine noun"},{"e":"interviewer(s)","c":"cyfwelydd (-wyr)","g":"masculine noun"},{"e":"charge(s), accusation(s)","c":"cyhuddiad(au)","g":"masculine noun"},{"e":"error(s)","c":"gwall(au)","g":"masculine noun"},{"e":"root(s)","c":"gwraidd (gwreiddiau)","g":"masculine noun"},{"e":"self-confidence","c":"hunanhyder","g":"masculine noun"},{"e":"pros and cons","c":"manteision ac anfanteision","g":"masculine noun"},{"e":"aim(s), goal(s)","c":"nod(au)","g":"masculine noun"},{"e":"discussion point(s)","c":"pwynt(iau) trafod","g":"masculine noun"},{"e":"zoo(s)","c":"sŵ (sweddau)","g":"masculine noun"},{"e":"type(s)","c":"teipen (teipiau)","g":"masculine noun"},{"e":"to register","c":"cofrestru","g":"verb"},{"e":"to interview","c":"cyfweld","g":"verb"},{"e":"to accuse","c":"cyhuddo","g":"verb"},{"e":"to fund","c":"cyllido","g":"verb"},{"e":"to approve","c":"cymeradwyo","g":"verb"},{"e":"to say goodbye","c":"ffarwelio","g":"verb"},{"e":"to facilitate","c":"hwyluso","g":"verb"},{"e":"to sub-title","c":"is-deitlo","g":"verb"},{"e":"to succeed","c":"llwyddo","g":"verb"},{"e":"to pass (exam)","c":"pasiro","g":"verb"},{"e":"to perform","c":"perfformio","g":"verb"},{"e":"definite; firm","c":"pendant","g":"adjective"},{"e":"relevant","c":"perthnasol","g":"adjective"},{"e":"deliberate; cautious","c":"pwyllog","g":"adjective"},{"e":"likely","c":"tebygol","g":"adjective"},{"e":"in order to","c":"er mwyn","g":"other"},{"e":"how many...?","c":"faint o...?","g":"other"},{"e":"sub-titles","c":"is-deitlau","g":"other"},{"e":"to take advantage of","c":"manteisio ar","g":"other"},{"e":"as a result of","c":"o ganlyniad i","g":"other"}];
+
+// ── Spaced-repetition piles: 0=unseen/hard, 1=okay, 2=easy ──────────────────
+// Each card is identified by its original ALL_VOCAB index.
+const SR_KEY      = 'welsh_sr_piles';
+const STATE_KEY   = 'welsh_state';
+const FILTERS = [
+  { cat: 'all',       label: 'All' },
+  { cat: 'nouns',     label: 'Nouns' },
+  { cat: 'adjective', label: 'Adjectives' },
+  { cat: 'verb',      label: 'Verbs' },
+  { cat: 'other',     label: 'Other' },
+];
+
+// ── Persistence helpers ──────────────────────────────────────────────────────
+function loadSR() {
+  try { return JSON.parse(localStorage.getItem(SR_KEY)) || {}; } catch(e) { return {}; }
+}
+function saveSR(sr) {
+  try { localStorage.setItem(SR_KEY, JSON.stringify(sr)); } catch(e) {}
+}
+function loadState() {
+  try { return JSON.parse(localStorage.getItem(STATE_KEY)) || {}; } catch(e) { return {}; }
+}
+function saveState() {
+  try {
+    localStorage.setItem(STATE_KEY, JSON.stringify({
+      filter: activeFilter, direction, currentIndex,
+      deckIndices: deck.map(c => c._idx),
+      seenIndices: [...seenSet]
+    }));
+  } catch(e) {}
+}
+function clearAllData() {
+  if (!confirm('Clear all progress and ratings? This cannot be undone.')) return;
+  try { localStorage.removeItem(SR_KEY); localStorage.removeItem(STATE_KEY); } catch(e) {}
+  srPiles = {};
+  activeFilter = 'all';
+  direction = 'en-cy';
+  rebuildDeck();
+  updateDirectionUI();
+  document.querySelectorAll('.filter-btn').forEach(b => b.classList.toggle('active', b.dataset.cat === 'all'));
+  updateCard();
+  renderSRStats();
+}
+
+// ── Core state ───────────────────────────────────────────────────────────────
+let srPiles = loadSR();   // { "42": 0|1|2, ... }  (key = ALL_VOCAB index as string)
+let deck = [];
+let currentIndex = 0;
+let isFlipped = false;
+let seenSet = new Set();
+let activeFilter = 'all';
+let direction = 'en-cy';
+let typingMode = false;
+
+// ── Helpers ──────────────────────────────────────────────────────────────────
+function matchFilter(item, cat) {
+  if (cat === 'all') return true;
+  if (cat === 'nouns') return item.g === 'feminine noun' || item.g === 'masculine noun';
+  return item.g === cat;
+}
+function getCatClass(cat) {
+  if (cat === 'feminine noun')  return 'cat-feminine';
+  if (cat === 'masculine noun') return 'cat-masculine';
+  if (cat === 'adjective')      return 'cat-adjective';
+  if (cat === 'verb')           return 'cat-verb';
+  return 'cat-other';
+}
+function cardKey(card) { return String(card._idx); }
+
+// ── Spaced repetition: build ordered deck ────────────────────────────────────
+// Order: pile 0 (hard/unseen) first, then pile 1, then pile 2
+function rebuildDeck() {
+  const base = ALL_VOCAB
+    .map((v, i) => ({ ...v, _idx: i }))
+    .filter(v => matchFilter(v, activeFilter));
+
+  const piles = [[], [], []];
+  base.forEach(card => {
+    const p = srPiles[cardKey(card)] ?? 0;
+    piles[p].push(card);
+  });
+  deck = [...piles[0], ...piles[1], ...piles[2]];
+  currentIndex = 0;
+  seenSet = new Set();
+}
+
+// ── Rating ───────────────────────────────────────────────────────────────────
+function rateCard(pile) {
+  if (currentIndex >= deck.length) return;
+  const card = deck[currentIndex];
+  srPiles[cardKey(card)] = pile;
+  saveSR(srPiles);
+  renderSRStats();
+  nextCard();
+}
+
+function renderSRStats() {
+  const base = ALL_VOCAB
+    .map((v, i) => ({ ...v, _idx: i }))
+    .filter(v => matchFilter(v, activeFilter));
+  const hard  = base.filter(c => (srPiles[cardKey(c)] ?? 0) === 0).length;
+  const okay  = base.filter(c => (srPiles[cardKey(c)] ?? 0) === 1).length;
+  const known = base.filter(c => (srPiles[cardKey(c)] ?? 0) === 2).length;
+  document.getElementById('srHard').textContent  = hard;
+  document.getElementById('srOkay').textContent  = okay;
+  document.getElementById('srKnown').textContent = known;
+}
+
+// ── Rating buttons: only shown after flip ────────────────────────────────────
+function showRatingButtons(show) {
+  document.getElementById('ratingRow').style.display = show ? 'flex' : 'none';
+}
+
+// ── Typing mode ──────────────────────────────────────────────────────────────
+function setTypingMode(on) {
+  typingMode = on;
+  document.getElementById('modeFlip').classList.toggle('active', !on);
+  document.getElementById('modeType').classList.toggle('active',  on);
+  document.getElementById('cardArea').style.display     = on ? 'none' : 'block';
+  document.getElementById('typingArea').style.display   = on ? 'block' : 'none';
+  document.getElementById('hint-row-wrap').style.display = on ? 'none' : 'flex';
+  showRatingButtons(false);
+  resetTypingArea();
+  if (!on) renderCard();
+  else renderTypingCard();
+  saveState();
+}
+
+function renderTypingCard() {
+  if (currentIndex >= deck.length) return;
+  const card = deck[currentIndex];
+  const prompt = direction === 'en-cy' ? card.e : card.c;
+  document.getElementById('typingPrompt').textContent = prompt;
+  document.getElementById('typingInput').value = '';
+  document.getElementById('typingInput').disabled = false;
+  document.getElementById('typingFeedback').textContent = '';
+  document.getElementById('typingFeedback').className = 'typing-feedback';
+  document.getElementById('typingReveal').style.display = 'none';
+  document.getElementById('typingSubmit').style.display = 'inline-block';
+  document.getElementById('typingInput').focus();
+  // hint reset
+  document.getElementById('hintText').textContent = '';
+  document.getElementById('hintBtn').disabled = false;
+}
+
+function resetTypingArea() {
+  document.getElementById('typingInput').value = '';
+  document.getElementById('typingFeedback').textContent = '';
+  document.getElementById('typingFeedback').className = 'typing-feedback';
+  document.getElementById('typingReveal').style.display = 'none';
+  document.getElementById('typingSubmit').style.display = 'inline-block';
+  document.getElementById('typingInput').disabled = false;
+}
+
+function normalise(s) {
+  return s.trim().toLowerCase()
+    .replace(/\(.*?\)/g, '')   // strip bracketed plurals
+    .replace(/[.,;!?]/g, '')
+    .replace(/\s+/g, ' ')
+    .trim();
+}
+
+function checkTyping() {
+  if (currentIndex >= deck.length) return;
+  const card = deck[currentIndex];
+  const answer = direction === 'en-cy' ? card.c : card.e;
+  const userRaw = document.getElementById('typingInput').value;
+  const user = normalise(userRaw);
+  const correct = normalise(answer);
+
+  // Accept if user's answer matches any slash-separated variant
+  const variants = correct.split('/').map(s => s.trim());
+  const isCorrect = variants.some(v => v === user);
+
+  const fb = document.getElementById('typingFeedback');
+  fb.textContent = isCorrect ? 'Correct!' : 'Not quite — the answer is: ' + answer;
+  fb.className = 'typing-feedback ' + (isCorrect ? 'correct' : 'wrong');
+  document.getElementById('typingInput').disabled = true;
+  document.getElementById('typingSubmit').style.display = 'none';
+  document.getElementById('typingReveal').style.display = 'inline-block';
+  showRatingButtons(true);
+
+  seenSet.add(currentIndex);
+  updateProgress();
+  saveState();
+}
+
+// ── Build filter bar ─────────────────────────────────────────────────────────
+function buildFilterBar() {
+  const bar = document.getElementById('filterBar');
+  FILTERS.forEach(f => {
+    const count = f.cat === 'all' ? ALL_VOCAB.length : ALL_VOCAB.filter(v => matchFilter(v, f.cat)).length;
+    const btn = document.createElement('button');
+    btn.className = 'filter-btn' + (f.cat === 'all' ? ' active' : '');
+    btn.dataset.cat = f.cat;
+    btn.textContent = f.label + ' (' + count + ')';
+    btn.onclick = () => setFilter(f.cat, btn);
+    bar.appendChild(btn);
+  });
+}
+
+function setFilter(cat, btn) {
+  activeFilter = cat;
+  document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  rebuildDeck();
+  renderSRStats();
+  if (typingMode) renderTypingCard();
+  else updateCard();
+  saveState();
+}
+
+function setDirection(dir) {
+  direction = dir;
+  updateDirectionUI();
+  const inner = document.getElementById('cardInner');
+  inner.style.transition = 'none';
+  inner.classList.remove('flipped');
+  isFlipped = false;
+  setTimeout(() => inner.style.transition = '', 30);
+  document.getElementById('hintText').textContent = '';
+  document.getElementById('hintBtn').disabled = false;
+  showRatingButtons(false);
+  if (typingMode) renderTypingCard();
+  else renderCard();
+  saveState();
+}
+
+function updateDirectionUI() {
+  document.getElementById('dirEW').classList.toggle('active', direction === 'en-cy');
+  document.getElementById('dirWE').classList.toggle('active', direction === 'cy-en');
+}
+
+// ── Render ───────────────────────────────────────────────────────────────────
+function renderCard() {
+  if (currentIndex >= deck.length) return;
+  const card = deck[currentIndex];
+  const frontHint = document.getElementById('frontHint');
+  const frontWord = document.getElementById('frontWord');
+  const backHint  = document.getElementById('backHint');
+  const backWord  = document.getElementById('backWord');
+  const backCat   = document.getElementById('backCategory');
+  const cardBack  = document.getElementById('cardBack');
+
+  // Show SR pile badge on front
+  const pile = srPiles[cardKey(card)] ?? 0;
+  const pileLabel = ['', 'Okay', 'Known'][pile];
+  const pileBadge = document.getElementById('pileBadge');
+  pileBadge.textContent = pileLabel;
+  pileBadge.className = 'pile-badge pile-' + pile;
+
+  if (direction === 'en-cy') {
+    frontHint.textContent = 'English';
+    frontWord.textContent = card.e;
+    backHint.textContent  = 'Welsh';
+    backWord.textContent  = card.c;
+  } else {
+    frontHint.textContent = 'Welsh';
+    frontWord.textContent = card.c;
+    backHint.textContent  = 'English';
+    backWord.textContent  = card.e;
+  }
+  backCat.textContent = card.g;
+  cardBack.className = 'card-face card-back ' + getCatClass(card.g);
+}
+
+function updateCard() {
+  const banner   = document.getElementById('completeBanner');
+  const cardArea = document.getElementById('cardArea');
+  const typArea  = document.getElementById('typingArea');
+  const controls = document.getElementById('controls');
+
+  if (currentIndex >= deck.length) {
+    banner.style.display   = 'block';
+    cardArea.style.display = 'none';
+    typArea.style.display  = 'none';
+    controls.style.display = 'none';
+    document.getElementById('hint-row-wrap').style.display = 'none';
+    document.getElementById('ratingRow').style.display = 'none';
+    updateProgress();
+    saveState();
+    return;
+  }
+
+  banner.style.display   = 'none';
+  controls.style.display = 'flex';
+  document.getElementById('hint-row-wrap').style.display = typingMode ? 'none' : 'flex';
+
+  if (typingMode) {
+    cardArea.style.display = 'none';
+    typArea.style.display  = 'block';
+    renderTypingCard();
+  } else {
+    cardArea.style.display = 'block';
+    typArea.style.display  = 'none';
+    const inner = document.getElementById('cardInner');
+    inner.style.transition = 'none';
+    inner.classList.remove('flipped');
+    isFlipped = false;
+    setTimeout(() => inner.style.transition = '', 30);
+    document.getElementById('hintText').textContent = '';
+    document.getElementById('hintBtn').disabled = false;
+    showRatingButtons(false);
+    renderCard();
+  }
+
+  seenSet.add(currentIndex);
+  updateProgress();
+  saveState();
+}
+
+function updateProgress() {
+  const total = deck.length;
+  const seen  = seenSet.size;
+  const pct   = total > 0 ? Math.round((seen / total) * 100) : 0;
+  const pos   = Math.min(currentIndex + 1, total);
+  document.getElementById('progressLabel').textContent = 'Card ' + pos + ' of ' + total;
+  document.getElementById('progressPct').textContent   = pct + '%';
+  document.getElementById('progressFill').style.width  = pct + '%';
+  document.getElementById('statTotal').textContent = total;
+  document.getElementById('statSeen').textContent  = seen;
+  document.getElementById('statLeft').textContent  = total - seen;
+}
+
+// ── Card interactions ─────────────────────────────────────────────────────────
+function flipCard() {
+  if (currentIndex >= deck.length || typingMode) return;
+  isFlipped = !isFlipped;
+  document.getElementById('cardInner').classList.toggle('flipped', isFlipped);
+  showRatingButtons(isFlipped);
+  seenSet.add(currentIndex);
+  updateProgress();
+  saveState();
+}
+
+function nextCard() {
+  if (currentIndex < deck.length) currentIndex++;
+  showRatingButtons(false);
+  updateCard();
+}
+function prevCard() {
+  if (currentIndex > 0) currentIndex--;
+  showRatingButtons(false);
+  updateCard();
+}
+
+function shuffle() {
+  for (let i = deck.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [deck[i], deck[j]] = [deck[j], deck[i]];
+  }
+  currentIndex = 0; seenSet = new Set();
+  showRatingButtons(false);
+  updateCard();
+}
+
+function restart() {
+  rebuildDeck();
+  showRatingButtons(false);
+  updateCard();
+}
+
+// ── Hint ──────────────────────────────────────────────────────────────────────
+function showHint() {
+  if (currentIndex >= deck.length) return;
+  const card = deck[currentIndex];
+  const answer = direction === 'en-cy' ? card.c : card.e;
+  const firstLetter = answer.trim()[0].toUpperCase();
+  document.getElementById('hintText').textContent = 'Starts with: ' + firstLetter;
+  document.getElementById('hintBtn').disabled = true;
+}
+
+// ── Keyboard ──────────────────────────────────────────────────────────────────
+document.addEventListener('keydown', e => {
+  if (typingMode) return;
+  if (e.key === ' ' || e.key === 'ArrowUp' || e.key === 'ArrowDown') { e.preventDefault(); flipCard(); }
+  else if (e.key === 'ArrowRight') nextCard();
+  else if (e.key === 'ArrowLeft')  prevCard();
+});
+
+// ── Restore session state or start fresh ─────────────────────────────────────
+(function init() {
+  const saved = loadState();
+  if (saved.filter) activeFilter = saved.filter;
+  if (saved.direction) direction = saved.direction;
+
+  rebuildDeck();
+  buildFilterBar();
+  renderSRStats();
+  updateDirectionUI();
+
+  // Restore active filter button
+  if (activeFilter !== 'all') {
+    document.querySelectorAll('.filter-btn').forEach(b => {
+      b.classList.toggle('active', b.dataset.cat === activeFilter);
+    });
+  }
+
+  // Restore deck position if saved indices still match
+  if (saved.deckIndices && saved.deckIndices.length === deck.length) {
+    const deckMap = new Map(deck.map((c, i) => [c._idx, i]));
+    const reordered = saved.deckIndices.map(idx => {
+      const card = ALL_VOCAB[idx];
+      return card ? { ...card, _idx: idx } : null;
+    }).filter(Boolean);
+    if (reordered.length === deck.length) deck = reordered;
+    if (saved.currentIndex !== undefined) currentIndex = Math.min(saved.currentIndex, deck.length);
+    if (saved.seenIndices) seenSet = new Set(saved.seenIndices);
+  }
+
+  updateCard();
+})();
+
+</script>
+</body>
+</html>
