@@ -145,7 +145,23 @@
   .typing-feedback.correct { color: var(--hgreen); }
   .typing-feedback.wrong   { color: var(--col-fem); }
 
-  /* SR stats bar */
+  /* Unit pill mastery states */
+  .unit-btn-partial  { border-color: #e6a817 !important; color: #7a4f00 !important; background: #fff8e6 !important; }
+  .unit-btn-partial.active { background: #e6a817 !important; border-color: #e6a817 !important; color: white !important; }
+  .unit-btn-mastered { border-color: var(--hgreen) !important; color: var(--hgreen) !important; background: #eaf7ee !important; }
+  .unit-btn-mastered.active { background: var(--hgreen) !important; border-color: var(--hgreen) !important; color: white !important; }
+
+  /* Mastery celebration overlay */
+  .mastery-overlay { position: fixed; inset: 0; z-index: 999; display: flex; align-items: center; justify-content: center; background: rgba(0,0,0,.45); animation: fadeInOverlay .3s ease; }
+  @keyframes fadeInOverlay { from { opacity: 0; } to { opacity: 1; } }
+  .mastery-card { background: white; border-radius: 20px; padding: 40px 48px; text-align: center; max-width: 420px; width: 90%; box-shadow: 0 24px 64px rgba(0,0,0,.25); animation: popIn .4s cubic-bezier(.2,1.4,.4,1); position: relative; overflow: hidden; }
+  @keyframes popIn { from { transform: scale(0.7); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+  .mastery-card h2 { font-family: 'Playfair Display', serif; font-size: 2rem; color: var(--hgreen); margin-bottom: 8px; }
+  .mastery-card .mastery-unit { font-size: 0.8rem; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: var(--mid); margin-bottom: 16px; }
+  .mastery-card p { color: var(--mid); font-size: 0.95rem; line-height: 1.6; margin-bottom: 24px; }
+  .mastery-card .btn-close-mastery { background: var(--hgreen); color: white; border: none; border-radius: 10px; padding: 12px 32px; font-family: 'Source Sans 3', sans-serif; font-size: 0.95rem; font-weight: 700; cursor: pointer; transition: background .18s; }
+  .mastery-card .btn-close-mastery:hover { background: #14552f; }
+  .mastery-confetti { position: absolute; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; }
   .sr-stats { display: flex; gap: 10px; justify-content: center; align-items: center; flex-wrap: wrap; margin-top: 10px; font-size: 0.75rem; font-weight: 600; }
   .sr-stat  { padding: 3px 10px; border-radius: 20px; }
   .sr-hard  { background: #f8d7da; color: #842029; }
@@ -295,6 +311,7 @@ const _VOCAB_PLACEHOLDER = [{"e":"society (societies)","c":"cymdeithas(au)","g":
 // Each card is identified by its original ALL_VOCAB index.
 const SR_KEY      = 'welsh_sr_piles';
 const STATE_KEY   = 'welsh_state';
+const MASTERY_KEY = 'welsh_mastered_units'; // set of unit strings already celebrated
 // ── Unit filter ──────────────────────────────────────────────────────────────
 let activeUnit = 'all';
 
@@ -335,13 +352,17 @@ function saveState() {
 }
 function clearAllData() {
   if (!confirm('Clear all progress and ratings? This cannot be undone.')) return;
-  try { localStorage.removeItem(SR_KEY); localStorage.removeItem(STATE_KEY); } catch(e) {}
+  try {
+    localStorage.removeItem(SR_KEY);
+    localStorage.removeItem(STATE_KEY);
+    localStorage.removeItem(MASTERY_KEY);
+  } catch(e) {}
   srPiles = {};
   activeUnit = 'all';
   direction = 'en-cy';
   rebuildDeck();
   updateDirectionUI();
-  document.querySelectorAll('.unit-btn').forEach(b => b.classList.toggle('active', b.dataset.unit === 'all'));
+  buildUnitBar();
   updateCard();
   renderSRStats();
 }
@@ -382,6 +403,81 @@ function rebuildDeck() {
   seenSet = new Set();
 }
 
+// ── Mastery helpers ──────────────────────────────────────────────────────────
+// Returns 'mastered' | 'partial' | 'none' for a given unit string (or 'all')
+function getUnitMasteryState(unit) {
+  const words = ALL_VOCAB
+    .map((v, i) => ({ ...v, _idx: i }))
+    .filter(v => unit === 'all' ? true : v.u === unit);
+  if (words.length === 0) return 'none';
+  const known  = words.filter(c => (srPiles[cardKey(c)] ?? 0) === 2).length;
+  const rated  = words.filter(c => srPiles[cardKey(c)] !== undefined).length;
+  if (known === words.length) return 'mastered';
+  if (rated > 0) return 'partial';
+  return 'none';
+}
+
+function loadMastered() {
+  try { return new Set(JSON.parse(localStorage.getItem(MASTERY_KEY)) || []); } catch(e) { return new Set(); }
+}
+function saveMastered(s) {
+  try { localStorage.setItem(MASTERY_KEY, JSON.stringify([...s])); } catch(e) {}
+}
+
+function showMasteryCelebration(unit) {
+  const label = unit === 'all' ? 'All 908 words' :
+    (isNaN(parseInt(unit)) ? unit.charAt(0).toUpperCase() + unit.slice(1) : 'Unit ' + unit);
+
+  // Build overlay
+  const overlay = document.createElement('div');
+  overlay.className = 'mastery-overlay';
+  overlay.innerHTML = `
+    <div class="mastery-card">
+      <canvas class="mastery-confetti" id="masteryCanvas"></canvas>
+      <div class="mastery-unit">${label}</div>
+      <h2>Wedi'i feistroli!</h2>
+      <p>You've marked every word in this set as <strong>Got it</strong>. Da iawn ti — you've mastered it for now!</p>
+      <button class="btn-close-mastery" onclick="this.closest('.mastery-overlay').remove()">Ardderchog! ✓</button>
+    </div>`;
+  document.body.appendChild(overlay);
+  overlay.addEventListener('click', e => { if (e.target === overlay) overlay.remove(); });
+
+  // Simple canvas confetti
+  const canvas = document.getElementById('masteryCanvas');
+  const ctx = canvas.getContext('2d');
+  const card = canvas.parentElement;
+  canvas.width  = card.offsetWidth;
+  canvas.height = card.offsetHeight;
+
+  const pieces = Array.from({ length: 60 }, () => ({
+    x: Math.random() * canvas.width,
+    y: -10 - Math.random() * 80,
+    r: 4 + Math.random() * 5,
+    d: 2 + Math.random() * 3,
+    color: ['#1a6b3c','#c8a84b','#2471a3','#b83232','#7d5fa5'][Math.floor(Math.random()*5)],
+    tilt: Math.random() * 10 - 5,
+    tiltSpeed: 0.1 + Math.random() * 0.2
+  }));
+
+  let frame = 0;
+  function drawConfetti() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    pieces.forEach(p => {
+      ctx.beginPath();
+      ctx.ellipse(p.x, p.y, p.r, p.r * 0.5, p.tilt, 0, Math.PI * 2);
+      ctx.fillStyle = p.color;
+      ctx.fill();
+      p.y += p.d;
+      p.x += Math.sin(frame * 0.05 + p.tilt) * 0.8;
+      p.tilt += p.tiltSpeed;
+    });
+    frame++;
+    if (frame < 200) requestAnimationFrame(drawConfetti);
+    else ctx.clearRect(0, 0, canvas.width, canvas.height);
+  }
+  drawConfetti();
+}
+
 // ── Rating ───────────────────────────────────────────────────────────────────
 function rateCard(pile) {
   if (currentIndex >= deck.length) return;
@@ -389,6 +485,22 @@ function rateCard(pile) {
   srPiles[cardKey(card)] = pile;
   saveSR(srPiles);
   renderSRStats();
+  refreshUnitBar();
+
+  // Check if this rating caused the current unit to become fully mastered
+  if (pile === 2) {
+    const unitToCheck = activeUnit;
+    const state = getUnitMasteryState(unitToCheck);
+    if (state === 'mastered') {
+      const celebrated = loadMastered();
+      if (!celebrated.has(unitToCheck)) {
+        celebrated.add(unitToCheck);
+        saveMastered(celebrated);
+        setTimeout(() => showMasteryCelebration(unitToCheck), 400);
+      }
+    }
+  }
+
   nextCard();
 }
 
@@ -493,22 +605,66 @@ function buildUnitBar() {
   bar.innerHTML = '';
   const units = getUnits();
 
+  function makePill(unit, labelText) {
+    const btn = document.createElement('button');
+    const state = getUnitMasteryState(unit);
+    let cls = 'unit-btn';
+    if (state === 'mastered') cls += ' unit-btn-mastered';
+    else if (state === 'partial') cls += ' unit-btn-partial';
+    if (activeUnit === unit) cls += ' active';
+    btn.className = cls;
+    btn.dataset.unit = unit;
+    const tick = state === 'mastered' ? ' ✓' : '';
+    btn.textContent = labelText + tick;
+    btn.onclick = () => setUnit(unit, btn);
+    return btn;
+  }
+
+  // All pill — show known/total count
+  const knownAll = ALL_VOCAB.map((v,i) => ({...v,_idx:i})).filter(c => (srPiles[cardKey(c)]??0)===2).length;
+  const allLabel = knownAll > 0
+    ? `All (${knownAll}/${ALL_VOCAB.length} ✓)`
+    : `All (${ALL_VOCAB.length})`;
   const allBtn = document.createElement('button');
-  allBtn.className = 'unit-btn' + (activeUnit === 'all' ? ' active' : '');
+  const allState = getUnitMasteryState('all');
+  let allCls = 'unit-btn';
+  if (allState === 'mastered') allCls += ' unit-btn-mastered';
+  else if (allState === 'partial') allCls += ' unit-btn-partial';
+  if (activeUnit === 'all') allCls += ' active';
+  allBtn.className = allCls;
   allBtn.dataset.unit = 'all';
-  allBtn.textContent = 'All (' + ALL_VOCAB.length + ')';
+  allBtn.textContent = allLabel;
   allBtn.onclick = () => setUnit('all', allBtn);
   bar.appendChild(allBtn);
 
   units.forEach(u => {
     const count = ALL_VOCAB.filter(v => v.u === u).length;
-    const btn = document.createElement('button');
-    btn.className = 'unit-btn' + (activeUnit === u ? ' active' : '');
-    btn.dataset.unit = u;
-    const label = isNaN(parseInt(u)) ? u.charAt(0).toUpperCase() + u.slice(1) : 'Unit ' + u;
-    btn.textContent = label + ' (' + count + ')';
-    btn.onclick = () => setUnit(u, btn);
-    bar.appendChild(btn);
+    const unitLabel = isNaN(parseInt(u)) ? u.charAt(0).toUpperCase() + u.slice(1) : 'Unit ' + u;
+    bar.appendChild(makePill(u, unitLabel + ' (' + count + ')'));
+  });
+}
+
+// Re-colour pills without rebuilding (called after each rating)
+function refreshUnitBar() {
+  const units = ['all', ...getUnits()];
+  document.querySelectorAll('.unit-btn').forEach(btn => {
+    const unit = btn.dataset.unit;
+    const state = getUnitMasteryState(unit);
+    btn.classList.remove('unit-btn-mastered', 'unit-btn-partial');
+    if (state === 'mastered') btn.classList.add('unit-btn-mastered');
+    else if (state === 'partial') btn.classList.add('unit-btn-partial');
+
+    // Update tick and All count
+    if (unit === 'all') {
+      const known = ALL_VOCAB.map((v,i) => ({...v,_idx:i})).filter(c => (srPiles[cardKey(c)]??0)===2).length;
+      const tick = state === 'mastered' ? ' ✓' : '';
+      btn.textContent = known > 0 ? `All (${known}/${ALL_VOCAB.length}${tick})` : `All (${ALL_VOCAB.length})`;
+    } else {
+      const count = ALL_VOCAB.filter(v => v.u === unit).length;
+      const unitLabel = isNaN(parseInt(unit)) ? unit.charAt(0).toUpperCase() + unit.slice(1) : 'Unit ' + unit;
+      const tick = state === 'mastered' ? ' ✓' : '';
+      btn.textContent = unitLabel + ' (' + count + ')' + tick;
+    }
   });
 }
 
