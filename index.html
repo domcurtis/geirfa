@@ -20,8 +20,16 @@
   .subtitle { font-size: 0.85rem; color: var(--mid); margin-top: 4px; letter-spacing: 0.08em; text-transform: uppercase; }
 
   .toolbar { width: 100%; max-width: 720px; display: flex; flex-direction: column; gap: 10px; margin-bottom: 16px; }
-  .unit-bar { display: flex; flex-wrap: wrap; gap: 7px; justify-content: center; }
-  .unit-btn { border: 1.5px solid var(--light); background: white; color: var(--mid); font-family: 'Source Sans 3', sans-serif; font-size: 0.78rem; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; padding: 5px 13px; border-radius: 20px; cursor: pointer; transition: all .18s; }
+
+  /* Scrollable unit bar */
+  .unit-bar-wrap { position: relative; width: 100%; }
+  .unit-bar-wrap::before,
+  .unit-bar-wrap::after { content: ''; position: absolute; top: 0; bottom: 0; width: 32px; z-index: 1; pointer-events: none; }
+  .unit-bar-wrap::before { left: 0; background: linear-gradient(to right, var(--cream), transparent); }
+  .unit-bar-wrap::after  { right: 0; background: linear-gradient(to left,  var(--cream), transparent); }
+  .unit-bar { display: flex; flex-wrap: nowrap; gap: 7px; overflow-x: auto; padding: 4px 28px; scrollbar-width: none; -ms-overflow-style: none; scroll-behavior: smooth; }
+  .unit-bar::-webkit-scrollbar { display: none; }
+  .unit-btn { flex-shrink: 0; border: 1.5px solid var(--light); background: white; color: var(--mid); font-family: 'Source Sans 3', sans-serif; font-size: 0.78rem; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; padding: 5px 13px; border-radius: 20px; cursor: pointer; transition: all .18s; white-space: nowrap; }
   .unit-btn:hover { border-color: var(--hgreen); color: var(--hgreen); }
   .unit-btn.active { background: var(--dark); border-color: var(--dark); color: white; }
 
@@ -40,7 +48,13 @@
   .progress-track { height: 4px; background: var(--light); border-radius: 2px; overflow: hidden; }
   .progress-fill  { height: 100%; background: var(--hgreen); border-radius: 2px; transition: width .4s ease; }
 
-  .card-area { perspective: 1200px; width: 100%; max-width: 520px; margin: 16px auto 14px; cursor: pointer; user-select: none; }
+  /* Card shell: prev arrow | card | next arrow */
+  .card-shell { display: flex; align-items: center; gap: 12px; width: 100%; max-width: 620px; margin: 12px auto 0; }
+  .nav-arrow { flex-shrink: 0; width: 40px; height: 40px; border-radius: 50%; border: 1.5px solid var(--light); background: white; color: var(--mid); font-size: 1.1rem; cursor: pointer; transition: all .18s; display: flex; align-items: center; justify-content: center; }
+  .nav-arrow:hover { border-color: var(--dark); color: var(--dark); background: var(--light); }
+  .nav-arrow:disabled { opacity: 0.25; cursor: default; }
+
+  .card-area { perspective: 1200px; flex: 1; cursor: pointer; user-select: none; touch-action: pan-y; }
   .card-inner { position: relative; width: 100%; height: 290px; transform-style: preserve-3d; transition: transform .55s cubic-bezier(.4,0,.2,1); }
   .card-inner.flipped { transform: rotateY(180deg); }
   .card-face { position: absolute; inset: 0; backface-visibility: hidden; -webkit-backface-visibility: hidden; border-radius: 16px; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 32px 36px; box-shadow: 0 8px 32px rgba(0,0,0,.1), 0 2px 8px rgba(0,0,0,.06); }
@@ -58,11 +72,13 @@
   .card-category { display: inline-block; margin-top: 14px; font-size: 0.76rem; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; background: rgba(255,255,255,.2); padding: 3px 11px; border-radius: 20px; }
   .flip-cue { margin-top: 18px; font-size: 0.72rem; opacity: 0.32; letter-spacing: 0.08em; }
 
+  /* Below-card action row: hint + shuffle + reset */
+  .card-actions { display: flex; gap: 8px; justify-content: center; align-items: center; width: 100%; max-width: 520px; margin: 10px auto 0; flex-wrap: wrap; }
+
   .complete-banner { display: none; background: var(--hgreen); color: white; border-radius: 16px; padding: 28px 36px; text-align: center; width: 100%; max-width: 520px; margin: 16px auto 14px; box-shadow: 0 8px 32px rgba(0,0,0,.1); }
   .complete-banner h2 { font-family: 'Playfair Display', serif; font-size: 1.7rem; margin-bottom: 8px; }
   .complete-banner p  { opacity: 0.85; margin-bottom: 18px; }
 
-  .controls { display: flex; gap: 10px; align-items: center; justify-content: center; flex-wrap: wrap; margin-bottom: 16px; }
   .btn { font-family: 'Source Sans 3', sans-serif; font-size: 0.84rem; font-weight: 600; letter-spacing: 0.04em; padding: 9px 22px; border-radius: 8px; border: none; cursor: pointer; transition: all .18s; }
   .btn-prev    { background: var(--light); color: var(--dark); }
   .btn-prev:hover { background: #d8d2c9; }
@@ -75,8 +91,7 @@
   .btn-hint { background: white; color: var(--mid); border: 1.5px solid var(--light); }
   .btn-hint:hover { border-color: var(--gold); color: var(--gold); }
   .btn-hint:disabled { opacity: 0.35; cursor: default; }
-  .hint-text { margin-top: 10px; font-size: 0.82rem; color: var(--mid); letter-spacing: 0.06em; min-height: 1.2em; text-align: center; }
-  .hint-row { display: flex; flex-direction: column; align-items: center; gap: 0; margin-bottom: 10px; width: 100%; max-width: 520px; }
+  .hint-text { font-size: 0.82rem; color: var(--mid); letter-spacing: 0.06em; text-align: center; min-height: 1.2em; width: 100%; text-align: center; margin-top: 4px; }
 
   .stats { display: flex; gap: 22px; justify-content: center; flex-wrap: wrap; }
   .stat { text-align: center; font-size: 0.76rem; }
@@ -86,7 +101,18 @@
   .stat-label { color: var(--mid); letter-spacing: 0.06em; text-transform: uppercase; font-size: 0.68rem; }
   .key-hint { margin-top: 16px; font-size: 0.71rem; color: var(--mid); opacity: 0.55; text-align: center; }
   .key-hint kbd { background: var(--light); border-radius: 4px; padding: 2px 6px; font-family: monospace; font-size: 0.76rem; }
-  @media (max-width: 480px) { h1 { font-size: 1.5rem; } .card-face { padding: 22px; } .card-inner { height: 260px; } }
+  .swipe-hint { font-size: 0.71rem; color: var(--mid); opacity: 0.5; text-align: center; margin-top: 12px; display: none; }
+  @media (hover: none) and (pointer: coarse) {
+    .key-hint { display: none; }
+    .swipe-hint { display: block; }
+    .nav-arrow { width: 36px; height: 36px; font-size: 1rem; }
+  }
+  @media (max-width: 480px) {
+    h1 { font-size: 1.5rem; }
+    .card-face { padding: 22px; }
+    .card-inner { height: 260px; }
+    .card-shell { gap: 8px; }
+  }
 
   /* Mode toggle */
   .mode-row { display: flex; align-items: center; justify-content: center; gap: 6px; }
@@ -100,8 +126,7 @@
   .pile-badge.pile-1 { opacity: 1; background: #fff3cd; color: #856404; }
   .pile-badge.pile-2 { opacity: 1; background: #d1e7dd; color: #0a3622; }
 
-  /* Rating row */
-  .rating-row { display: flex; align-items: center; justify-content: center; gap: 8px; flex-wrap: wrap; margin-bottom: 10px; }
+  .rating-row { display: flex; align-items: center; justify-content: center; gap: 8px; flex-wrap: wrap; margin: 8px 0 4px; }
   .rating-label { font-size: 0.78rem; color: var(--mid); font-weight: 600; letter-spacing: 0.04em; margin-right: 4px; }
   .btn-hard  { font-family: 'Source Sans 3', sans-serif; font-size: 0.84rem; font-weight: 700; letter-spacing: 0.03em; padding: 8px 18px; border-radius: 8px; border: none; cursor: pointer; transition: all .18s; background: #f8d7da; color: #842029; }
   .btn-hard:hover  { background: #f1aeb5; }
@@ -152,7 +177,7 @@
 </header>
 
 <div class="toolbar">
-  <div class="unit-bar" id="unitBar"></div>
+  <div class="unit-bar-wrap"><div class="unit-bar" id="unitBar"></div></div>
   <div class="direction-row">
     <button class="dir-btn active" id="dirEW" onclick="setDirection('en-cy')">English → Welsh</button>
     <button class="dir-btn"        id="dirWE" onclick="setDirection('cy-en')">Welsh → English</button>
@@ -164,33 +189,32 @@
   </div>
 </div>
 
-<div class="legend">
-  <div class="legend-item"><div class="legend-dot" style="background:var(--col-fem)"></div>Feminine noun</div>
-  <div class="legend-item"><div class="legend-dot" style="background:var(--col-masc)"></div>Masculine noun</div>
-  <div class="legend-item"><div class="legend-dot" style="background:var(--col-adj)"></div>Adjective</div>
-  <div class="legend-item"><div class="legend-dot" style="background:var(--col-verb)"></div>Verb</div>
-  <div class="legend-item"><div class="legend-dot" style="background:var(--col-other)"></div>Other</div>
-</div>
 
 <div class="progress-bar-wrap">
   <div class="progress-info"><span id="progressLabel">Card 1 of 908</span><span id="progressPct">0%</span></div>
   <div class="progress-track"><div class="progress-fill" id="progressFill" style="width:0%"></div></div>
 </div>
 
-<div class="card-area" id="cardArea" onclick="flipCard()">
-  <div class="card-inner" id="cardInner">
-    <div class="card-face card-front">
-      <div class="card-hint" id="frontHint">English</div>
-      <div class="card-word" id="frontWord">Loading…</div>
-      <span class="pile-badge pile-0" id="pileBadge"></span>
-      <div class="flip-cue">tap to flip</div>
-    </div>
-    <div class="card-face card-back" id="cardBack">
-      <div class="card-hint" id="backHint">Welsh</div>
-      <div class="card-word" id="backWord"></div>
-      <div class="card-category" id="backCategory"></div>
+<div class="card-shell">
+  <button class="nav-arrow" id="navPrev" onclick="prevCard()" aria-label="Previous card">&#8592;</button>
+
+  <div class="card-area" id="cardArea" onclick="flipCard()">
+    <div class="card-inner" id="cardInner">
+      <div class="card-face card-front">
+        <div class="card-hint" id="frontHint">English</div>
+        <div class="card-word" id="frontWord">Loading…</div>
+        <span class="pile-badge pile-0" id="pileBadge"></span>
+        <div class="flip-cue">tap to flip</div>
+      </div>
+      <div class="card-face card-back" id="cardBack">
+        <div class="card-hint" id="backHint">Welsh</div>
+        <div class="card-word" id="backWord"></div>
+        <div class="card-category" id="backCategory"></div>
+      </div>
     </div>
   </div>
+
+  <button class="nav-arrow" id="navNext" onclick="nextCard()" aria-label="Next card">&#8594;</button>
 </div>
 
 <div class="typing-area" id="typingArea" style="display:none">
@@ -211,8 +235,10 @@
   <button class="btn btn-known" onclick="rateCard(2)">Got it</button>
 </div>
 
-<div class="hint-row" id="hint-row-wrap">
-  <button class="btn btn-hint" id="hintBtn" onclick="showHint()">Hint — first letter</button>
+<div class="card-actions" id="hint-row-wrap">
+  <button class="btn btn-hint" id="hintBtn" onclick="showHint()">Hint</button>
+  <button class="btn btn-shuffle" onclick="shuffle()">⇌ Shuffle</button>
+  <button class="btn btn-restart" onclick="restart()">↺ Reset</button>
   <div class="hint-text" id="hintText"></div>
 </div>
 
@@ -220,13 +246,6 @@
   <h2>Da iawn!</h2>
   <p>You've been through all the cards in this set.</p>
   <button class="btn btn-next" onclick="restart()">Start Again</button>
-</div>
-
-<div class="controls" id="controls">
-  <button class="btn btn-prev"    onclick="prevCard()">← Prev</button>
-  <button class="btn btn-shuffle" onclick="shuffle()">⇌ Shuffle</button>
-  <button class="btn btn-restart" onclick="restart()">↺ Reset</button>
-  <button class="btn btn-next"    onclick="nextCard()">Next →</button>
 </div>
 
 <div class="stats">
@@ -243,6 +262,7 @@
 </div>
 
 <div class="key-hint"><kbd>Space</kbd> flip &nbsp;·&nbsp; <kbd>→</kbd> next &nbsp;·&nbsp; <kbd>←</kbd> prev</div>
+<div class="swipe-hint">swipe left/right to navigate &nbsp;·&nbsp; tap to flip</div>
 
 <script>
 let ALL_VOCAB = [];
@@ -394,8 +414,12 @@ function setTypingMode(on) {
   typingMode = on;
   document.getElementById('modeFlip').classList.toggle('active', !on);
   document.getElementById('modeType').classList.toggle('active',  on);
-  document.getElementById('cardArea').style.display     = on ? 'none' : 'block';
-  document.getElementById('typingArea').style.display   = on ? 'block' : 'none';
+  const cardShell = document.querySelector('.card-shell');
+  const cardArea  = document.getElementById('cardArea');
+  const typArea   = document.getElementById('typingArea');
+  cardShell.style.display = on ? 'none' : 'flex';
+  cardArea.style.display  = on ? 'none' : 'block';
+  typArea.style.display   = on ? 'block' : 'none';
   document.getElementById('hint-row-wrap').style.display = on ? 'none' : 'flex';
   showRatingButtons(false);
   resetTypingArea();
@@ -492,6 +516,7 @@ function setUnit(unit, btn) {
   activeUnit = unit;
   document.querySelectorAll('.unit-btn').forEach(b => b.classList.remove('active'));
   btn.classList.add('active');
+  btn.scrollIntoView({ block: 'nearest', inline: 'center', behavior: 'smooth' });
   rebuildDeck();
   renderSRStats();
   if (typingMode) renderTypingCard();
@@ -556,14 +581,13 @@ function renderCard() {
 function updateCard() {
   const banner   = document.getElementById('completeBanner');
   const cardArea = document.getElementById('cardArea');
+  const cardShell = document.querySelector('.card-shell');
   const typArea  = document.getElementById('typingArea');
-  const controls = document.getElementById('controls');
 
   if (currentIndex >= deck.length) {
-    banner.style.display   = 'block';
-    cardArea.style.display = 'none';
-    typArea.style.display  = 'none';
-    controls.style.display = 'none';
+    banner.style.display    = 'block';
+    cardShell.style.display = 'none';
+    typArea.style.display   = 'none';
     document.getElementById('hint-row-wrap').style.display = 'none';
     document.getElementById('ratingRow').style.display = 'none';
     updateProgress();
@@ -571,8 +595,8 @@ function updateCard() {
     return;
   }
 
-  banner.style.display   = 'none';
-  controls.style.display = 'flex';
+  banner.style.display    = 'none';
+  cardShell.style.display = 'flex';
   document.getElementById('hint-row-wrap').style.display = typingMode ? 'none' : 'flex';
 
   if (typingMode) {
@@ -667,6 +691,41 @@ document.addEventListener('keydown', e => {
   else if (e.key === 'ArrowLeft')  prevCard();
 });
 
+// ── Touch swipe ───────────────────────────────────────────────────────────────
+(function() {
+  let touchStartX = 0, touchStartY = 0;
+  const SWIPE_THRESHOLD = 50;
+  const SWIPE_ANGLE_MAX = 40; // degrees from horizontal
+
+  function onTouchStart(e) {
+    touchStartX = e.touches[0].clientX;
+    touchStartY = e.touches[0].clientY;
+  }
+
+  function onTouchEnd(e) {
+    if (typingMode) return;
+    const dx = e.changedTouches[0].clientX - touchStartX;
+    const dy = e.changedTouches[0].clientY - touchStartY;
+    if (Math.abs(dx) < SWIPE_THRESHOLD) return;
+    const angle = Math.abs(Math.atan2(dy, dx) * 180 / Math.PI);
+    if (angle > SWIPE_ANGLE_MAX && angle < (180 - SWIPE_ANGLE_MAX)) return; // too vertical
+    if (dx < 0) nextCard();
+    else         prevCard();
+  }
+
+  const cardArea = document.getElementById('cardArea');
+  // attach after DOM ready — we attach in init()
+  window._attachSwipe = function() {
+    const targets = [document.getElementById('cardArea'), document.querySelector('.card-shell')];
+    targets.forEach(el => {
+      if (el) {
+        el.addEventListener('touchstart', onTouchStart, { passive: true });
+        el.addEventListener('touchend',   onTouchEnd,   { passive: true });
+      }
+    });
+  };
+})();
+
 // ── Restore session state or start fresh ─────────────────────────────────────
 function init() {
   const saved = loadState();
@@ -677,8 +736,6 @@ function init() {
   buildUnitBar();
   renderSRStats();
   updateDirectionUI();
-
-  // Restore deck position if saved indices still match
 
   // Restore deck position if saved indices still match
   if (saved.deckIndices && saved.deckIndices.length === deck.length) {
@@ -693,6 +750,13 @@ function init() {
   }
 
   updateCard();
+  if (window._attachSwipe) window._attachSwipe();
+
+  // Scroll active unit button into view
+  setTimeout(() => {
+    const activeBtn = document.querySelector('.unit-btn.active');
+    if (activeBtn) activeBtn.scrollIntoView({ block: 'nearest', inline: 'center', behavior: 'smooth' });
+  }, 100);
 }
 
 loadVocab();
