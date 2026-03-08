@@ -20,14 +20,10 @@
   .subtitle { font-size: 0.85rem; color: var(--mid); margin-top: 4px; letter-spacing: 0.08em; text-transform: uppercase; }
 
   .toolbar { width: 100%; max-width: 720px; display: flex; flex-direction: column; gap: 10px; margin-bottom: 16px; }
-  .filter-bar { display: flex; flex-wrap: wrap; gap: 7px; justify-content: center; }
-  .filter-btn { border: 1.5px solid var(--light); background: white; color: var(--mid); font-family: 'Source Sans 3', sans-serif; font-size: 0.78rem; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; padding: 5px 13px; border-radius: 20px; cursor: pointer; transition: all .18s; }
-  .filter-btn:hover { border-color: var(--hgreen); color: var(--hgreen); }
-  .filter-btn.active                  { background: var(--dark);       border-color: var(--dark);       color: white; }
-  .filter-btn[data-cat="nouns"].active{ background: var(--col-masc);   border-color: var(--col-masc); }
-  .filter-btn[data-cat="adjective"].active{ background: var(--col-adj);border-color: var(--col-adj); }
-  .filter-btn[data-cat="verb"].active { background: var(--col-verb);   border-color: var(--col-verb); }
-  .filter-btn[data-cat="other"].active{ background: var(--col-other);  border-color: var(--col-other); }
+  .unit-bar { display: flex; flex-wrap: wrap; gap: 7px; justify-content: center; }
+  .unit-btn { border: 1.5px solid var(--light); background: white; color: var(--mid); font-family: 'Source Sans 3', sans-serif; font-size: 0.78rem; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; padding: 5px 13px; border-radius: 20px; cursor: pointer; transition: all .18s; }
+  .unit-btn:hover { border-color: var(--hgreen); color: var(--hgreen); }
+  .unit-btn.active { background: var(--dark); border-color: var(--dark); color: white; }
 
   .direction-row { display: flex; justify-content: center; }
   .dir-btn { font-family: 'Source Sans 3', sans-serif; font-size: 0.8rem; font-weight: 600; letter-spacing: 0.04em; padding: 7px 18px; border: 1.5px solid var(--light); background: white; color: var(--mid); cursor: pointer; transition: all .18s; }
@@ -156,7 +152,7 @@
 </header>
 
 <div class="toolbar">
-  <div class="filter-bar" id="filterBar"></div>
+  <div class="unit-bar" id="unitBar"></div>
   <div class="direction-row">
     <button class="dir-btn active" id="dirEW" onclick="setDirection('en-cy')">English → Welsh</button>
     <button class="dir-btn"        id="dirWE" onclick="setDirection('cy-en')">Welsh → English</button>
@@ -279,13 +275,24 @@ const _VOCAB_PLACEHOLDER = [{"e":"society (societies)","c":"cymdeithas(au)","g":
 // Each card is identified by its original ALL_VOCAB index.
 const SR_KEY      = 'welsh_sr_piles';
 const STATE_KEY   = 'welsh_state';
-const FILTERS = [
-  { cat: 'all',       label: 'All' },
-  { cat: 'nouns',     label: 'Nouns' },
-  { cat: 'adjective', label: 'Adjectives' },
-  { cat: 'verb',      label: 'Verbs' },
-  { cat: 'other',     label: 'Other' },
-];
+// ── Unit filter ──────────────────────────────────────────────────────────────
+let activeUnit = 'all';
+
+function getUnits() {
+  const units = [...new Set(ALL_VOCAB.map(v => v.u))];
+  // sort: numeric units first in order, then non-numeric
+  return units.sort((a, b) => {
+    const na = parseInt(a), nb = parseInt(b);
+    if (!isNaN(na) && !isNaN(nb)) return na - nb;
+    if (!isNaN(na)) return -1;
+    if (!isNaN(nb)) return 1;
+    return a.localeCompare(b);
+  });
+}
+
+function matchUnit(item) {
+  return activeUnit === 'all' || item.u === activeUnit;
+}
 
 // ── Persistence helpers ──────────────────────────────────────────────────────
 function loadSR() {
@@ -300,7 +307,7 @@ function loadState() {
 function saveState() {
   try {
     localStorage.setItem(STATE_KEY, JSON.stringify({
-      filter: activeFilter, direction, currentIndex,
+      unit: activeUnit, direction, currentIndex,
       deckIndices: deck.map(c => c._idx),
       seenIndices: [...seenSet]
     }));
@@ -310,11 +317,11 @@ function clearAllData() {
   if (!confirm('Clear all progress and ratings? This cannot be undone.')) return;
   try { localStorage.removeItem(SR_KEY); localStorage.removeItem(STATE_KEY); } catch(e) {}
   srPiles = {};
-  activeFilter = 'all';
+  activeUnit = 'all';
   direction = 'en-cy';
   rebuildDeck();
   updateDirectionUI();
-  document.querySelectorAll('.filter-btn').forEach(b => b.classList.toggle('active', b.dataset.cat === 'all'));
+  document.querySelectorAll('.unit-btn').forEach(b => b.classList.toggle('active', b.dataset.unit === 'all'));
   updateCard();
   renderSRStats();
 }
@@ -325,16 +332,10 @@ let deck = [];
 let currentIndex = 0;
 let isFlipped = false;
 let seenSet = new Set();
-let activeFilter = 'all';
 let direction = 'en-cy';
 let typingMode = false;
 
 // ── Helpers ──────────────────────────────────────────────────────────────────
-function matchFilter(item, cat) {
-  if (cat === 'all') return true;
-  if (cat === 'nouns') return item.g === 'feminine noun' || item.g === 'masculine noun';
-  return item.g === cat;
-}
 function getCatClass(cat) {
   if (cat === 'feminine noun')  return 'cat-feminine';
   if (cat === 'masculine noun') return 'cat-masculine';
@@ -349,7 +350,7 @@ function cardKey(card) { return String(card._idx); }
 function rebuildDeck() {
   const base = ALL_VOCAB
     .map((v, i) => ({ ...v, _idx: i }))
-    .filter(v => matchFilter(v, activeFilter));
+    .filter(v => matchUnit(v));
 
   const piles = [[], [], []];
   base.forEach(card => {
@@ -374,7 +375,7 @@ function rateCard(pile) {
 function renderSRStats() {
   const base = ALL_VOCAB
     .map((v, i) => ({ ...v, _idx: i }))
-    .filter(v => matchFilter(v, activeFilter));
+    .filter(v => matchUnit(v));
   const hard  = base.filter(c => (srPiles[cardKey(c)] ?? 0) === 0).length;
   const okay  = base.filter(c => (srPiles[cardKey(c)] ?? 0) === 1).length;
   const known = base.filter(c => (srPiles[cardKey(c)] ?? 0) === 2).length;
@@ -462,23 +463,34 @@ function checkTyping() {
   saveState();
 }
 
-// ── Build filter bar ─────────────────────────────────────────────────────────
-function buildFilterBar() {
-  const bar = document.getElementById('filterBar');
-  FILTERS.forEach(f => {
-    const count = f.cat === 'all' ? ALL_VOCAB.length : ALL_VOCAB.filter(v => matchFilter(v, f.cat)).length;
+// ── Build unit bar ────────────────────────────────────────────────────────────
+function buildUnitBar() {
+  const bar = document.getElementById('unitBar');
+  bar.innerHTML = '';
+  const units = getUnits();
+
+  const allBtn = document.createElement('button');
+  allBtn.className = 'unit-btn' + (activeUnit === 'all' ? ' active' : '');
+  allBtn.dataset.unit = 'all';
+  allBtn.textContent = 'All (' + ALL_VOCAB.length + ')';
+  allBtn.onclick = () => setUnit('all', allBtn);
+  bar.appendChild(allBtn);
+
+  units.forEach(u => {
+    const count = ALL_VOCAB.filter(v => v.u === u).length;
     const btn = document.createElement('button');
-    btn.className = 'filter-btn' + (f.cat === 'all' ? ' active' : '');
-    btn.dataset.cat = f.cat;
-    btn.textContent = f.label + ' (' + count + ')';
-    btn.onclick = () => setFilter(f.cat, btn);
+    btn.className = 'unit-btn' + (activeUnit === u ? ' active' : '');
+    btn.dataset.unit = u;
+    const label = isNaN(parseInt(u)) ? u.charAt(0).toUpperCase() + u.slice(1) : 'Unit ' + u;
+    btn.textContent = label + ' (' + count + ')';
+    btn.onclick = () => setUnit(u, btn);
     bar.appendChild(btn);
   });
 }
 
-function setFilter(cat, btn) {
-  activeFilter = cat;
-  document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+function setUnit(unit, btn) {
+  activeUnit = unit;
+  document.querySelectorAll('.unit-btn').forEach(b => b.classList.remove('active'));
   btn.classList.add('active');
   rebuildDeck();
   renderSRStats();
@@ -658,20 +670,15 @@ document.addEventListener('keydown', e => {
 // ── Restore session state or start fresh ─────────────────────────────────────
 function init() {
   const saved = loadState();
-  if (saved.filter) activeFilter = saved.filter;
+  if (saved.unit) activeUnit = saved.unit;
   if (saved.direction) direction = saved.direction;
 
   rebuildDeck();
-  buildFilterBar();
+  buildUnitBar();
   renderSRStats();
   updateDirectionUI();
 
-  // Restore active filter button
-  if (activeFilter !== 'all') {
-    document.querySelectorAll('.filter-btn').forEach(b => {
-      b.classList.toggle('active', b.dataset.cat === activeFilter);
-    });
-  }
+  // Restore deck position if saved indices still match
 
   // Restore deck position if saved indices still match
   if (saved.deckIndices && saved.deckIndices.length === deck.length) {
