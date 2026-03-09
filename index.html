@@ -45,10 +45,7 @@
   .progress-info { display: flex; justify-content: space-between; font-size: 0.76rem; color: var(--mid); margin-bottom: 5px; }
   .progress-track { height: 4px; background: var(--light); border-radius: 2px; overflow: hidden; }
   .progress-fill  { height: 100%; background: var(--hgreen); border-radius: 2px; transition: width .4s ease; }
-  .card-shell { display: flex; align-items: center; gap: 12px; width: 100%; max-width: 620px; margin: 12px auto 0; }
-  .nav-arrow { flex-shrink: 0; width: 40px; height: 40px; border-radius: 50%; border: 1.5px solid var(--light); background: white; color: var(--mid); font-size: 1.1rem; cursor: pointer; transition: all .18s; display: flex; align-items: center; justify-content: center; }
-  .nav-arrow:hover { border-color: var(--dark); color: var(--dark); background: var(--light); }
-  .nav-arrow:disabled { opacity: 0.25; cursor: default; }
+  .card-shell { width: 100%; max-width: 520px; margin: 12px auto 0; }
   .card-area { perspective: 1200px; flex: 1; cursor: pointer; user-select: none; touch-action: pan-y; }
   .card-inner { position: relative; width: 100%; height: 290px; transform-style: preserve-3d; transition: transform .55s cubic-bezier(.4,0,.2,1); }
   .card-inner.flipped { transform: rotateY(180deg); }
@@ -70,8 +67,6 @@
   .complete-banner h2 { font-family: 'Playfair Display', serif; font-size: 1.7rem; margin-bottom: 8px; }
   .complete-banner p  { opacity: 0.85; margin-bottom: 18px; }
   .btn { font-family: 'Source Sans 3', sans-serif; font-size: 0.84rem; font-weight: 600; letter-spacing: 0.04em; padding: 9px 22px; border-radius: 8px; border: none; cursor: pointer; transition: all .18s; }
-  .btn-prev    { background: var(--light); color: var(--dark); }
-  .btn-prev:hover { background: #d8d2c9; }
   .btn-next    { background: var(--dark); color: white; }
   .btn-next:hover { background: #333; }
   .btn-shuffle { background: white; color: var(--mid); border: 1.5px solid var(--light); }
@@ -88,13 +83,11 @@
   @media (hover: none) and (pointer: coarse) {
     .key-hint { display: none; }
     .swipe-hint { display: block; }
-    .nav-arrow { width: 36px; height: 36px; font-size: 1rem; }
   }
   @media (max-width: 480px) {
     h1 { font-size: 1.5rem; }
     .card-face { padding: 22px; }
     .card-inner { height: 260px; }
-    .card-shell { gap: 8px; }
   }
   .mode-row { display: flex; align-items: center; justify-content: center; gap: 6px; }
   .mode-btn { font-family: 'Source Sans 3', sans-serif; font-size: 0.78rem; font-weight: 600; letter-spacing: 0.04em; padding: 5px 14px; border: 1.5px solid var(--light); background: white; color: var(--mid); cursor: pointer; transition: all .18s; border-radius: 20px; }
@@ -189,7 +182,6 @@
 </div>
 
 <div class="card-shell">
-  <button class="nav-arrow" id="navPrev" onclick="prevCard()" aria-label="Previous card">&#8592;</button>
   <div class="card-area" id="cardArea" onclick="flipCard()">
     <div class="card-inner" id="cardInner">
       <div class="card-face card-front">
@@ -205,7 +197,6 @@
       </div>
     </div>
   </div>
-  <button class="nav-arrow" id="navNext" onclick="nextCard()" aria-label="Next card">&#8594;</button>
 </div>
 
 <div class="typing-area" id="typingArea" style="display:none">
@@ -214,7 +205,6 @@
   <input type="text" class="typing-input" id="typingInput" data-i18n-placeholder="typingPlaceholder" placeholder="Type your answer&hellip;" onkeydown="if(event.key==='Enter')checkTyping()">
   <div class="typing-actions">
     <button class="btn btn-next" id="typingSubmit" onclick="checkTyping()" data-i18n="check">Check</button>
-    <button class="btn btn-prev" id="typingReveal" style="display:none" onclick="nextCard()" data-i18n="nextArrow">Next &rarr;</button>
   </div>
   <div class="typing-feedback" id="typingFeedback"></div>
 </div>
@@ -249,8 +239,8 @@
   <button class="btn-clear-data" onclick="clearAllData()" data-i18n="clearProgress">Clear all progress</button>
 </div>
 
-<div class="key-hint"><kbd>Space</kbd> <span data-i18n="kbFlip">flip</span> &nbsp;&middot;&nbsp; <kbd>&rarr;</kbd> <span data-i18n="kbNext">next</span> &nbsp;&middot;&nbsp; <kbd>&larr;</kbd> <span data-i18n="kbPrev">prev</span></div>
-<div class="swipe-hint"><span data-i18n="swipeHint">swipe left/right to navigate</span> &nbsp;&middot;&nbsp; <span data-i18n="tapFlip">tap to flip</span></div>
+<div class="key-hint"><kbd>Space</kbd> <span data-i18n="kbFlip">flip</span> &nbsp;&middot;&nbsp; <kbd>1</kbd> <span data-i18n="hard">Hard</span> &nbsp;&middot;&nbsp; <kbd>2</kbd> <span data-i18n="okay">Okay</span> &nbsp;&middot;&nbsp; <kbd>3</kbd> <span data-i18n="gotIt">Got it</span></div>
+<div class="swipe-hint"><span data-i18n="tapFlip">tap to flip</span></div>
 
 <script>
 // ── Storage abstraction ───────────────────────────────────────────────────────
@@ -331,8 +321,7 @@ function saveState() {
     unit:        activeUnit,
     direction,
     currentIndex,
-    deckIndices: deck.map(c => c._idx),
-    seenIndices: [...seenSet]
+    deckIndices: deck.map(c => c._idx)
   });
 }
 
@@ -356,7 +345,6 @@ let srPiles      = loadSR();
 let deck         = [];
 let currentIndex = 0;
 let isFlipped    = false;
-let seenSet      = new Set();
 let direction    = 'en-cy';
 let typingMode   = false;
 
@@ -379,7 +367,6 @@ function rebuildDeck() {
   base.forEach(card => { piles[srPiles[cardKey(card)] ?? 0].push(card); });
   deck         = [...piles[0], ...piles[1], ...piles[2]];
   currentIndex = 0;
-  seenSet      = new Set();
 }
 
 // ── Mastery ───────────────────────────────────────────────────────────────────
@@ -454,7 +441,7 @@ function rateCard(pile) {
       }
     }
   }
-  nextCard();
+  advanceCard();
 }
 
 function renderSRStats() {
@@ -489,11 +476,6 @@ function setTypingMode(on) {
   typingMode = on;
   document.getElementById('modeFlip').classList.toggle('active', !on);
   document.getElementById('modeType').classList.toggle('active',  on);
-  const cardShell = document.querySelector('.card-shell');
-  const typArea   = document.getElementById('typingArea');
-  cardShell.style.display = on ? 'none' : 'flex';
-  typArea.style.display   = on ? 'block' : 'none';
-  document.getElementById('hint-row-wrap').style.display = on ? 'none' : 'flex';
   showRatingButtons(false);
   resetTypingArea();
   if (!on) renderCard(); else renderTypingCard();
@@ -508,7 +490,6 @@ function renderTypingCard() {
   document.getElementById('typingInput').disabled        = false;
   document.getElementById('typingFeedback').textContent  = '';
   document.getElementById('typingFeedback').className    = 'typing-feedback';
-  document.getElementById('typingReveal').style.display  = 'none';
   document.getElementById('typingSubmit').style.display  = 'inline-block';
   document.getElementById('typingLang').textContent      = direction === 'en-cy' ? t('cardLangCy') : t('cardLangEn');
   document.getElementById('hintText').textContent        = '';
@@ -520,7 +501,6 @@ function resetTypingArea() {
   document.getElementById('typingInput').value           = '';
   document.getElementById('typingFeedback').textContent  = '';
   document.getElementById('typingFeedback').className    = 'typing-feedback';
-  document.getElementById('typingReveal').style.display  = 'none';
   document.getElementById('typingSubmit').style.display  = 'inline-block';
   document.getElementById('typingInput').disabled        = false;
 }
@@ -541,9 +521,7 @@ function checkTyping() {
   fb.className   = 'typing-feedback ' + (isOk ? 'correct' : 'wrong');
   document.getElementById('typingInput').disabled       = true;
   document.getElementById('typingSubmit').style.display = 'none';
-  document.getElementById('typingReveal').style.display = 'inline-block';
   showRatingButtons(true);
-  seenSet.add(currentIndex);
   updateProgress();
   saveState();
 }
@@ -660,7 +638,6 @@ function updateCard() {
     typArea.style.display   = 'none';
     document.getElementById('hint-row-wrap').style.display = 'none';
     document.getElementById('ratingRow').style.display     = 'none';
-    // Enable review button only if there are non-Got It cards in this unit
     const weakCount = ALL_VOCAB
       .map((v, i) => ({ ...v, _idx: i }))
       .filter(v => matchUnit(v) && (srPiles[cardKey(v)] ?? 0) < 2).length;
@@ -673,16 +650,19 @@ function updateCard() {
   }
 
   banner.style.display    = 'none';
-  cardShell.style.display = 'flex';
-  document.getElementById('hint-row-wrap').style.display = typingMode ? 'none' : 'flex';
+  cardShell.style.display = 'block';
+  showRatingButtons(false);
 
   if (typingMode) {
-    document.getElementById('cardArea').style.display = 'none';
-    typArea.style.display = 'block';
+    document.getElementById('cardArea').style.display      = 'none';
+    typArea.style.display                                  = 'block';
+    document.getElementById('hint-row-wrap').style.display = 'none';
     renderTypingCard();
   } else {
-    document.getElementById('cardArea').style.display = 'block';
-    typArea.style.display = 'none';
+    document.getElementById('cardArea').style.display      = 'block';
+    typArea.style.display                                  = 'none';
+    document.getElementById('hint-row-wrap').style.display = 'flex';
+    // Reset card to unflipped state
     const inner = document.getElementById('cardInner');
     inner.style.transition = 'none';
     inner.classList.remove('flipped');
@@ -690,19 +670,16 @@ function updateCard() {
     setTimeout(() => inner.style.transition = '', 30);
     document.getElementById('hintText').textContent = '';
     document.getElementById('hintBtn').disabled = false;
-    showRatingButtons(false);
     renderCard();
   }
 
-  seenSet.add(currentIndex);
   updateProgress();
   saveState();
 }
 
 function updateProgress() {
   const total = deck.length;
-  const seen  = seenSet.size;
-  const pct   = total > 0 ? Math.round((seen / total) * 100) : 0;
+  const pct   = total > 0 ? Math.round((currentIndex / total) * 100) : 0;
   const pos   = Math.min(currentIndex + 1, total);
   document.getElementById('progressLabel').textContent = 'Card ' + pos + ' of ' + total;
   document.getElementById('progressPct').textContent   = pct + '%';
@@ -715,20 +692,16 @@ function flipCard() {
   isFlipped = !isFlipped;
   document.getElementById('cardInner').classList.toggle('flipped', isFlipped);
   showRatingButtons(isFlipped);
-  seenSet.add(currentIndex);
-  updateProgress();
-  saveState();
 }
 
-function nextCard() { if (currentIndex < deck.length) currentIndex++; showRatingButtons(false); updateCard(); }
-function prevCard() { if (currentIndex > 0) currentIndex--; showRatingButtons(false); updateCard(); }
+function advanceCard() { currentIndex++; showRatingButtons(false); updateCard(); }
 
 function shuffle() {
   for (let i = deck.length - 1; i > 0; i--) {
     const j = Math.floor(Math.random() * (i + 1));
     [deck[i], deck[j]] = [deck[j], deck[i]];
   }
-  currentIndex = 0; seenSet = new Set();
+  currentIndex = 0;
   showRatingButtons(false); updateCard();
 }
 
@@ -740,10 +713,8 @@ function reviewWeak() {
     .map((v, i) => ({ ...v, _idx: i }))
     .filter(v => matchUnit(v) && (srPiles[cardKey(v)] ?? 0) < 2);
   if (base.length === 0) return;
-  if (isReviewInProgress() && !confirm(t('confirmSwitchReview'))) return;
   deck         = base;
   currentIndex = 0;
-  seenSet      = new Set();
   showRatingButtons(false);
   updateCard();
 }
@@ -754,17 +725,10 @@ function reviewByPile(pile) {
     .map((v, i) => ({ ...v, _idx: i }))
     .filter(v => matchUnit(v) && (srPiles[cardKey(v)] ?? 0) === pile);
   if (base.length === 0) return;
-  if (isReviewInProgress() && !confirm(t('confirmSwitchReview'))) return;
   deck         = base;
   currentIndex = 0;
-  seenSet      = new Set();
   showRatingButtons(false);
   updateCard();
-}
-
-// Returns true if the user is mid-way through a session (cards seen, not yet finished)
-function isReviewInProgress() {
-  return seenSet.size > 0 && currentIndex < deck.length;
 }
 
 // ── Hint ───────────────────────────────────────────────────────────────────────
@@ -788,34 +752,12 @@ function showHint() {
 // ── Keyboard ───────────────────────────────────────────────────────────────────
 document.addEventListener('keydown', e => {
   if (typingMode) return;
-  if (e.key === ' ' || e.key === 'ArrowUp' || e.key === 'ArrowDown') { e.preventDefault(); flipCard(); }
-  else if (e.key === 'ArrowRight') nextCard();
-  else if (e.key === 'ArrowLeft')  prevCard();
+  if (e.key === ' ' || e.key === 'ArrowUp' || e.key === 'ArrowDown') {
+    e.preventDefault(); flipCard();
+  } else if (e.key === '1') { if (isFlipped) rateCard(0); }
+    else if (e.key === '2') { if (isFlipped) rateCard(1); }
+    else if (e.key === '3') { if (isFlipped) rateCard(2); }
 });
-
-// ── Touch swipe ────────────────────────────────────────────────────────────────
-(function() {
-  let touchStartX = 0, touchStartY = 0;
-  const SWIPE_THRESHOLD = 50, SWIPE_ANGLE_MAX = 40;
-  function onTouchStart(e) { touchStartX = e.touches[0].clientX; touchStartY = e.touches[0].clientY; }
-  function onTouchEnd(e) {
-    if (typingMode) return;
-    const dx = e.changedTouches[0].clientX - touchStartX;
-    const dy = e.changedTouches[0].clientY - touchStartY;
-    if (Math.abs(dx) < SWIPE_THRESHOLD) return;
-    const angle = Math.abs(Math.atan2(dy, dx) * 180 / Math.PI);
-    if (angle > SWIPE_ANGLE_MAX && angle < (180 - SWIPE_ANGLE_MAX)) return;
-    if (dx < 0) nextCard(); else prevCard();
-  }
-  window._attachSwipe = function() {
-    [document.getElementById('cardArea'), document.querySelector('.card-shell')].forEach(el => {
-      if (el) {
-        el.addEventListener('touchstart', onTouchStart, { passive: true });
-        el.addEventListener('touchend',   onTouchEnd,   { passive: true });
-      }
-    });
-  };
-})();
 
 // ── Session restore ────────────────────────────────────────────────────────────
 function init() {
@@ -835,12 +777,10 @@ function init() {
       .filter(Boolean);
     if (reordered.length === deck.length) deck = reordered;
     if (saved.currentIndex !== undefined) currentIndex = Math.min(saved.currentIndex, deck.length);
-    if (saved.seenIndices) seenSet = new Set(saved.seenIndices);
   }
 
   updateCard();
   applyLang();
-  if (window._attachSwipe) window._attachSwipe();
   setTimeout(() => {
     const activeBtn = document.querySelector('.unit-btn.active');
     if (activeBtn) activeBtn.scrollIntoView({ block: 'nearest', inline: 'center', behavior: 'smooth' });
@@ -856,18 +796,16 @@ const TRANSLATIONS = {
     langToggle: 'Cy', dirEW: 'English → Welsh', dirWE: 'Welsh → English',
     dirLabel: 'Direction', modeLabel: 'Mode', modeFlip: 'Flip cards', modeType: 'Typing',
     flipCue: 'tap to flip', typingPlaceholder: 'Type your answer…',
-    check: 'Check', nextArrow: 'Next →', howDidYou: 'How did you do?',
+    check: 'Check', howDidYou: 'How did you do?',
     hard: 'Hard', okay: 'Okay', gotIt: 'Got it', hint: 'Hint',
     shuffle: '⇌ Shuffle', reset: '↺ Reset', daIawn: 'Da iawn!',
     completedSet: "You've been through all the cards in this set.",
     reviewWeak: 'Review difficult words',
     startAgain: 'Start Again',
-    clearProgress: 'Clear all progress', kbFlip: 'flip', kbNext: 'next', kbPrev: 'prev',
-    swipeHint: 'swipe left/right to navigate', tapFlip: 'tap to flip',
+    clearProgress: 'Clear all progress', kbFlip: 'flip',
     cardLangEn: 'English', cardLangCy: 'Welsh', startsWith: 'Starts with: ',
     correct: 'Correct!', notQuite: 'Not quite — the answer is: ',
     confirmClear: 'Clear all progress and ratings? This cannot be undone.',
-    confirmSwitchReview: 'You\'re in the middle of a review. Switch to a different set of cards?',
     unitLabel: 'Unit', pileOkay: 'Okay', pileKnown: 'Known', masteryUnit: '',
     masteryTitle: "Wedi'i feistroli!",
     masteryBody: "You've marked every word in this set as <strong>Got it</strong>. Da iawn ti — you've mastered it for now!",
@@ -878,18 +816,16 @@ const TRANSLATIONS = {
     langToggle: 'En', dirEW: 'Saesneg → Cymraeg', dirWE: 'Cymraeg → Saesneg',
     dirLabel: 'Cyfeiriad', modeLabel: 'Modd', modeFlip: 'Cardiau troi', modeType: 'Teipio',
     flipCue: 'tapiwch i droi', typingPlaceholder: 'Teipiwch eich ateb…',
-    check: 'Gwirio', nextArrow: 'Nesaf →', howDidYou: 'Sut wnaethoch chi?',
+    check: 'Gwirio', howDidYou: 'Sut wnaethoch chi?',
     hard: 'Anodd', okay: 'Iawn', gotIt: 'Wedi dysgu', hint: 'Awgrym',
     shuffle: '⇌ Cymysgu', reset: '↺ Ailosod', daIawn: 'Da iawn!',
     completedSet: 'Rydych chi wedi gweld pob carden yn y set hon.',
     reviewWeak: 'Adolygu geiriau anodd',
     startAgain: 'Dechrau Eto',
-    clearProgress: 'Dileu pob cynnydd', kbFlip: 'troi', kbNext: 'nesaf', kbPrev: 'blaenorol',
-    swipeHint: 'sweipio chwith/dde i lywio', tapFlip: 'tapiwch i droi',
+    clearProgress: 'Dileu pob cynnydd', kbFlip: 'troi',
     cardLangEn: 'Saesneg', cardLangCy: 'Cymraeg', startsWith: 'Yn dechrau â: ',
     correct: 'Cywir!', notQuite: 'Nid yn iawn — yr ateb yw: ',
     confirmClear: 'Dileu pob cynnydd a sgôr? Ni ellir dadwneud hyn.',
-    confirmSwitchReview: 'Rydych chi yng nghanol adolygiad. Newid i set wahanol o gardiau?',
     unitLabel: 'Uned', pileOkay: 'Iawn', pileKnown: 'Wedi dysgu', masteryUnit: '',
     masteryTitle: "Wedi'i feistroli!",
     masteryBody: "Rydych chi wedi marcio pob gair yn y set hon fel <strong>Wedi dysgu</strong>. Da iawn ti!",
