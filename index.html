@@ -79,10 +79,8 @@
   .hint-text { font-size: 0.82rem; color: var(--mid); letter-spacing: 0.06em; text-align: center; min-height: 1.2em; width: 100%; text-align: center; margin-top: 4px; }
   .key-hint { margin-top: 16px; font-size: 0.71rem; color: var(--mid); opacity: 0.55; text-align: center; }
   .key-hint kbd { background: var(--light); border-radius: 4px; padding: 2px 6px; font-family: monospace; font-size: 0.76rem; }
-  .swipe-hint { font-size: 0.71rem; color: var(--mid); opacity: 0.5; text-align: center; margin-top: 12px; display: none; }
   @media (hover: none) and (pointer: coarse) {
     .key-hint { display: none; }
-    .swipe-hint { display: block; }
   }
   @media (max-width: 480px) {
     h1 { font-size: 1.5rem; }
@@ -94,6 +92,7 @@
   .mode-btn.active { background: var(--dark); border-color: var(--dark); color: white; }
   .pile-badge { position: absolute; top: 12px; right: 14px; font-size: 0.65rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; padding: 2px 8px; border-radius: 20px; opacity: 0; }
   .pile-badge.pile-0 { opacity: 0; }
+  .pile-badge.pile-0-rated { opacity: 1; background: #f8d7da; color: #842029; }
   .pile-badge.pile-1 { opacity: 1; background: #fff3cd; color: #856404; }
   .pile-badge.pile-2 { opacity: 1; background: #d1e7dd; color: #0a3622; }
   .rating-row { display: flex; align-items: center; justify-content: center; gap: 8px; flex-wrap: wrap; margin: 8px 0 4px; }
@@ -227,8 +226,8 @@
   <h2 data-i18n="daIawn">Da iawn!</h2>
   <p data-i18n="completedSet">You've been through all the cards in this set.</p>
   <div class="banner-actions">
+    <button class="btn btn-next" onclick="restart()" data-i18n="startAgain">Start Unit Again</button>
     <button class="btn-review" id="reviewWeakBtn" onclick="reviewWeak()" data-i18n="reviewWeak">Review difficult words</button>
-    <button class="btn btn-next" onclick="restart()" data-i18n="startAgain">Start Again</button>
   </div>
 </div>
 
@@ -240,7 +239,6 @@
 </div>
 
 <div class="key-hint"><kbd>Space</kbd> <span data-i18n="kbFlip">flip</span> &nbsp;&middot;&nbsp; <kbd>1</kbd> <span data-i18n="hard">Hard</span> &nbsp;&middot;&nbsp; <kbd>2</kbd> <span data-i18n="okay">Okay</span> &nbsp;&middot;&nbsp; <kbd>3</kbd> <span data-i18n="gotIt">Got it</span></div>
-<div class="swipe-hint"><span data-i18n="tapFlip">tap to flip</span></div>
 
 <script>
 // ── Storage abstraction ───────────────────────────────────────────────────────
@@ -609,8 +607,16 @@ function renderCard() {
   const card     = deck[currentIndex];
   const pile     = srPiles[cardKey(card)] ?? 0;
   const pileBadge = document.getElementById('pileBadge');
-  pileBadge.textContent = ['', t('pileOkay'), t('pileKnown')][pile];
-  pileBadge.className   = 'pile-badge pile-' + pile;
+  const isRated = srPiles[cardKey(card)] !== undefined;
+  if (!isRated) {
+    pileBadge.textContent = '';
+    pileBadge.className   = 'pile-badge pile-0';
+  } else {
+    const labels = [t('pileHard'), t('pileOkay'), t('pileKnown')];
+    const classes = ['pile-0-rated', 'pile-1', 'pile-2'];
+    pileBadge.textContent = labels[pile];
+    pileBadge.className   = 'pile-badge ' + classes[pile];
+  }
 
   if (direction === 'en-cy') {
     document.getElementById('frontHint').textContent = t('cardLangEn');
@@ -800,13 +806,13 @@ const TRANSLATIONS = {
     hard: 'Hard', okay: 'Okay', gotIt: 'Got it', hint: 'Hint',
     shuffle: '⇌ Shuffle', reset: '↺ Reset', daIawn: 'Da iawn!',
     completedSet: "You've been through all the cards in this set.",
-    reviewWeak: 'Review difficult words',
-    startAgain: 'Start Again',
+    reviewWeak: 'Practise difficult words again',
+    startAgain: 'Start unit again',
     clearProgress: 'Clear all progress', kbFlip: 'flip',
     cardLangEn: 'English', cardLangCy: 'Welsh', startsWith: 'Starts with: ',
     correct: 'Correct!', notQuite: 'Not quite — the answer is: ',
     confirmClear: 'Clear all progress and ratings? This cannot be undone.',
-    unitLabel: 'Unit', pileOkay: 'Okay', pileKnown: 'Known', masteryUnit: '',
+    unitLabel: 'Unit', pileHard: 'Hard', pileOkay: 'Okay', pileKnown: 'Known', masteryUnit: '',
     masteryTitle: "Wedi'i feistroli!",
     masteryBody: "You've marked every word in this set as <strong>Got it</strong>. Da iawn ti — you've mastered it for now!",
     masteryClose: 'Ardderchog! ✓', errorLoad: 'Failed to load vocabulary.json', loading: 'Loading…',
@@ -820,13 +826,13 @@ const TRANSLATIONS = {
     hard: 'Anodd', okay: 'Iawn', gotIt: 'Wedi dysgu', hint: 'Awgrym',
     shuffle: '⇌ Cymysgu', reset: '↺ Ailosod', daIawn: 'Da iawn!',
     completedSet: 'Rydych chi wedi gweld pob carden yn y set hon.',
-    reviewWeak: 'Adolygu geiriau anodd',
-    startAgain: 'Dechrau Eto',
+    reviewWeak: 'Ymarfer geiriau anodd eto',
+    startAgain: 'Dechrau\'r uned eto',
     clearProgress: 'Dileu pob cynnydd', kbFlip: 'troi',
     cardLangEn: 'Saesneg', cardLangCy: 'Cymraeg', startsWith: 'Yn dechrau â: ',
     correct: 'Cywir!', notQuite: 'Nid yn iawn — yr ateb yw: ',
     confirmClear: 'Dileu pob cynnydd a sgôr? Ni ellir dadwneud hyn.',
-    unitLabel: 'Uned', pileOkay: 'Iawn', pileKnown: 'Wedi dysgu', masteryUnit: '',
+    unitLabel: 'Uned', pileHard: 'Anodd', pileOkay: 'Iawn', pileKnown: 'Wedi dysgu', masteryUnit: '',
     masteryTitle: "Wedi'i feistroli!",
     masteryBody: "Rydych chi wedi marcio pob gair yn y set hon fel <strong>Wedi dysgu</strong>. Da iawn ti!",
     masteryClose: 'Ardderchog! ✓', errorLoad: 'Methwyd â llwytho vocabulary.json', loading: 'Yn llwytho…',
