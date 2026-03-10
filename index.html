@@ -235,6 +235,7 @@
   <div class="sr-stat sr-hard"  id="srStatHard"  data-count="0" onclick="reviewByPile(0)" title=""><span id="srHard">0</span> <span data-i18n="hard">Hard</span></div>
   <div class="sr-stat sr-okay"  id="srStatOkay"  data-count="0" onclick="reviewByPile(1)" title=""><span id="srOkay">0</span> <span data-i18n="okay">Okay</span></div>
   <div class="sr-stat sr-known" id="srStatKnown" data-count="0" onclick="reviewByPile(2)" title=""><span id="srKnown">0</span> <span data-i18n="gotIt">Known</span></div>
+  <button class="btn-clear-data" id="reviewOldBtn" onclick="reviewOldWords()" data-i18n="reviewOld" style="display:none">&#9202; Review old words</button>
   <button class="btn-clear-data" onclick="clearAllData()" data-i18n="clearProgress">Clear all progress</button>
 </div>
 
@@ -262,11 +263,19 @@ const storage = {
 };
 
 // ── Storage keys ──────────────────────────────────────────────────────────────
-const SR_KEY      = 'welsh_sr_piles';
-const STATE_KEY   = 'welsh_state';
-const MASTERY_KEY = 'welsh_mastered_units';
+const SR_KEY         = 'welsh_sr_piles';
+const STATE_KEY      = 'welsh_state';
+const MASTERY_KEY    = 'welsh_mastered_units';
+const TS_KEY         = 'welsh_sr_timestamps';
 
 let ALL_VOCAB = [];
+
+// ── Timestamp helpers ─────────────────────────────────────────────────────────
+// Stores { cardKey: unixTimestamp } for cards ever rated pile 2 ("Got it").
+// Timestamps persist even if the card is later downgraded, so "oldest Got it"
+// always means the first time the user marked it Got it.
+function loadTimestamps() { return storage.get(TS_KEY, {}); }
+function saveTimestamps() { storage.set(TS_KEY, srTimestamps); }
 
 async function loadVocab() {
   try {
@@ -328,7 +337,9 @@ function clearAllData() {
   storage.remove(SR_KEY);
   storage.remove(STATE_KEY);
   storage.remove(MASTERY_KEY);
-  srPiles    = {};
+  storage.remove(TS_KEY);
+  srPiles      = {};
+  srTimestamps = {};
   activeUnit = getUnits()[0] || null;
   direction  = 'en-cy';
   rebuildDeck();
@@ -340,6 +351,7 @@ function clearAllData() {
 
 // ── Core state ────────────────────────────────────────────────────────────────
 let srPiles      = loadSR();
+let srTimestamps = loadTimestamps();
 let deck         = [];
 let currentIndex = 0;
 let isFlipped    = false;
@@ -424,8 +436,11 @@ function showMasteryCelebration(unit) {
 function rateCard(pile) {
   if (currentIndex >= deck.length) return;
   const card = deck[currentIndex];
-  srPiles[cardKey(card)] = pile;
+  const key  = cardKey(card);
+  srPiles[key] = pile;
+  if (pile === 2 && !srTimestamps[key]) srTimestamps[key] = Date.now();
   saveSR(srPiles);
+  saveTimestamps();
   renderSRStats();
   refreshUnitBar();
   if (pile === 2) {
@@ -463,6 +478,17 @@ function renderSRStats() {
       ? (lang === 'cy' ? `Adolygu ${counts[i]} gair ${pileLabels[i].toLowerCase()}` : `Review ${counts[i]} ${pileLabels[i].toLowerCase()} word${counts[i] !== 1 ? 's' : ''}`)
       : '';
   });
+  // Show "Review old words" only when there are timestamped Got-it cards
+  const oldBtn = document.getElementById('reviewOldBtn');
+  if (oldBtn) {
+    const oldCount = ALL_VOCAB
+      .map((v, i) => ({ ...v, _idx: i }))
+      .filter(v => srPiles[cardKey(v)] === 2 && srTimestamps[cardKey(v)]).length;
+    oldBtn.style.display = oldCount >= 1 ? 'inline-block' : 'none';
+    oldBtn.title = oldCount >= 10
+      ? (lang === 'cy' ? "Adolygu 10 gair hŷn ar hap o'r 20 hynaf" : 'Review 10 random words from your oldest 20 Got it cards')
+      : (lang === 'cy' ? `${oldCount} gair wedi'u dysgu hyd yn hyn` : `${oldCount} Got it card${oldCount !== 1 ? 's' : ''} so far`);
+  }
 }
 
 function showRatingButtons(show) {
@@ -737,7 +763,25 @@ function reviewByPile(pile) {
   updateCard();
 }
 
-// ── Hint ───────────────────────────────────────────────────────────────────────
+// ── Review oldest "Got it" words ──────────────────────────────────────────────
+function reviewOldWords() {
+  // All known cards across ALL units (not just active unit), sorted oldest first
+  const known = ALL_VOCAB
+    .map((v, i) => ({ ...v, _idx: i }))
+    .filter(v => srPiles[cardKey(v)] === 2 && srTimestamps[cardKey(v)])
+    .sort((a, b) => srTimestamps[cardKey(a)] - srTimestamps[cardKey(b)]);
+  if (known.length < 1) return;
+  // Take the oldest 20, then pick 10 at random
+  const oldest20 = known.slice(0, 20);
+  for (let i = oldest20.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [oldest20[i], oldest20[j]] = [oldest20[j], oldest20[i]];
+  }
+  deck         = oldest20.slice(0, 10);
+  currentIndex = 0;
+  showRatingButtons(false);
+  updateCard();
+}
 function welshFirstLetter(str) {
   const s = str.trim();
   if (!s) return '';
@@ -808,7 +852,7 @@ const TRANSLATIONS = {
     completedSet: "You've been through all the cards in this set.",
     reviewWeak: 'Practise difficult words again',
     startAgain: 'Start unit again',
-    clearProgress: 'Clear all progress', kbFlip: 'flip',
+    clearProgress: 'Clear all progress', reviewOld: '⏱ Review old words', kbFlip: 'flip',
     cardLangEn: 'English', cardLangCy: 'Welsh', startsWith: 'Starts with: ',
     correct: 'Correct!', notQuite: 'Not quite — the answer is: ',
     confirmClear: 'Clear all progress and ratings? This cannot be undone.',
@@ -828,7 +872,7 @@ const TRANSLATIONS = {
     completedSet: 'Rydych chi wedi gweld pob carden yn y set hon.',
     reviewWeak: 'Ymarfer geiriau anodd eto',
     startAgain: 'Dechrau\'r uned eto',
-    clearProgress: 'Dileu pob cynnydd', kbFlip: 'troi',
+    clearProgress: 'Dileu pob cynnydd', reviewOld: '⏱ Adolygu geiriau hŷn', kbFlip: 'troi',
     cardLangEn: 'Saesneg', cardLangCy: 'Cymraeg', startsWith: 'Yn dechrau â: ',
     correct: 'Cywir!', notQuite: 'Nid yn iawn — yr ateb yw: ',
     confirmClear: 'Dileu pob cynnydd a sgôr? Ni ellir dadwneud hyn.',
