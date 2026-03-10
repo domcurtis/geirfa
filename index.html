@@ -444,9 +444,9 @@ function rateCard(pile) {
 
 function renderSRStats() {
   const base  = ALL_VOCAB.map((v, i) => ({ ...v, _idx: i })).filter(v => matchUnit(v));
-  const hard  = base.filter(c => (srPiles[cardKey(c)] ?? 0) === 0).length;
-  const okay  = base.filter(c => (srPiles[cardKey(c)] ?? 0) === 1).length;
-  const known = base.filter(c => (srPiles[cardKey(c)] ?? 0) === 2).length;
+  const hard  = base.filter(c => srPiles[cardKey(c)] === 0).length;
+  const okay  = base.filter(c => srPiles[cardKey(c)] === 1).length;
+  const known = base.filter(c => srPiles[cardKey(c)] === 2).length;
   document.getElementById('srHard').textContent  = hard;
   document.getElementById('srOkay').textContent  = okay;
   document.getElementById('srKnown').textContent = known;
