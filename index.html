@@ -444,7 +444,7 @@ function rateCard(pile) {
   saveTimestamps();
   renderSRStats();
   refreshUnitBar();
-  if (pile === 2) {
+  if (pile === 2 && activeUnit !== null) {
     const state = getUnitMasteryState(activeUnit);
     if (state === 'mastered') {
       const celebrated = loadMastered();
@@ -459,7 +459,9 @@ function rateCard(pile) {
 }
 
 function renderSRStats() {
-  const base  = ALL_VOCAB.map((v, i) => ({ ...v, _idx: i })).filter(v => matchUnit(v));
+  const base  = activeUnit === null
+    ? deck.map((v, i) => ({ ...v, _idx: v._idx }))
+    : ALL_VOCAB.map((v, i) => ({ ...v, _idx: i })).filter(v => matchUnit(v));
   const hard  = base.filter(c => srPiles[cardKey(c)] === 0).length;
   const okay  = base.filter(c => srPiles[cardKey(c)] === 1).length;
   const known = base.filter(c => srPiles[cardKey(c)] === 2).length;
@@ -789,7 +791,10 @@ function reviewOldWords() {
   }
   deck         = oldest20.slice(0, 10);
   currentIndex = 0;
+  activeUnit   = null;
+  document.querySelectorAll('.unit-btn').forEach(b => b.classList.remove('active'));
   showRatingButtons(false);
+  renderSRStats();
   updateCard();
 }
 function welshFirstLetter(str) {
