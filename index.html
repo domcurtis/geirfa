@@ -476,7 +476,7 @@ function setTypingMode(on) {
   document.getElementById('modeType').classList.toggle('active',  on);
   showRatingButtons(false);
   resetTypingArea();
-  if (!on) renderCard(); else renderTypingCard();
+  updateCard();
   saveState();
 }
 
