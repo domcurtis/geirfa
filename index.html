@@ -237,7 +237,6 @@
   <div class="sr-stat sr-hard"  id="srStatHard"  data-count="0" onclick="reviewByPile(0)" title=""><span id="srHard">0</span> <span data-i18n="hard">Hard</span></div>
   <div class="sr-stat sr-okay"  id="srStatOkay"  data-count="0" onclick="reviewByPile(1)" title=""><span id="srOkay">0</span> <span data-i18n="okay">Okay</span></div>
   <div class="sr-stat sr-known" id="srStatKnown" data-count="0" onclick="reviewByPile(2)" title=""><span id="srKnown">0</span> <span data-i18n="gotIt">Known</span></div>
-  <button class="btn-clear-data" id="reviewOldBtn" onclick="reviewOldWords()" data-i18n="reviewOld" style="display:none">&#9202; Review old words</button>
   <button class="btn-clear-data" onclick="clearAllData()" data-i18n="clearProgress">Clear all progress</button>
 </div>
 
@@ -480,17 +479,6 @@ function renderSRStats() {
       ? (lang === 'cy' ? `Adolygu ${counts[i]} gair ${pileLabels[i].toLowerCase()}` : `Review ${counts[i]} ${pileLabels[i].toLowerCase()} word${counts[i] !== 1 ? 's' : ''}`)
       : '';
   });
-  // Show "Review old words" only when there are timestamped Got-it cards
-  const oldBtn = document.getElementById('reviewOldBtn');
-  if (oldBtn) {
-    const oldCount = ALL_VOCAB
-      .map((v, i) => ({ ...v, _idx: i }))
-      .filter(v => srPiles[cardKey(v)] === 2 && srTimestamps[cardKey(v)]).length;
-    oldBtn.style.display = oldCount >= 1 ? 'inline-block' : 'none';
-    oldBtn.title = oldCount >= 10
-      ? (lang === 'cy' ? "Adolygu 10 gair hŷn ar hap o'r 20 hynaf" : 'Review 10 random words from your oldest 20 Got it cards')
-      : (lang === 'cy' ? `${oldCount} gair wedi'u dysgu hyd yn hyn` : `${oldCount} Got it card${oldCount !== 1 ? 's' : ''} so far`);
-  }
 }
 
 function showRatingButtons(show) {
@@ -696,13 +684,11 @@ function updateCard() {
     typArea.style.display   = 'none';
     document.getElementById('hint-row-wrap').style.display = 'none';
     document.getElementById('ratingRow').style.display     = 'none';
-    const weakCount = ALL_VOCAB
-      .map((v, i) => ({ ...v, _idx: i }))
-      .filter(v => matchUnit(v) && (srPiles[cardKey(v)] ?? 0) < 2).length;
+    const weakCount = deck.filter(v => (srPiles[cardKey(v)] ?? 0) < 2).length;
     const reviewBtn = document.getElementById('reviewWeakBtn');
     if (reviewBtn) {
       reviewBtn.disabled = weakCount === 0;
-      reviewBtn.title    = weakCount === 0 ? 'All cards marked as Got it!' : weakCount + ' cards to review';
+      reviewBtn.title    = weakCount === 0 ? t('allKnown') : weakCount + ' cards to review';
     }
     updateProgress(); saveState(); return;
   }
@@ -767,9 +753,7 @@ function restart() { rebuildDeck(); showRatingButtons(false); updateCard(); }
 
 // ── Review non-"Got it" cards ─────────────────────────────────────────────────
 function reviewWeak() {
-  const base = ALL_VOCAB
-    .map((v, i) => ({ ...v, _idx: i }))
-    .filter(v => matchUnit(v) && (srPiles[cardKey(v)] ?? 0) < 2);
+  const base = deck.filter(v => (srPiles[cardKey(v)] ?? 0) < 2);
   if (base.length === 0) return;
   deck         = base;
   currentIndex = 0;
@@ -878,7 +862,8 @@ const TRANSLATIONS = {
     completedSet: "You've been through all the cards in this set.",
     reviewWeak: 'Retry difficult words',
     startAgain: 'Start again',
-    clearProgress: 'Clear all progress', reviewOld: '⏱ Review old words', kbFlip: 'flip',
+    allKnown: 'All cards marked as Got it!',
+    clearProgress: 'Clear all progress', kbFlip: 'flip',
     cardLangEn: 'English', cardLangCy: 'Welsh', startsWith: 'Starts with: ',
     correct: 'Correct!', notQuite: 'Not quite — the answer is: ',
     confirmClear: 'Clear all progress and ratings? This cannot be undone.',
@@ -898,7 +883,8 @@ const TRANSLATIONS = {
     completedSet: 'Rydych chi wedi gweld pob carden yn y set hon.',
     reviewWeak: 'Ailgynnig geiriau anodd',
     startAgain: 'Dechrau eto',
-    clearProgress: 'Dileu pob cynnydd', reviewOld: '⏱ Adolygu geiriau hŷn', kbFlip: 'troi',
+    allKnown: 'Pob carden wedi\'i marcio fel Wedi dysgu!',
+    clearProgress: 'Dileu pob cynnydd', kbFlip: 'troi',
     cardLangEn: 'Saesneg', cardLangCy: 'Cymraeg', startsWith: 'Yn dechrau â: ',
     correct: 'Cywir!', notQuite: 'Nid yn iawn — yr ateb yw: ',
     confirmClear: 'Dileu pob cynnydd a sgôr? Ni ellir dadwneud hyn.',
