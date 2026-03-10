@@ -115,6 +115,8 @@
   .unit-btn-partial.active { background: #e6a817 !important; border-color: #e6a817 !important; color: white !important; }
   .unit-btn-mastered { border-color: var(--hgreen) !important; color: var(--hgreen) !important; background: #eaf7ee !important; }
   .unit-btn-mastered.active { background: var(--hgreen) !important; border-color: var(--hgreen) !important; color: white !important; }
+  .review-pill { flex-shrink: 0; border: 1.5px solid var(--hgreen); background: #eaf7ee; color: var(--hgreen); font-family: 'Source Sans 3', sans-serif; font-size: 0.78rem; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; padding: 5px 13px; border-radius: 20px; cursor: pointer; transition: all .18s; white-space: nowrap; }
+  .review-pill:hover { background: var(--hgreen); color: white; }
   .mastery-overlay { position: fixed; inset: 0; z-index: 999; display: flex; align-items: center; justify-content: center; background: rgba(0,0,0,.45); animation: fadeInOverlay .3s ease; }
   @keyframes fadeInOverlay { from { opacity: 0; } to { opacity: 1; } }
   .mastery-card { background: white; border-radius: 20px; padding: 40px 48px; text-align: center; max-width: 420px; width: 90%; box-shadow: 0 24px 64px rgba(0,0,0,.25); animation: popIn .4s cubic-bezier(.2,1.4,.4,1); position: relative; overflow: hidden; }
@@ -226,8 +228,8 @@
   <h2 data-i18n="daIawn">Da iawn!</h2>
   <p data-i18n="completedSet">You've been through all the cards in this set.</p>
   <div class="banner-actions">
-    <button class="btn btn-next" onclick="restart()" data-i18n="startAgain">Start Unit Again</button>
-    <button class="btn-review" id="reviewWeakBtn" onclick="reviewWeak()" data-i18n="reviewWeak">Review difficult words</button>
+    <button class="btn btn-next" onclick="restart()" data-i18n="startAgain">Start again</button>
+    <button class="btn-review" id="reviewWeakBtn" onclick="reviewWeak()" data-i18n="reviewWeak">Retry difficult words</button>
   </div>
 </div>
 
@@ -561,6 +563,18 @@ function unitPillLabel(unit, state) {
 function buildUnitBar() {
   const bar = document.getElementById('unitBar');
   bar.innerHTML = '';
+
+  // Prepend "Review" pill if any unit is fully mastered
+  const anyMastered = getUnits().some(u => getUnitMasteryState(u) === 'mastered');
+  if (anyMastered) {
+    const reviewPill = document.createElement('button');
+    reviewPill.className   = 'review-pill';
+    reviewPill.id          = 'unitBarReviewBtn';
+    reviewPill.textContent = lang === 'cy' ? 'Adolygu' : 'Review';
+    reviewPill.onclick     = reviewOldWords;
+    bar.appendChild(reviewPill);
+  }
+
   getUnits().forEach(unit => {
     const state = getUnitMasteryState(unit);
     const btn   = document.createElement('button');
@@ -577,6 +591,18 @@ function buildUnitBar() {
 }
 
 function refreshUnitBar() {
+  // Update or insert/remove the review pill
+  const anyMastered = getUnits().some(u => getUnitMasteryState(u) === 'mastered');
+  const bar = document.getElementById('unitBar');
+  const existing = document.getElementById('unitBarReviewBtn');
+  if (anyMastered && !existing) {
+    // Pill needs to appear — full rebuild is simplest
+    buildUnitBar(); return;
+  } else if (!anyMastered && existing) {
+    existing.remove();
+  } else if (anyMastered && existing) {
+    existing.textContent = lang === 'cy' ? 'Adolygu' : 'Review';
+  }
   document.querySelectorAll('.unit-btn').forEach(btn => {
     const state = getUnitMasteryState(btn.dataset.unit);
     btn.classList.remove('unit-btn-mastered', 'unit-btn-partial');
@@ -850,8 +876,8 @@ const TRANSLATIONS = {
     hard: 'Hard', okay: 'Okay', gotIt: 'Got it', hint: 'Hint',
     shuffle: '⇌ Shuffle', reset: '↺ Reset', daIawn: 'Da iawn!',
     completedSet: "You've been through all the cards in this set.",
-    reviewWeak: 'Practise difficult words again',
-    startAgain: 'Start unit again',
+    reviewWeak: 'Retry difficult words',
+    startAgain: 'Start again',
     clearProgress: 'Clear all progress', reviewOld: '⏱ Review old words', kbFlip: 'flip',
     cardLangEn: 'English', cardLangCy: 'Welsh', startsWith: 'Starts with: ',
     correct: 'Correct!', notQuite: 'Not quite — the answer is: ',
@@ -870,8 +896,8 @@ const TRANSLATIONS = {
     hard: 'Anodd', okay: 'Iawn', gotIt: 'Wedi dysgu', hint: 'Awgrym',
     shuffle: '⇌ Cymysgu', reset: '↺ Ailosod', daIawn: 'Da iawn!',
     completedSet: 'Rydych chi wedi gweld pob carden yn y set hon.',
-    reviewWeak: 'Ymarfer geiriau anodd eto',
-    startAgain: 'Dechrau\'r uned eto',
+    reviewWeak: 'Ailgynnig geiriau anodd',
+    startAgain: 'Dechrau eto',
     clearProgress: 'Dileu pob cynnydd', reviewOld: '⏱ Adolygu geiriau hŷn', kbFlip: 'troi',
     cardLangEn: 'Saesneg', cardLangCy: 'Cymraeg', startsWith: 'Yn dechrau â: ',
     correct: 'Cywir!', notQuite: 'Nid yn iawn — yr ateb yw: ',
