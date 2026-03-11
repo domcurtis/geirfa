@@ -933,6 +933,10 @@ function toggleSettings() {
 function toggleLang() { lang = lang === 'en' ? 'cy' : 'en'; applyLang(); }
 
 loadVocab();
+
+if ('serviceWorker' in navigator) {
+  navigator.serviceWorker.register('./sw.js');
+}
 </script>
 </body>
 </html>
