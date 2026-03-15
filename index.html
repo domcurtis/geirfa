@@ -4,6 +4,13 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Welsh Vocabulary Quiz</title>
+<meta name="theme-color" content="#1a6b3c">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Geirfa">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+<link rel="manifest" href="manifest.json">
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Source+Sans+3:wght@300;400;600&display=swap" rel="stylesheet">
 <style>
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -13,6 +20,8 @@
   }
   body { font-family: 'Source Sans 3', sans-serif; background: var(--cream); min-height: 100vh; display: flex; flex-direction: column; align-items: center; padding: 0 16px 48px; color: var(--dark); }
   header { width: 100%; max-width: 720px; padding: 20px 0 16px; text-align: center; border-bottom: 2px solid var(--light); margin-bottom: 12px; position: relative; }
+  .header-dragon { position: absolute; left: 0; top: 50%; transform: translateY(-50%); width: 72px; height: 44px; opacity: 0.88; }
+  @media (max-width: 480px) { .header-dragon { width: 52px; height: 32px; } }
   h1 { font-family: 'Playfair Display', serif; font-size: 1.9rem; letter-spacing: -0.02em; }
   h1 span { color: var(--hgreen); }
   .subtitle { font-size: 0.85rem; color: var(--mid); margin-top: 4px; letter-spacing: 0.08em; text-transform: uppercase; }
@@ -146,6 +155,7 @@
 <body>
 
 <header>
+  <img class="header-dragon" src="favicon.svg" alt="Welsh dragon" aria-hidden="true">
   <h1 data-i18n="title">Welsh <span>Vocabulary</span> Quiz</h1>
   <p class="subtitle"><span id="levelLabel">Canolradd</span> &middot; <span id="wordCountLabel">908 words</span></p>
   <div class="header-btns">
