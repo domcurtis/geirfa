@@ -156,7 +156,7 @@
 
 <header>
   <img class="header-dragon" src="favicon.svg" alt="Welsh dragon" aria-hidden="true">
-  <h1 data-i18n="title">Welsh <span>Vocabulary</span> Quiz</h1>
+  <h1 data-i18n="title">Geirfa</h1>
   <p class="subtitle"><span id="levelLabel">Canolradd</span> &middot; <span id="wordCountLabel">908 words</span></p>
   <div class="header-btns">
     <button class="lang-toggle" id="langToggle" onclick="toggleLang()">Cy</button>
@@ -471,11 +471,9 @@ function rateCard(pile) {
   }
   if (reviewMode && pile === 2) reviewSessionGreen.add(key);
   if (reviewMode && pile < 2) {
-    // Shuffle card back into a random position among the remaining unvisited cards
+    // Send card to the back so all other unvisited cards are seen first
     deck.splice(currentIndex, 1);
-    const remaining = deck.length - currentIndex;
-    const insertAt  = currentIndex + Math.floor(Math.random() * (remaining + 1));
-    deck.splice(insertAt, 0, card);
+    deck.push(card);
     // currentIndex unchanged — next card slides into the current slot
     showRatingButtons(false);
     updateCard();
@@ -899,7 +897,7 @@ let lang = 'en';
 
 const TRANSLATIONS = {
   en: {
-    title: 'Welsh <span>Vocabulary</span> Quiz', subtitle: '908 words · Flip to reveal',
+    title: 'Geirfa', subtitle: '908 words · Flip to reveal',
     langToggle: 'Cy', dirEW: 'English → Welsh', dirWE: 'Welsh → English',
     dirLabel: 'Direction', modeLabel: 'Mode', modeFlip: 'Flip cards', modeType: 'Typing',
     flipCue: 'tap to flip', typingPlaceholder: 'Type your answer…',
@@ -921,7 +919,7 @@ const TRANSLATIONS = {
     masteryClose: 'Ardderchog! ✓', errorLoad: 'Failed to load vocabulary.json', loading: 'Loading…',
   },
   cy: {
-    title: 'Cwis <span>Geirfa</span> Cymraeg', subtitle: '908 gair · Cliciwch i droi',
+    title: 'Geirfa', subtitle: '908 gair · Cliciwch i droi',
     langToggle: 'En', dirEW: 'Saesneg → Cymraeg', dirWE: 'Cymraeg → Saesneg',
     dirLabel: 'Cyfeiriad', modeLabel: 'Modd', modeFlip: 'Cardiau troi', modeType: 'Teipio',
     flipCue: 'tapiwch i droi', typingPlaceholder: 'Teipiwch eich ateb…',
