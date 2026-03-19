@@ -236,10 +236,9 @@
 
 <div class="complete-banner" id="completeBanner">
   <h2 data-i18n="daIawn">Da iawn!</h2>
-  <p data-i18n="completedSet">You've been through all the cards in this set.</p>
+  <p data-i18n="allGreen">You've mastered every card in this set!</p>
   <div class="banner-actions">
-    <button class="btn btn-next" onclick="restart()" data-i18n="startAgain">Start again</button>
-    <button class="btn-review" id="reviewWeakBtn" onclick="reviewWeak()" data-i18n="reviewWeak">Retry difficult words</button>
+    <button class="btn btn-next" onclick="reviewOldWords()" data-i18n="reviewMore">Review 10 more words</button>
   </div>
 </div>
 
@@ -465,7 +464,18 @@ function rateCard(pile) {
       }
     }
   }
-  advanceCard();
+  if (pile < 2) {
+    // Shuffle card back into a random position among the remaining unvisited cards
+    deck.splice(currentIndex, 1);
+    const remaining = deck.length - currentIndex;
+    const insertAt  = currentIndex + Math.floor(Math.random() * (remaining + 1));
+    deck.splice(insertAt, 0, card);
+    // currentIndex unchanged — next card slides into the current slot
+    showRatingButtons(false);
+    updateCard();
+  } else {
+    advanceCard();
+  }
 }
 
 function renderSRStats() {
@@ -696,12 +706,6 @@ function updateCard() {
     typArea.style.display   = 'none';
     document.getElementById('hint-row-wrap').style.display = 'none';
     document.getElementById('ratingRow').style.display     = 'none';
-    const weakCount = deck.filter(v => (srPiles[cardKey(v)] ?? 0) < 2).length;
-    const reviewBtn = document.getElementById('reviewWeakBtn');
-    if (reviewBtn) {
-      reviewBtn.disabled = weakCount === 0;
-      reviewBtn.title    = weakCount === 0 ? t('allKnown') : weakCount + ' cards to review';
-    }
     updateProgress(); saveState(); return;
   }
 
@@ -735,9 +739,9 @@ function updateCard() {
 
 function updateProgress() {
   const total = deck.length;
-  const pct   = total > 0 ? Math.round((currentIndex / total) * 100) : 0;
-  const pos   = Math.min(currentIndex + 1, total);
-  document.getElementById('progressLabel').textContent = 'Card ' + pos + ' of ' + total;
+  const green = deck.filter(c => (srPiles[cardKey(c)] ?? 0) === 2).length;
+  const pct   = total > 0 ? Math.round(green / total * 100) : 0;
+  document.getElementById('progressLabel').textContent = green + ' of ' + total + ' known';
   document.getElementById('progressPct').textContent   = pct + '%';
   document.getElementById('progressFill').style.width  = pct + '%';
 }
@@ -874,10 +878,8 @@ const TRANSLATIONS = {
     check: 'Check', howDidYou: 'How did you do?',
     hard: 'Hard', okay: 'Okay', gotIt: 'Got it', hint: 'Hint',
     shuffle: '⇌ Shuffle', reset: '↺ Reset', daIawn: 'Da iawn!',
-    completedSet: "You've been through all the cards in this set.",
-    reviewWeak: 'Retry difficult words',
-    startAgain: 'Start again',
-    allKnown: 'All cards marked as Got it!',
+    allGreen: "You've mastered every card in this set!",
+    reviewMore: 'Review 10 more words',
     clearProgress: 'Clear all progress', kbFlip: 'flip',
     cardLangEn: 'English', cardLangCy: 'Welsh', startsWith: 'Starts with: ',
     correct: 'Correct!', notQuite: 'Not quite — the answer is: ',
@@ -895,10 +897,8 @@ const TRANSLATIONS = {
     check: 'Gwirio', howDidYou: 'Sut wnaethoch chi?',
     hard: 'Anodd', okay: 'Iawn', gotIt: 'Wedi dysgu', hint: 'Awgrym',
     shuffle: '⇌ Cymysgu', reset: '↺ Ailosod', daIawn: 'Da iawn!',
-    completedSet: 'Rydych chi wedi gweld pob carden yn y set hon.',
-    reviewWeak: 'Ailgynnig geiriau anodd',
-    startAgain: 'Dechrau eto',
-    allKnown: 'Pob carden wedi\'i marcio fel Wedi dysgu!',
+    allGreen: 'Rydych chi wedi meistroli pob carden yn y set hon!',
+    reviewMore: 'Adolygu 10 gair arall',
     clearProgress: 'Dileu pob cynnydd', kbFlip: 'troi',
     cardLangEn: 'Saesneg', cardLangCy: 'Cymraeg', startsWith: 'Yn dechrau â: ',
     correct: 'Cywir!', notQuite: 'Nid yn iawn — yr ateb yw: ',
