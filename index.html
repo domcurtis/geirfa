@@ -580,9 +580,9 @@ function buildUnitBar() {
   const bar = document.getElementById('unitBar');
   bar.innerHTML = '';
 
-  // Prepend "Review" pill if any unit is fully mastered
-  const anyMastered = getUnits().some(u => getUnitMasteryState(u) === 'mastered');
-  if (anyMastered) {
+  // Prepend "Review" pill once any unit has ever been mastered (never removed after that)
+  const showReview = getUnits().some(u => getUnitMasteryState(u) === 'mastered') || loadMastered().size > 0;
+  if (showReview) {
     const reviewPill = document.createElement('button');
     reviewPill.className   = 'review-pill';
     reviewPill.id          = 'unitBarReviewBtn';
@@ -607,16 +607,12 @@ function buildUnitBar() {
 }
 
 function refreshUnitBar() {
-  // Update or insert/remove the review pill
-  const anyMastered = getUnits().some(u => getUnitMasteryState(u) === 'mastered');
+  const showReview = getUnits().some(u => getUnitMasteryState(u) === 'mastered') || loadMastered().size > 0;
   const bar = document.getElementById('unitBar');
   const existing = document.getElementById('unitBarReviewBtn');
-  if (anyMastered && !existing) {
-    // Pill needs to appear — full rebuild is simplest
+  if (showReview && !existing) {
     buildUnitBar(); return;
-  } else if (!anyMastered && existing) {
-    existing.remove();
-  } else if (anyMastered && existing) {
+  } else if (showReview && existing) {
     existing.textContent = lang === 'cy' ? 'Adolygu' : 'Review';
   }
   document.querySelectorAll('.unit-btn').forEach(btn => {
