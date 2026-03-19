@@ -236,9 +236,11 @@
 
 <div class="complete-banner" id="completeBanner">
   <h2 data-i18n="daIawn">Da iawn!</h2>
-  <p data-i18n="allGreen">You've mastered every card in this set!</p>
+  <p id="completeBannerMsg"></p>
   <div class="banner-actions">
-    <button class="btn btn-next" onclick="reviewOldWords()" data-i18n="reviewMore">Review 10 more words</button>
+    <button class="btn btn-next"  id="bannerRestartBtn"     onclick="restart()"       data-i18n="startAgain">Start again</button>
+    <button class="btn-review"    id="bannerReviewWeakBtn"  onclick="reviewWeak()"    data-i18n="reviewWeak">Retry difficult words</button>
+    <button class="btn btn-next"  id="bannerReviewMoreBtn"  onclick="reviewOldWords()" data-i18n="reviewMore">Review 10 more words</button>
   </div>
 </div>
 
@@ -350,6 +352,7 @@ function clearAllData() {
   storage.remove(TS_KEY);
   srPiles      = {};
   srTimestamps = {};
+  reviewMode   = false;
   activeUnit = getUnits()[0] || null;
   direction  = 'en-cy';
   rebuildDeck();
@@ -367,6 +370,7 @@ let currentIndex = 0;
 let isFlipped    = false;
 let direction    = 'en-cy';
 let typingMode   = false;
+let reviewMode   = false;  // true only when the "Review" pill session is active
 
 // ── Helpers ───────────────────────────────────────────────────────────────────
 function getCatClass(cat) {
@@ -464,7 +468,7 @@ function rateCard(pile) {
       }
     }
   }
-  if (pile < 2) {
+  if (reviewMode && pile < 2) {
     // Shuffle card back into a random position among the remaining unvisited cards
     deck.splice(currentIndex, 1);
     const remaining = deck.length - currentIndex;
@@ -633,6 +637,7 @@ function updateWordCount() {
 
 function setUnit(unit, btn) {
   activeUnit = unit;
+  reviewMode = false;
   document.querySelectorAll('.unit-btn').forEach(b => b.classList.remove('active'));
   btn.classList.add('active');
   btn.scrollIntoView({ block: 'nearest', inline: 'center', behavior: 'smooth' });
@@ -706,6 +711,21 @@ function updateCard() {
     typArea.style.display   = 'none';
     document.getElementById('hint-row-wrap').style.display = 'none';
     document.getElementById('ratingRow').style.display     = 'none';
+    if (reviewMode) {
+      document.getElementById('completeBannerMsg').textContent = t('allGreen');
+      document.getElementById('bannerRestartBtn').style.display    = 'none';
+      document.getElementById('bannerReviewWeakBtn').style.display = 'none';
+      document.getElementById('bannerReviewMoreBtn').style.display = '';
+    } else {
+      document.getElementById('completeBannerMsg').textContent = t('completedSet');
+      document.getElementById('bannerRestartBtn').style.display    = '';
+      document.getElementById('bannerReviewMoreBtn').style.display = 'none';
+      const weakCount = deck.filter(v => (srPiles[cardKey(v)] ?? 0) < 2).length;
+      const reviewWeakBtn = document.getElementById('bannerReviewWeakBtn');
+      reviewWeakBtn.style.display = '';
+      reviewWeakBtn.disabled = weakCount === 0;
+      reviewWeakBtn.title    = weakCount === 0 ? t('allKnown') : weakCount + ' cards to review';
+    }
     updateProgress(); saveState(); return;
   }
 
@@ -739,9 +759,16 @@ function updateCard() {
 
 function updateProgress() {
   const total = deck.length;
-  const green = deck.filter(c => (srPiles[cardKey(c)] ?? 0) === 2).length;
-  const pct   = total > 0 ? Math.round(green / total * 100) : 0;
-  document.getElementById('progressLabel').textContent = green + ' of ' + total + ' known';
+  let pct, label;
+  if (reviewMode) {
+    const green = deck.filter(c => (srPiles[cardKey(c)] ?? 0) === 2).length;
+    pct   = total > 0 ? Math.round(green / total * 100) : 0;
+    label = green + ' of ' + total + ' known';
+  } else {
+    pct   = total > 0 ? Math.round((currentIndex / total) * 100) : 0;
+    label = 'Card ' + Math.min(currentIndex + 1, total) + ' of ' + total;
+  }
+  document.getElementById('progressLabel').textContent = label;
   document.getElementById('progressPct').textContent   = pct + '%';
   document.getElementById('progressFill').style.width  = pct + '%';
 }
@@ -765,7 +792,7 @@ function shuffle() {
   showRatingButtons(false); updateCard();
 }
 
-function restart() { rebuildDeck(); showRatingButtons(false); updateCard(); }
+function restart() { reviewMode = false; rebuildDeck(); showRatingButtons(false); updateCard(); }
 
 // ── Review non-"Got it" cards ─────────────────────────────────────────────────
 function reviewWeak() {
@@ -779,6 +806,7 @@ function reviewWeak() {
 
 // ── Review cards by SR pile ───────────────────────────────────────────────────
 function reviewByPile(pile) {
+  reviewMode = false;
   const base = ALL_VOCAB
     .map((v, i) => ({ ...v, _idx: i }))
     .filter(v => matchUnit(v) && (srPiles[cardKey(v)] ?? 0) === pile);
@@ -791,6 +819,7 @@ function reviewByPile(pile) {
 
 // ── Review oldest "Got it" words ──────────────────────────────────────────────
 function reviewOldWords() {
+  reviewMode = true;
   // All known cards across ALL units (not just active unit), sorted oldest first
   const known = ALL_VOCAB
     .map((v, i) => ({ ...v, _idx: i }))
@@ -880,6 +909,9 @@ const TRANSLATIONS = {
     shuffle: '⇌ Shuffle', reset: '↺ Reset', daIawn: 'Da iawn!',
     allGreen: "You've mastered every card in this set!",
     reviewMore: 'Review 10 more words',
+    completedSet: "You've been through all the cards in this set.",
+    reviewWeak: 'Retry difficult words', startAgain: 'Start again',
+    allKnown: 'All cards marked as Got it!',
     clearProgress: 'Clear all progress', kbFlip: 'flip',
     cardLangEn: 'English', cardLangCy: 'Welsh', startsWith: 'Starts with: ',
     correct: 'Correct!', notQuite: 'Not quite — the answer is: ',
@@ -899,6 +931,9 @@ const TRANSLATIONS = {
     shuffle: '⇌ Cymysgu', reset: '↺ Ailosod', daIawn: 'Da iawn!',
     allGreen: 'Rydych chi wedi meistroli pob carden yn y set hon!',
     reviewMore: 'Adolygu 10 gair arall',
+    completedSet: 'Rydych chi wedi gweld pob carden yn y set hon.',
+    reviewWeak: 'Ailgynnig geiriau anodd', startAgain: 'Dechrau eto',
+    allKnown: "Pob carden wedi'i marcio fel Wedi dysgu!",
     clearProgress: 'Dileu pob cynnydd', kbFlip: 'troi',
     cardLangEn: 'Saesneg', cardLangCy: 'Cymraeg', startsWith: 'Yn dechrau â: ',
     correct: 'Cywir!', notQuite: 'Nid yn iawn — yr ateb yw: ',
