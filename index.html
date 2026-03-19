@@ -85,7 +85,8 @@
   .btn-hint { background: white; color: var(--mid); border: 1.5px solid var(--light); }
   .btn-hint:hover { border-color: var(--gold); color: var(--gold); }
   .btn-hint:disabled { opacity: 0.35; cursor: default; }
-  .hint-text { font-size: 0.82rem; color: var(--mid); letter-spacing: 0.06em; text-align: center; min-height: 1.2em; width: 100%; text-align: center; margin-top: 4px; }
+  .hint-text { font-size: 0.82rem; color: var(--mid); letter-spacing: 0.06em; text-align: center; min-height: 1.2em; margin-top: 10px; opacity: 0; transition: opacity 0.25s ease; }
+  .hint-text.visible { opacity: 1; }
   .key-hint { margin-top: 16px; font-size: 0.71rem; color: var(--mid); opacity: 0.55; text-align: center; }
   .key-hint kbd { background: var(--light); border-radius: 4px; padding: 2px 6px; font-family: monospace; font-size: 0.76rem; }
   @media (hover: none) and (pointer: coarse) {
@@ -200,6 +201,7 @@
         <div class="card-word" id="frontWord">Loading&hellip;</div>
         <span class="pile-badge pile-0" id="pileBadge"></span>
         <div class="flip-cue" data-i18n="flipCue">tap to flip</div>
+        <div class="hint-text" id="hintText"></div>
       </div>
       <div class="card-face card-back" id="cardBack">
         <div class="card-hint" id="backHint">Welsh</div>
@@ -231,7 +233,6 @@
   <button class="btn btn-hint" id="hintBtn" onclick="showHint()" data-i18n="hint">Hint</button>
   <button class="btn btn-shuffle" onclick="shuffle()" data-i18n="shuffle">&#8651; Shuffle</button>
   <button class="btn btn-restart" onclick="restart()" data-i18n="reset">&#8635; Reset</button>
-  <div class="hint-text" id="hintText"></div>
 </div>
 
 <div class="complete-banner" id="completeBanner">
@@ -532,7 +533,9 @@ function renderTypingCard() {
   document.getElementById('typingFeedback').className    = 'typing-feedback';
   document.getElementById('typingSubmit').style.display  = 'inline-block';
   document.getElementById('typingLang').textContent      = direction === 'en-cy' ? t('cardLangCy') : t('cardLangEn');
-  document.getElementById('hintText').textContent        = '';
+  const hintEl1 = document.getElementById('hintText');
+  hintEl1.textContent = '';
+  hintEl1.classList.remove('visible');
   document.getElementById('hintBtn').disabled            = false;
   document.getElementById('typingInput').focus();
 }
@@ -652,7 +655,9 @@ function setDirection(dir) {
   inner.classList.remove('flipped');
   isFlipped = false;
   setTimeout(() => inner.style.transition = '', 30);
-  document.getElementById('hintText').textContent = '';
+  const hintEl2 = document.getElementById('hintText');
+  hintEl2.textContent = '';
+  hintEl2.classList.remove('visible');
   document.getElementById('hintBtn').disabled = false;
   showRatingButtons(false);
   if (typingMode) renderTypingCard(); else renderCard();
@@ -744,7 +749,9 @@ function updateCard() {
     inner.classList.remove('flipped');
     isFlipped = false;
     setTimeout(() => inner.style.transition = '', 30);
-    document.getElementById('hintText').textContent = '';
+    const hintEl3 = document.getElementById('hintText');
+    hintEl3.textContent = '';
+    hintEl3.classList.remove('visible');
     document.getElementById('hintBtn').disabled = false;
     renderCard();
   }
@@ -850,7 +857,9 @@ function showHint() {
   if (currentIndex >= deck.length) return;
   const card   = deck[currentIndex];
   const answer = direction === 'en-cy' ? card.c : card.e;
-  document.getElementById('hintText').textContent = (lang === 'cy' ? 'Yn dechrau â: ' : 'Starts with: ') + welshFirstLetter(answer);
+  const hintEl = document.getElementById('hintText');
+  hintEl.textContent = (lang === 'cy' ? 'Yn dechrau â: ' : 'Starts with: ') + welshFirstLetter(answer);
+  hintEl.classList.add('visible');
   document.getElementById('hintBtn').disabled = true;
 }
 
