@@ -156,7 +156,7 @@
 
 <header>
   <img class="header-dragon" src="favicon.svg" alt="Welsh dragon" aria-hidden="true">
-  <h1 data-i18n="title">Welsh <span>Vocabulary</span> Quiz</h1>
+  <h1 data-i18n="title">Geirfa</h1>
   <p class="subtitle"><span id="levelLabel">Canolradd</span> &middot; <span id="wordCountLabel">908 words</span></p>
   <div class="header-btns">
     <button class="lang-toggle" id="langToggle" onclick="toggleLang()">Cy</button>
@@ -236,10 +236,11 @@
 
 <div class="complete-banner" id="completeBanner">
   <h2 data-i18n="daIawn">Da iawn!</h2>
-  <p data-i18n="completedSet">You've been through all the cards in this set.</p>
+  <p id="completeBannerMsg"></p>
   <div class="banner-actions">
-    <button class="btn btn-next" onclick="restart()" data-i18n="startAgain">Start again</button>
-    <button class="btn-review" id="reviewWeakBtn" onclick="reviewWeak()" data-i18n="reviewWeak">Retry difficult words</button>
+    <button class="btn btn-next"  id="bannerRestartBtn"     onclick="restart()"       data-i18n="startAgain">Start again</button>
+    <button class="btn-review"    id="bannerReviewWeakBtn"  onclick="reviewWeak()"    data-i18n="reviewWeak">Retry difficult words</button>
+    <button class="btn btn-next"  id="bannerReviewMoreBtn"  onclick="reviewOldWords()" data-i18n="reviewMore">Review 10 more words</button>
   </div>
 </div>
 
@@ -351,6 +352,7 @@ function clearAllData() {
   storage.remove(TS_KEY);
   srPiles      = {};
   srTimestamps = {};
+  reviewMode   = false;
   activeUnit = getUnits()[0] || null;
   direction  = 'en-cy';
   rebuildDeck();
@@ -367,7 +369,9 @@ let deck         = [];
 let currentIndex = 0;
 let isFlipped    = false;
 let direction    = 'en-cy';
-let typingMode   = false;
+let typingMode        = false;
+let reviewMode        = false;  // true only when the "Review" pill session is active
+let reviewSessionGreen = new Set(); // cards confirmed "Got it" in the current review round
 
 // ── Helpers ───────────────────────────────────────────────────────────────────
 function getCatClass(cat) {
@@ -465,7 +469,17 @@ function rateCard(pile) {
       }
     }
   }
-  advanceCard();
+  if (reviewMode && pile === 2) reviewSessionGreen.add(key);
+  if (reviewMode && pile < 2) {
+    // Send card to the back so all other unvisited cards are seen first
+    deck.splice(currentIndex, 1);
+    deck.push(card);
+    // currentIndex unchanged — next card slides into the current slot
+    showRatingButtons(false);
+    updateCard();
+  } else {
+    advanceCard();
+  }
 }
 
 function renderSRStats() {
@@ -564,9 +578,9 @@ function buildUnitBar() {
   const bar = document.getElementById('unitBar');
   bar.innerHTML = '';
 
-  // Prepend "Review" pill if any unit is fully mastered
-  const anyMastered = getUnits().some(u => getUnitMasteryState(u) === 'mastered');
-  if (anyMastered) {
+  // Prepend "Review" pill once any unit has ever been mastered (never removed after that)
+  const showReview = getUnits().some(u => getUnitMasteryState(u) === 'mastered') || loadMastered().size > 0;
+  if (showReview) {
     const reviewPill = document.createElement('button');
     reviewPill.className   = 'review-pill';
     reviewPill.id          = 'unitBarReviewBtn';
@@ -591,16 +605,12 @@ function buildUnitBar() {
 }
 
 function refreshUnitBar() {
-  // Update or insert/remove the review pill
-  const anyMastered = getUnits().some(u => getUnitMasteryState(u) === 'mastered');
+  const showReview = getUnits().some(u => getUnitMasteryState(u) === 'mastered') || loadMastered().size > 0;
   const bar = document.getElementById('unitBar');
   const existing = document.getElementById('unitBarReviewBtn');
-  if (anyMastered && !existing) {
-    // Pill needs to appear — full rebuild is simplest
+  if (showReview && !existing) {
     buildUnitBar(); return;
-  } else if (!anyMastered && existing) {
-    existing.remove();
-  } else if (anyMastered && existing) {
+  } else if (showReview && existing) {
     existing.textContent = lang === 'cy' ? 'Adolygu' : 'Review';
   }
   document.querySelectorAll('.unit-btn').forEach(btn => {
@@ -623,6 +633,7 @@ function updateWordCount() {
 
 function setUnit(unit, btn) {
   activeUnit = unit;
+  reviewMode = false;
   document.querySelectorAll('.unit-btn').forEach(b => b.classList.remove('active'));
   btn.classList.add('active');
   btn.scrollIntoView({ block: 'nearest', inline: 'center', behavior: 'smooth' });
@@ -696,11 +707,20 @@ function updateCard() {
     typArea.style.display   = 'none';
     document.getElementById('hint-row-wrap').style.display = 'none';
     document.getElementById('ratingRow').style.display     = 'none';
-    const weakCount = deck.filter(v => (srPiles[cardKey(v)] ?? 0) < 2).length;
-    const reviewBtn = document.getElementById('reviewWeakBtn');
-    if (reviewBtn) {
-      reviewBtn.disabled = weakCount === 0;
-      reviewBtn.title    = weakCount === 0 ? t('allKnown') : weakCount + ' cards to review';
+    if (reviewMode) {
+      document.getElementById('completeBannerMsg').textContent = t('allGreen');
+      document.getElementById('bannerRestartBtn').style.display    = 'none';
+      document.getElementById('bannerReviewWeakBtn').style.display = 'none';
+      document.getElementById('bannerReviewMoreBtn').style.display = '';
+    } else {
+      document.getElementById('completeBannerMsg').textContent = t('completedSet');
+      document.getElementById('bannerRestartBtn').style.display    = '';
+      document.getElementById('bannerReviewMoreBtn').style.display = 'none';
+      const weakCount = deck.filter(v => (srPiles[cardKey(v)] ?? 0) < 2).length;
+      const reviewWeakBtn = document.getElementById('bannerReviewWeakBtn');
+      reviewWeakBtn.style.display = '';
+      reviewWeakBtn.disabled = weakCount === 0;
+      reviewWeakBtn.title    = weakCount === 0 ? t('allKnown') : weakCount + ' cards to review';
     }
     updateProgress(); saveState(); return;
   }
@@ -735,9 +755,16 @@ function updateCard() {
 
 function updateProgress() {
   const total = deck.length;
-  const pct   = total > 0 ? Math.round((currentIndex / total) * 100) : 0;
-  const pos   = Math.min(currentIndex + 1, total);
-  document.getElementById('progressLabel').textContent = 'Card ' + pos + ' of ' + total;
+  let pct, label;
+  if (reviewMode) {
+    const green = reviewSessionGreen.size;
+    pct   = total > 0 ? Math.round(green / total * 100) : 0;
+    label = green + ' of ' + total + ' done';
+  } else {
+    pct   = total > 0 ? Math.round((currentIndex / total) * 100) : 0;
+    label = 'Card ' + Math.min(currentIndex + 1, total) + ' of ' + total;
+  }
+  document.getElementById('progressLabel').textContent = label;
   document.getElementById('progressPct').textContent   = pct + '%';
   document.getElementById('progressFill').style.width  = pct + '%';
 }
@@ -761,7 +788,7 @@ function shuffle() {
   showRatingButtons(false); updateCard();
 }
 
-function restart() { rebuildDeck(); showRatingButtons(false); updateCard(); }
+function restart() { reviewMode = false; rebuildDeck(); showRatingButtons(false); updateCard(); }
 
 // ── Review non-"Got it" cards ─────────────────────────────────────────────────
 function reviewWeak() {
@@ -775,6 +802,7 @@ function reviewWeak() {
 
 // ── Review cards by SR pile ───────────────────────────────────────────────────
 function reviewByPile(pile) {
+  reviewMode = false;
   const base = ALL_VOCAB
     .map((v, i) => ({ ...v, _idx: i }))
     .filter(v => matchUnit(v) && (srPiles[cardKey(v)] ?? 0) === pile);
@@ -787,6 +815,8 @@ function reviewByPile(pile) {
 
 // ── Review oldest "Got it" words ──────────────────────────────────────────────
 function reviewOldWords() {
+  reviewMode = true;
+  reviewSessionGreen = new Set();
   // All known cards across ALL units (not just active unit), sorted oldest first
   const known = ALL_VOCAB
     .map((v, i) => ({ ...v, _idx: i }))
@@ -867,16 +897,17 @@ let lang = 'en';
 
 const TRANSLATIONS = {
   en: {
-    title: 'Welsh <span>Vocabulary</span> Quiz', subtitle: '908 words · Flip to reveal',
+    title: 'Geirfa', subtitle: '908 words · Flip to reveal',
     langToggle: 'Cy', dirEW: 'English → Welsh', dirWE: 'Welsh → English',
     dirLabel: 'Direction', modeLabel: 'Mode', modeFlip: 'Flip cards', modeType: 'Typing',
     flipCue: 'tap to flip', typingPlaceholder: 'Type your answer…',
     check: 'Check', howDidYou: 'How did you do?',
     hard: 'Hard', okay: 'Okay', gotIt: 'Got it', hint: 'Hint',
     shuffle: '⇌ Shuffle', reset: '↺ Reset', daIawn: 'Da iawn!',
+    allGreen: "You've mastered every card in this set!",
+    reviewMore: 'Review 10 more words',
     completedSet: "You've been through all the cards in this set.",
-    reviewWeak: 'Retry difficult words',
-    startAgain: 'Start again',
+    reviewWeak: 'Retry difficult words', startAgain: 'Start again',
     allKnown: 'All cards marked as Got it!',
     clearProgress: 'Clear all progress', kbFlip: 'flip',
     cardLangEn: 'English', cardLangCy: 'Welsh', startsWith: 'Starts with: ',
@@ -888,17 +919,18 @@ const TRANSLATIONS = {
     masteryClose: 'Ardderchog! ✓', errorLoad: 'Failed to load vocabulary.json', loading: 'Loading…',
   },
   cy: {
-    title: 'Cwis <span>Geirfa</span> Cymraeg', subtitle: '908 gair · Cliciwch i droi',
+    title: 'Geirfa', subtitle: '908 gair · Cliciwch i droi',
     langToggle: 'En', dirEW: 'Saesneg → Cymraeg', dirWE: 'Cymraeg → Saesneg',
     dirLabel: 'Cyfeiriad', modeLabel: 'Modd', modeFlip: 'Cardiau troi', modeType: 'Teipio',
     flipCue: 'tapiwch i droi', typingPlaceholder: 'Teipiwch eich ateb…',
     check: 'Gwirio', howDidYou: 'Sut wnaethoch chi?',
     hard: 'Anodd', okay: 'Iawn', gotIt: 'Wedi dysgu', hint: 'Awgrym',
     shuffle: '⇌ Cymysgu', reset: '↺ Ailosod', daIawn: 'Da iawn!',
+    allGreen: 'Rydych chi wedi meistroli pob carden yn y set hon!',
+    reviewMore: 'Adolygu 10 gair arall',
     completedSet: 'Rydych chi wedi gweld pob carden yn y set hon.',
-    reviewWeak: 'Ailgynnig geiriau anodd',
-    startAgain: 'Dechrau eto',
-    allKnown: 'Pob carden wedi\'i marcio fel Wedi dysgu!',
+    reviewWeak: 'Ailgynnig geiriau anodd', startAgain: 'Dechrau eto',
+    allKnown: "Pob carden wedi'i marcio fel Wedi dysgu!",
     clearProgress: 'Dileu pob cynnydd', kbFlip: 'troi',
     cardLangEn: 'Saesneg', cardLangCy: 'Cymraeg', startsWith: 'Yn dechrau â: ',
     correct: 'Cywir!', notQuite: 'Nid yn iawn — yr ateb yw: ',
