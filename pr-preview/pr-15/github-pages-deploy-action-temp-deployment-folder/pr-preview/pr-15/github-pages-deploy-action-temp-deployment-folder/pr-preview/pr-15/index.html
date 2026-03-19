@@ -369,9 +369,8 @@ let deck         = [];
 let currentIndex = 0;
 let isFlipped    = false;
 let direction    = 'en-cy';
-let typingMode        = false;
-let reviewMode        = false;  // true only when the "Review" pill session is active
-let reviewSessionGreen = new Set(); // cards confirmed "Got it" in the current review round
+let typingMode   = false;
+let reviewMode   = false;  // true only when the "Review" pill session is active
 
 // ── Helpers ───────────────────────────────────────────────────────────────────
 function getCatClass(cat) {
@@ -469,7 +468,6 @@ function rateCard(pile) {
       }
     }
   }
-  if (reviewMode && pile === 2) reviewSessionGreen.add(key);
   if (reviewMode && pile < 2) {
     // Shuffle card back into a random position among the remaining unvisited cards
     deck.splice(currentIndex, 1);
@@ -580,9 +578,9 @@ function buildUnitBar() {
   const bar = document.getElementById('unitBar');
   bar.innerHTML = '';
 
-  // Prepend "Review" pill once any unit has ever been mastered (never removed after that)
-  const showReview = getUnits().some(u => getUnitMasteryState(u) === 'mastered') || loadMastered().size > 0;
-  if (showReview) {
+  // Prepend "Review" pill if any unit is fully mastered
+  const anyMastered = getUnits().some(u => getUnitMasteryState(u) === 'mastered');
+  if (anyMastered) {
     const reviewPill = document.createElement('button');
     reviewPill.className   = 'review-pill';
     reviewPill.id          = 'unitBarReviewBtn';
@@ -607,12 +605,16 @@ function buildUnitBar() {
 }
 
 function refreshUnitBar() {
-  const showReview = getUnits().some(u => getUnitMasteryState(u) === 'mastered') || loadMastered().size > 0;
+  // Update or insert/remove the review pill
+  const anyMastered = getUnits().some(u => getUnitMasteryState(u) === 'mastered');
   const bar = document.getElementById('unitBar');
   const existing = document.getElementById('unitBarReviewBtn');
-  if (showReview && !existing) {
+  if (anyMastered && !existing) {
+    // Pill needs to appear — full rebuild is simplest
     buildUnitBar(); return;
-  } else if (showReview && existing) {
+  } else if (!anyMastered && existing) {
+    existing.remove();
+  } else if (anyMastered && existing) {
     existing.textContent = lang === 'cy' ? 'Adolygu' : 'Review';
   }
   document.querySelectorAll('.unit-btn').forEach(btn => {
@@ -759,9 +761,9 @@ function updateProgress() {
   const total = deck.length;
   let pct, label;
   if (reviewMode) {
-    const green = reviewSessionGreen.size;
+    const green = deck.filter(c => (srPiles[cardKey(c)] ?? 0) === 2).length;
     pct   = total > 0 ? Math.round(green / total * 100) : 0;
-    label = green + ' of ' + total + ' done';
+    label = green + ' of ' + total + ' known';
   } else {
     pct   = total > 0 ? Math.round((currentIndex / total) * 100) : 0;
     label = 'Card ' + Math.min(currentIndex + 1, total) + ' of ' + total;
@@ -818,7 +820,6 @@ function reviewByPile(pile) {
 // ── Review oldest "Got it" words ──────────────────────────────────────────────
 function reviewOldWords() {
   reviewMode = true;
-  reviewSessionGreen = new Set();
   // All known cards across ALL units (not just active unit), sorted oldest first
   const known = ALL_VOCAB
     .map((v, i) => ({ ...v, _idx: i }))
