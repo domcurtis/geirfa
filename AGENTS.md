@@ -19,6 +19,12 @@ Changes should be optimised for one person's learning workflow, not for a genera
 - `sw.js` — service worker for offline PWA support (cache-first strategy)
 - `localStorage` for all persistence (ratings, progress, mastered units, session state)
 
+## Testing and pull requests
+
+The user tests all changes via a GitHub Pages preview site that is automatically generated when a pull request is opened against `main`.
+
+**Always open a pull request to `main` after making code changes** — do not just commit and push to a branch. The PR is how the user reviews and tests the work.
+
 ## Service worker cache version
 
 **Bump the cache version in `sw.js` every time a feature is added or a bug is fixed.**
