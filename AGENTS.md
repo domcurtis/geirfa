@@ -25,6 +25,20 @@ The user tests all changes via a GitHub Pages preview site that is automatically
 
 **Always open a pull request to `main` after making code changes** — do not just commit and push to a branch. The PR is how the user reviews and tests the work.
 
+The git remote points to a local proxy, so `gh pr create` cannot detect the GitHub host. **Always use the API approach instead:**
+
+```bash
+gh api repos/domcurtis/geirfa/pulls \
+  --method POST \
+  --field title="..." \
+  --field head="<branch-name>" \
+  --field base="main" \
+  --field body="..." \
+  --jq '.html_url'
+```
+
+`GH_TOKEN` is set in `~/.claude/settings.json` and is available automatically.
+
 ## Service worker cache version
 
 **Bump the cache version in `sw.js` every time a feature is added or a bug is fixed.**
