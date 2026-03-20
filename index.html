@@ -458,7 +458,7 @@ function rateCard(pile) {
   const card = deck[currentIndex];
   const key  = cardKey(card);
   srPiles[key] = pile;
-  if (pile === 2 && !srTimestamps[key]) srTimestamps[key] = Date.now();
+  if (pile === 2) srTimestamps[key] = Date.now();
   saveSR(srPiles);
   saveTimestamps();
   renderSRStats();
