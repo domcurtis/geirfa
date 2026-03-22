@@ -89,9 +89,7 @@
   .btn-hint { background: white; color: var(--mid); border: 1.5px solid var(--light); }
   .btn-hint:hover { border-color: var(--gold); color: var(--gold); }
   .btn-hint:disabled { opacity: 0.35; cursor: default; }
-  .hint-text { position: absolute; bottom: 16px; left: 24px; right: 0; text-align: left; opacity: 0; transition: opacity 0.25s ease; }
-  .hint-prefix { font-family: 'Source Sans 3', sans-serif; font-size: clamp(0.8rem,2.2vw,1rem); font-weight: 400; color: #999; }
-  .hint-letters { font-family: 'Playfair Display', serif; font-size: clamp(1.1rem,3.5vw,1.7rem); font-weight: 700; color: #c0392b; }
+  .hint-text { position: absolute; bottom: 16px; left: 0; right: 0; font-family: 'Playfair Display', serif; font-size: clamp(1.1rem,3.5vw,1.7rem); font-weight: 700; color: #c0392b; text-align: center; opacity: 0; transition: opacity 0.25s ease; }
   .hint-text.visible { opacity: 1; }
   .key-hint { margin-top: 16px; font-size: 0.71rem; color: var(--mid); opacity: 0.55; text-align: center; }
   .key-hint kbd { background: var(--light); border-radius: 4px; padding: 2px 6px; font-family: monospace; font-size: 0.76rem; }
@@ -881,8 +879,8 @@ function showHint() {
   hintRevealed++;
   const hintEl = document.getElementById('hintText');
   const revealed = letters.slice(0, hintRevealed).join('');
-  const prefix = lang === 'cy' ? 'Yn dechrau â: ' : 'Starts with: ';
-  hintEl.innerHTML = '<span class="hint-prefix">' + prefix + '</span><span class="hint-letters">' + revealed.replace(/</g,'&lt;') + '</span>';
+  const prefix = hintRevealed === 1 ? (lang === 'cy' ? 'Yn dechrau â: ' : 'Starts with: ') : '';
+  hintEl.textContent = prefix + revealed;
   hintEl.classList.add('visible');
   if (hintRevealed >= letters.length) {
     document.getElementById('hintBtn').disabled = true;
