@@ -541,6 +541,7 @@ function renderTypingCard() {
   hintEl1.textContent = '';
   hintEl1.classList.remove('visible');
   document.getElementById('hintBtn').disabled            = false;
+  hintRevealed = 0;
   document.getElementById('typingInput').focus();
 }
 
@@ -663,6 +664,7 @@ function setDirection(dir) {
   hintEl2.textContent = '';
   hintEl2.classList.remove('visible');
   document.getElementById('hintBtn').disabled = false;
+  hintRevealed = 0;
   showRatingButtons(false);
   if (typingMode) renderTypingCard(); else renderCard();
   saveState();
@@ -757,6 +759,7 @@ function updateCard() {
     hintEl3.textContent = '';
     hintEl3.classList.remove('visible');
     document.getElementById('hintBtn').disabled = false;
+    hintRevealed = 0;
     renderCard();
   }
 
@@ -848,23 +851,39 @@ function reviewOldWords() {
   renderSRStats();
   updateCard();
 }
-function welshFirstLetter(str) {
+function welshLetters(str) {
   const s = str.trim();
-  if (!s) return '';
   const digraphs = ['ch','dd','ff','ng','ll','ph','rh','th'];
-  const lower = s.toLowerCase();
-  for (const dg of digraphs) { if (lower.startsWith(dg)) return s.slice(0, 2).toUpperCase(); }
-  return s[0].toUpperCase();
+  const letters = [];
+  let i = 0;
+  while (i < s.length) {
+    const pair = s.slice(i, i + 2).toLowerCase();
+    if (i + 1 < s.length && digraphs.includes(pair)) {
+      letters.push(s.slice(i, i + 2));
+      i += 2;
+    } else {
+      letters.push(s[i]);
+      i++;
+    }
+  }
+  return letters;
 }
+
+let hintRevealed = 0;
 
 function showHint() {
   if (currentIndex >= deck.length) return;
   const card   = deck[currentIndex];
   const answer = direction === 'en-cy' ? card.c : card.e;
+  const letters = welshLetters(answer);
+  hintRevealed++;
   const hintEl = document.getElementById('hintText');
-  hintEl.textContent = (lang === 'cy' ? 'Yn dechrau â: ' : 'Starts with: ') + welshFirstLetter(answer);
+  const revealed = letters.slice(0, hintRevealed).join('');
+  hintEl.textContent = revealed;
   hintEl.classList.add('visible');
-  document.getElementById('hintBtn').disabled = true;
+  if (hintRevealed >= letters.length) {
+    document.getElementById('hintBtn').disabled = true;
+  }
 }
 
 // ── Keyboard ───────────────────────────────────────────────────────────────────
