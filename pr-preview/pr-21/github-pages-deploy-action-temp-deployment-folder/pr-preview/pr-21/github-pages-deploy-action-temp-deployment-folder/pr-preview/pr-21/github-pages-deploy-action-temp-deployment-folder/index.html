@@ -89,7 +89,7 @@
   .btn-hint { background: white; color: var(--mid); border: 1.5px solid var(--light); }
   .btn-hint:hover { border-color: var(--gold); color: var(--gold); }
   .btn-hint:disabled { opacity: 0.35; cursor: default; }
-  .hint-text { position: absolute; bottom: 16px; left: 24px; right: 0; font-family: 'Playfair Display', serif; font-size: clamp(1.1rem,3.5vw,1.7rem); font-weight: 700; color: #c0392b; text-align: left; opacity: 0; transition: opacity 0.25s ease; }
+  .hint-text { position: absolute; bottom: 16px; left: 0; right: 0; font-size: 0.82rem; color: #c0392b; letter-spacing: 0.06em; text-align: center; opacity: 0; transition: opacity 0.25s ease; }
   .hint-text.visible { opacity: 1; }
   .key-hint { margin-top: 16px; font-size: 0.71rem; color: var(--mid); opacity: 0.55; text-align: center; }
   .key-hint kbd { background: var(--light); border-radius: 4px; padding: 2px 6px; font-family: monospace; font-size: 0.76rem; }
@@ -541,7 +541,6 @@ function renderTypingCard() {
   hintEl1.textContent = '';
   hintEl1.classList.remove('visible');
   document.getElementById('hintBtn').disabled            = false;
-  hintRevealed = 0;
   document.getElementById('typingInput').focus();
 }
 
@@ -664,7 +663,6 @@ function setDirection(dir) {
   hintEl2.textContent = '';
   hintEl2.classList.remove('visible');
   document.getElementById('hintBtn').disabled = false;
-  hintRevealed = 0;
   showRatingButtons(false);
   if (typingMode) renderTypingCard(); else renderCard();
   saveState();
@@ -759,7 +757,6 @@ function updateCard() {
     hintEl3.textContent = '';
     hintEl3.classList.remove('visible');
     document.getElementById('hintBtn').disabled = false;
-    hintRevealed = 0;
     renderCard();
   }
 
@@ -851,40 +848,23 @@ function reviewOldWords() {
   renderSRStats();
   updateCard();
 }
-function welshLetters(str) {
+function welshFirstLetter(str) {
   const s = str.trim();
+  if (!s) return '';
   const digraphs = ['ch','dd','ff','ng','ll','ph','rh','th'];
-  const letters = [];
-  let i = 0;
-  while (i < s.length) {
-    const pair = s.slice(i, i + 2).toLowerCase();
-    if (i + 1 < s.length && digraphs.includes(pair)) {
-      letters.push(s.slice(i, i + 2));
-      i += 2;
-    } else {
-      letters.push(s[i]);
-      i++;
-    }
-  }
-  return letters;
+  const lower = s.toLowerCase();
+  for (const dg of digraphs) { if (lower.startsWith(dg)) return s.slice(0, 2).toUpperCase(); }
+  return s[0].toUpperCase();
 }
-
-let hintRevealed = 0;
 
 function showHint() {
   if (currentIndex >= deck.length) return;
   const card   = deck[currentIndex];
   const answer = direction === 'en-cy' ? card.c : card.e;
-  const letters = welshLetters(answer);
-  hintRevealed++;
   const hintEl = document.getElementById('hintText');
-  const revealed = letters.slice(0, hintRevealed).join('');
-  const prefix = lang === 'cy' ? 'Yn dechrau â: ' : 'Starts with: ';
-  hintEl.textContent = prefix + revealed;
+  hintEl.textContent = (lang === 'cy' ? 'Yn dechrau â: ' : 'Starts with: ') + welshFirstLetter(answer);
   hintEl.classList.add('visible');
-  if (hintRevealed >= letters.length) {
-    document.getElementById('hintBtn').disabled = true;
-  }
+  document.getElementById('hintBtn').disabled = true;
 }
 
 // ── Keyboard ───────────────────────────────────────────────────────────────────
