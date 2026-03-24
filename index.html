@@ -282,10 +282,8 @@ const storage = {
 };
 
 // ── Storage keys ──────────────────────────────────────────────────────────────
-const SR_KEY         = 'welsh_sr_piles';
 const STATE_KEY      = 'welsh_state';
 const MASTERY_KEY    = 'welsh_mastered_units';
-const TS_KEY         = 'welsh_sr_timestamps';
 const CARDS_KEY      = 'welsh_sr_cards';
 
 // ── Leitner box intervals (days) ─────────────────────────────────────────────
@@ -306,31 +304,6 @@ function defaultCard(pile) {
 
 function getCard(key) {
   return srCards[key] || defaultCard(srPiles[key] ?? 0);
-}
-
-// Migrate old welsh_sr_piles + welsh_sr_timestamps → welsh_sr_cards
-function migrateToCards() {
-  const oldPiles = storage.get(SR_KEY, null);
-  const oldTs    = storage.get(TS_KEY, null);
-  if (oldPiles === null && oldTs === null) return; // nothing to migrate
-  const cards = {};
-  const piles = oldPiles || {};
-  const ts    = oldTs    || {};
-  for (const key of new Set([...Object.keys(piles), ...Object.keys(ts)])) {
-    const pile = piles[key] ?? 0;
-    cards[key] = {
-      pile,
-      box:          pile === 2 ? 1 : 0,
-      streak:       pile === 2 ? 1 : 0,
-      reviewAfter:  ts[key] || 0,
-      totalReviews: 0,
-      totalCorrect: 0
-    };
-  }
-  storage.set(CARDS_KEY, cards);
-  storage.remove(SR_KEY);
-  storage.remove(TS_KEY);
-  return cards;
 }
 
 async function loadVocab() {
@@ -388,10 +361,8 @@ function saveState() {
 
 function clearAllData() {
   if (!confirm(t('confirmClear'))) return;
-  storage.remove(SR_KEY);
   storage.remove(STATE_KEY);
   storage.remove(MASTERY_KEY);
-  storage.remove(TS_KEY);
   storage.remove(CARDS_KEY);
   srCards       = {};
   srPiles       = {};
@@ -406,13 +377,8 @@ function clearAllData() {
 }
 
 // ── Core state ────────────────────────────────────────────────────────────────
-// Migrate old format if needed, then load card data
 let srCards = loadCards();
-if (Object.keys(srCards).length === 0) {
-  const migrated = migrateToCards();
-  if (migrated) srCards = migrated;
-}
-// srPiles is now a compatibility view derived from srCards
+// srPiles is a convenience view derived from srCards
 let srPiles = {};
 for (const [k, v] of Object.entries(srCards)) srPiles[k] = v.pile;
 let deck         = [];
