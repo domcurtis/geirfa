@@ -282,8 +282,10 @@ const storage = {
 };
 
 // ── Storage keys ──────────────────────────────────────────────────────────────
+const SR_KEY         = 'welsh_sr_piles';
 const STATE_KEY      = 'welsh_state';
 const MASTERY_KEY    = 'welsh_mastered_units';
+const TS_KEY         = 'welsh_sr_timestamps';
 const CARDS_KEY      = 'welsh_sr_cards';
 
 // ── Leitner box intervals (days) ─────────────────────────────────────────────
@@ -304,6 +306,31 @@ function defaultCard(pile) {
 
 function getCard(key) {
   return srCards[key] || defaultCard(srPiles[key] ?? 0);
+}
+
+// Migrate old welsh_sr_piles + welsh_sr_timestamps → welsh_sr_cards
+function migrateToCards() {
+  const oldPiles = storage.get(SR_KEY, null);
+  const oldTs    = storage.get(TS_KEY, null);
+  if (oldPiles === null && oldTs === null) return; // nothing to migrate
+  const cards = {};
+  const piles = oldPiles || {};
+  const ts    = oldTs    || {};
+  for (const key of new Set([...Object.keys(piles), ...Object.keys(ts)])) {
+    const pile = piles[key] ?? 0;
+    cards[key] = {
+      pile,
+      box:          pile === 2 ? 1 : 0,
+      streak:       pile === 2 ? 1 : 0,
+      reviewAfter:  ts[key] || 0,
+      totalReviews: 0,
+      totalCorrect: 0
+    };
+  }
+  storage.set(CARDS_KEY, cards);
+  storage.remove(SR_KEY);
+  storage.remove(TS_KEY);
+  return cards;
 }
 
 async function loadVocab() {
@@ -361,8 +388,10 @@ function saveState() {
 
 function clearAllData() {
   if (!confirm(t('confirmClear'))) return;
+  storage.remove(SR_KEY);
   storage.remove(STATE_KEY);
   storage.remove(MASTERY_KEY);
+  storage.remove(TS_KEY);
   storage.remove(CARDS_KEY);
   srCards       = {};
   srPiles       = {};
@@ -377,8 +406,13 @@ function clearAllData() {
 }
 
 // ── Core state ────────────────────────────────────────────────────────────────
+// Migrate old format if needed, then load card data
 let srCards = loadCards();
-// srPiles is a convenience view derived from srCards
+if (Object.keys(srCards).length === 0) {
+  const migrated = migrateToCards();
+  if (migrated) srCards = migrated;
+}
+// srPiles is now a compatibility view derived from srCards
 let srPiles = {};
 for (const [k, v] of Object.entries(srCards)) srPiles[k] = v.pile;
 let deck         = [];
@@ -399,35 +433,14 @@ function getCatClass(cat) {
 }
 function cardKey(card) { return String(card._idx); }
 
-function shuffleArray(arr) {
-  for (let i = arr.length - 1; i > 0; i--) {
-    const j = Math.floor(Math.random() * (i + 1));
-    [arr[i], arr[j]] = [arr[j], arr[i]];
-  }
-  return arr;
-}
-
 // ── Spaced repetition: build ordered deck ─────────────────────────────────────
 function rebuildDeck() {
-  const now  = Date.now();
   const base = ALL_VOCAB
     .map((v, i) => ({ ...v, _idx: i }))
     .filter(v => matchUnit(v));
   const piles = [[], [], []];
-  const notDue = [];
-  base.forEach(card => {
-    const pile = srPiles[cardKey(card)] ?? 0;
-    if (pile === 2) {
-      const cd = srCards[cardKey(card)];
-      if (cd && cd.reviewAfter > now) { notDue.push(card); return; }
-    }
-    piles[pile].push(card);
-  });
-  shuffleArray(piles[0]);
-  shuffleArray(piles[1]);
-  shuffleArray(piles[2]);
-  shuffleArray(notDue);
-  deck         = [...piles[0], ...piles[1], ...piles[2], ...notDue];
+  base.forEach(card => { piles[srPiles[cardKey(card)] ?? 0].push(card); });
+  deck         = [...piles[0], ...piles[1], ...piles[2]];
   currentIndex = 0;
 }
 
@@ -857,7 +870,10 @@ function flipCard() {
 function advanceCard() { currentIndex++; showRatingButtons(false); updateCard(); }
 
 function shuffle() {
-  shuffleArray(deck);
+  for (let i = deck.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [deck[i], deck[j]] = [deck[j], deck[i]];
+  }
   currentIndex = 0;
   showRatingButtons(false); updateCard();
 }
@@ -868,7 +884,6 @@ function restart() { reviewMode = false; rebuildDeck(); showRatingButtons(false)
 function reviewWeak() {
   const base = deck.filter(v => (srPiles[cardKey(v)] ?? 0) < 2);
   if (base.length === 0) return;
-  shuffleArray(base);
   deck         = base;
   currentIndex = 0;
   showRatingButtons(false);
@@ -882,7 +897,6 @@ function reviewByPile(pile) {
     .map((v, i) => ({ ...v, _idx: i }))
     .filter(v => matchUnit(v) && (srPiles[cardKey(v)] ?? 0) === pile);
   if (base.length === 0) return;
-  shuffleArray(base);
   deck         = base;
   currentIndex = 0;
   showRatingButtons(false);
@@ -904,20 +918,15 @@ function getDueCards() {
 function reviewOldWords() {
   reviewMode = true;
   reviewSessionGreen = new Set();
-  const now = Date.now();
-  // All due "Got it" cards across ALL units, prioritised by overdue ratio
+  // All due "Got it" cards across ALL units, most overdue first
   const due = getDueCards();
   if (due.length < 1) return;
-  // Sort by urgency: how overdue relative to the card's interval
-  due.sort((a, b) => {
-    const cdA = srCards[cardKey(a)], cdB = srCards[cardKey(b)];
-    const intA = (BOX_INTERVALS_DAYS[cdA.box] || 1) * DAY_MS;
-    const intB = (BOX_INTERVALS_DAYS[cdB.box] || 1) * DAY_MS;
-    return (now - cdB.reviewAfter) / intB - (now - cdA.reviewAfter) / intA;
-  });
-  // Take top 20 most urgent, shuffle, pick 10
+  // Shuffle and take up to 10
   const pool = due.slice(0, 20);
-  shuffleArray(pool);
+  for (let i = pool.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [pool[i], pool[j]] = [pool[j], pool[i]];
+  }
   deck         = pool.slice(0, 10);
   currentIndex = 0;
   activeUnit   = null;
