@@ -433,14 +433,35 @@ function getCatClass(cat) {
 }
 function cardKey(card) { return String(card._idx); }
 
+function shuffleArray(arr) {
+  for (let i = arr.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [arr[i], arr[j]] = [arr[j], arr[i]];
+  }
+  return arr;
+}
+
 // ── Spaced repetition: build ordered deck ─────────────────────────────────────
 function rebuildDeck() {
+  const now  = Date.now();
   const base = ALL_VOCAB
     .map((v, i) => ({ ...v, _idx: i }))
     .filter(v => matchUnit(v));
   const piles = [[], [], []];
-  base.forEach(card => { piles[srPiles[cardKey(card)] ?? 0].push(card); });
-  deck         = [...piles[0], ...piles[1], ...piles[2]];
+  const notDue = [];
+  base.forEach(card => {
+    const pile = srPiles[cardKey(card)] ?? 0;
+    if (pile === 2) {
+      const cd = srCards[cardKey(card)];
+      if (cd && cd.reviewAfter > now) { notDue.push(card); return; }
+    }
+    piles[pile].push(card);
+  });
+  shuffleArray(piles[0]);
+  shuffleArray(piles[1]);
+  shuffleArray(piles[2]);
+  shuffleArray(notDue);
+  deck         = [...piles[0], ...piles[1], ...piles[2], ...notDue];
   currentIndex = 0;
 }
 
@@ -870,10 +891,7 @@ function flipCard() {
 function advanceCard() { currentIndex++; showRatingButtons(false); updateCard(); }
 
 function shuffle() {
-  for (let i = deck.length - 1; i > 0; i--) {
-    const j = Math.floor(Math.random() * (i + 1));
-    [deck[i], deck[j]] = [deck[j], deck[i]];
-  }
+  shuffleArray(deck);
   currentIndex = 0;
   showRatingButtons(false); updateCard();
 }
@@ -884,6 +902,7 @@ function restart() { reviewMode = false; rebuildDeck(); showRatingButtons(false)
 function reviewWeak() {
   const base = deck.filter(v => (srPiles[cardKey(v)] ?? 0) < 2);
   if (base.length === 0) return;
+  shuffleArray(base);
   deck         = base;
   currentIndex = 0;
   showRatingButtons(false);
@@ -897,6 +916,7 @@ function reviewByPile(pile) {
     .map((v, i) => ({ ...v, _idx: i }))
     .filter(v => matchUnit(v) && (srPiles[cardKey(v)] ?? 0) === pile);
   if (base.length === 0) return;
+  shuffleArray(base);
   deck         = base;
   currentIndex = 0;
   showRatingButtons(false);
@@ -918,15 +938,20 @@ function getDueCards() {
 function reviewOldWords() {
   reviewMode = true;
   reviewSessionGreen = new Set();
-  // All due "Got it" cards across ALL units, most overdue first
+  const now = Date.now();
+  // All due "Got it" cards across ALL units, prioritised by overdue ratio
   const due = getDueCards();
   if (due.length < 1) return;
-  // Shuffle and take up to 10
+  // Sort by urgency: how overdue relative to the card's interval
+  due.sort((a, b) => {
+    const cdA = srCards[cardKey(a)], cdB = srCards[cardKey(b)];
+    const intA = (BOX_INTERVALS_DAYS[cdA.box] || 1) * DAY_MS;
+    const intB = (BOX_INTERVALS_DAYS[cdB.box] || 1) * DAY_MS;
+    return (now - cdB.reviewAfter) / intB - (now - cdA.reviewAfter) / intA;
+  });
+  // Take top 20 most urgent, shuffle, pick 10
   const pool = due.slice(0, 20);
-  for (let i = pool.length - 1; i > 0; i--) {
-    const j = Math.floor(Math.random() * (i + 1));
-    [pool[i], pool[j]] = [pool[j], pool[i]];
-  }
+  shuffleArray(pool);
   deck         = pool.slice(0, 10);
   currentIndex = 0;
   activeUnit   = null;
