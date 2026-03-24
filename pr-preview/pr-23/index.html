@@ -1,0 +1,1126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Welsh Vocabulary Quiz</title>
+<meta name="theme-color" content="#1a6b3c">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Geirfa">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+<link rel="manifest" href="manifest.json">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Source+Sans+3:wght@300;400;600&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --cream: #faf7f2; --dark: #1c1c1c; --mid: #5a5a5a; --light: #e8e2d9; --gold: #c8a84b; --hgreen: #1a6b3c;
+    --col-fem: #b83232; --col-masc: #2471a3; --col-verb: #7a7a7a; --col-adj: #1a6b3c; --col-other: #7d5fa5;
+  }
+  body { font-family: 'Source Sans 3', sans-serif; background: var(--cream); min-height: 100vh; display: flex; flex-direction: column; align-items: center; padding: 0 16px 48px; color: var(--dark); }
+  header { width: 100%; max-width: 720px; padding: 20px 0 16px; text-align: center; border-bottom: 2px solid var(--light); margin-bottom: 12px; position: relative; }
+  .header-dragon { position: absolute; left: 0; top: 50%; transform: translateY(-50%); width: 72px; height: 44px; opacity: 0.88; }
+  @media (max-width: 480px) { .header-dragon { width: 52px; height: 32px; } }
+  h1 { font-family: 'Playfair Display', serif; font-size: 1.9rem; letter-spacing: -0.02em; }
+  h1 span { color: var(--hgreen); }
+  .subtitle { font-size: 0.85rem; color: var(--mid); margin-top: 4px; letter-spacing: 0.08em; text-transform: uppercase; }
+  .header-btns { position: absolute; top: 50%; right: 0; transform: translateY(-50%); display: flex; flex-direction: column; gap: 5px; align-items: flex-end; }
+  .lang-toggle { font-family: 'Source Sans 3', sans-serif; font-size: 0.72rem; font-weight: 700; letter-spacing: 0.08em; padding: 5px 10px; border-radius: 20px; border: 1.5px solid var(--light); background: white; color: var(--mid); cursor: pointer; transition: all .18s; }
+  .lang-toggle:hover { border-color: var(--hgreen); color: var(--hgreen); }
+  .settings-toggle { font-size: 1rem; padding: 4px 8px; border-radius: 20px; border: 1.5px solid var(--light); background: white; color: var(--mid); cursor: pointer; transition: all .18s; line-height: 1; }
+  .settings-toggle:hover, .settings-toggle.open { border-color: var(--hgreen); color: var(--hgreen); background: #f0f8f4; }
+  .settings-panel { width: 100%; max-width: 720px; background: white; border: 1.5px solid var(--light); border-radius: 12px; padding: 12px 20px; margin-bottom: 12px; }
+  .settings-inner { display: flex; flex-wrap: wrap; gap: 12px 24px; align-items: center; justify-content: center; }
+  .settings-group { display: flex; align-items: center; gap: 10px; }
+  .settings-label { font-size: 0.7rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--mid); white-space: nowrap; }
+  .toolbar { width: 100%; max-width: 720px; margin-bottom: 12px; }
+  .unit-bar-wrap { position: relative; width: 100%; }
+  .unit-bar-wrap::before,
+  .unit-bar-wrap::after { content: ''; position: absolute; top: 0; bottom: 0; width: 32px; z-index: 1; pointer-events: none; }
+  .unit-bar-wrap::before { left: 0; background: linear-gradient(to right, var(--cream), transparent); }
+  .unit-bar-wrap::after  { right: 0; background: linear-gradient(to left,  var(--cream), transparent); }
+  .unit-bar { display: flex; flex-wrap: nowrap; gap: 7px; overflow-x: auto; padding: 4px 28px; scrollbar-width: none; -ms-overflow-style: none; scroll-behavior: smooth; }
+  .unit-bar::-webkit-scrollbar { display: none; }
+  @media (min-width: 640px) {
+    .unit-bar { flex-wrap: wrap; overflow-x: visible; justify-content: center; padding: 4px 0; }
+    .unit-bar-wrap::before, .unit-bar-wrap::after { display: none; }
+  }
+  .unit-btn { flex-shrink: 0; border: 1.5px solid var(--light); background: white; color: var(--mid); font-family: 'Source Sans 3', sans-serif; font-size: 0.78rem; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; padding: 5px 13px; border-radius: 20px; cursor: pointer; transition: all .18s; white-space: nowrap; }
+  .unit-btn:hover { border-color: var(--hgreen); color: var(--hgreen); }
+  .unit-btn.active { background: var(--dark); border-color: var(--dark); color: white; }
+  .direction-row { display: flex; justify-content: center; }
+  .dir-btn { font-family: 'Source Sans 3', sans-serif; font-size: 0.8rem; font-weight: 600; letter-spacing: 0.04em; padding: 7px 18px; border: 1.5px solid var(--light); background: white; color: var(--mid); cursor: pointer; transition: all .18s; }
+  .dir-btn:first-child { border-radius: 20px 0 0 20px; border-right: none; }
+  .dir-btn:last-child  { border-radius: 0 20px 20px 0; }
+  .dir-btn.active { background: var(--dark); border-color: var(--dark); color: white; }
+  .progress-bar-wrap { width: 100%; max-width: 720px; margin-bottom: 8px; }
+  .progress-info { display: flex; justify-content: space-between; font-size: 0.76rem; color: var(--mid); margin-bottom: 5px; }
+  .progress-track { height: 4px; background: var(--light); border-radius: 2px; overflow: hidden; }
+  .progress-fill  { height: 100%; background: var(--hgreen); border-radius: 2px; transition: width .4s ease; }
+  .card-shell { width: 100%; max-width: 520px; margin: 12px auto 0; }
+  .card-area { perspective: 1200px; flex: 1; cursor: pointer; user-select: none; touch-action: pan-y; }
+  .card-inner { position: relative; width: 100%; height: 290px; transform-style: preserve-3d; transition: transform .55s cubic-bezier(.4,0,.2,1); }
+  .card-inner.flipped { transform: rotateY(180deg); }
+  .card-face { position: absolute; inset: 0; backface-visibility: hidden; -webkit-backface-visibility: hidden; border-radius: 16px; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 32px 36px; box-shadow: 0 8px 32px rgba(0,0,0,.1), 0 2px 8px rgba(0,0,0,.06); }
+  .card-front { background: white; border: 1.5px solid var(--light); }
+  .card-back  { transform: rotateY(180deg); color: white; background: var(--col-adj); }
+  .card-back.cat-feminine  { background: var(--col-fem); }
+  .card-back.cat-masculine { background: var(--col-masc); }
+  .card-back.cat-verb      { background: var(--col-verb); }
+  .card-back.cat-adjective { background: var(--col-adj); }
+  .card-back.cat-other     { background: var(--col-other); }
+  .card-hint { font-size: 0.7rem; letter-spacing: 0.12em; text-transform: uppercase; font-weight: 600; margin-bottom: 18px; opacity: 0.45; }
+  .card-word { font-family: 'Playfair Display', serif; font-size: clamp(1.35rem,4vw,2rem); text-align: center; line-height: 1.3; font-weight: 700; }
+  .card-back .card-word { font-size: clamp(1.5rem,4.5vw,2.3rem); margin-bottom: 10px; }
+  .card-category { display: inline-block; margin-top: 14px; font-size: 0.76rem; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; background: rgba(255,255,255,.2); padding: 3px 11px; border-radius: 20px; }
+  .flip-cue { margin-top: 18px; font-size: 0.72rem; opacity: 0.32; letter-spacing: 0.08em; }
+  .card-actions { display: flex; gap: 8px; justify-content: center; align-items: center; width: 100%; max-width: 520px; margin: 10px auto 0; flex-wrap: wrap; }
+  .complete-banner { display: none; background: var(--hgreen); color: white; border-radius: 16px; padding: 28px 36px; text-align: center; width: 100%; max-width: 520px; margin: 16px auto 14px; box-shadow: 0 8px 32px rgba(0,0,0,.1); }
+  .complete-banner h2 { font-family: 'Playfair Display', serif; font-size: 1.7rem; margin-bottom: 8px; }
+  .complete-banner p  { opacity: 0.85; margin-bottom: 18px; }
+  .btn { font-family: 'Source Sans 3', sans-serif; font-size: 0.84rem; font-weight: 600; letter-spacing: 0.04em; padding: 9px 22px; border-radius: 8px; border: none; cursor: pointer; transition: all .18s; }
+  .btn-next    { background: var(--dark); color: white; }
+  .btn-next:hover { background: #333; }
+  .btn-shuffle { background: white; color: var(--mid); border: 1.5px solid var(--light); }
+  .btn-shuffle:hover { border-color: var(--gold); color: var(--gold); }
+  .btn-restart { background: white; color: var(--mid); border: 1.5px solid var(--light); }
+  .btn-restart:hover { border-color: var(--col-fem); color: var(--col-fem); }
+  .btn-hint { background: white; color: var(--mid); border: 1.5px solid var(--light); }
+  .btn-hint:hover { border-color: var(--gold); color: var(--gold); }
+  .btn-hint:disabled { opacity: 0.35; cursor: default; }
+  .hint-text { position: absolute; bottom: 16px; left: 24px; right: 0; text-align: left; opacity: 0; transition: opacity 0.25s ease; }
+  .hint-prefix { font-family: 'Source Sans 3', sans-serif; font-size: clamp(0.8rem,2.2vw,1rem); font-weight: 400; color: #999; }
+  .hint-letters { font-family: 'Playfair Display', serif; font-size: clamp(1.1rem,3.5vw,1.7rem); font-weight: 700; color: #c0392b; }
+  .hint-text.visible { opacity: 1; }
+  .key-hint { margin-top: 16px; font-size: 0.71rem; color: var(--mid); opacity: 0.55; text-align: center; }
+  .key-hint kbd { background: var(--light); border-radius: 4px; padding: 2px 6px; font-family: monospace; font-size: 0.76rem; }
+  @media (hover: none) and (pointer: coarse) {
+    .key-hint { display: none; }
+  }
+  @media (max-width: 480px) {
+    h1 { font-size: 1.5rem; }
+    .card-face { padding: 22px; }
+    .card-inner { height: 260px; }
+  }
+  .mode-row { display: flex; align-items: center; justify-content: center; gap: 6px; }
+  .mode-btn { font-family: 'Source Sans 3', sans-serif; font-size: 0.78rem; font-weight: 600; letter-spacing: 0.04em; padding: 5px 14px; border: 1.5px solid var(--light); background: white; color: var(--mid); cursor: pointer; transition: all .18s; border-radius: 20px; }
+  .mode-btn.active { background: var(--dark); border-color: var(--dark); color: white; }
+  .pile-badge { position: absolute; top: 12px; right: 14px; font-size: 0.65rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; padding: 2px 8px; border-radius: 20px; opacity: 0; }
+  .pile-badge.pile-0 { opacity: 0; }
+  .pile-badge.pile-0-rated { opacity: 1; background: #f8d7da; color: #842029; }
+  .pile-badge.pile-1 { opacity: 1; background: #fff3cd; color: #856404; }
+  .pile-badge.pile-2 { opacity: 1; background: #d1e7dd; color: #0a3622; }
+  .rating-row { display: flex; align-items: center; justify-content: center; gap: 8px; flex-wrap: wrap; margin: 8px 0 4px; }
+  .rating-label { font-size: 0.78rem; color: var(--mid); font-weight: 600; letter-spacing: 0.04em; margin-right: 4px; }
+  .btn-hard  { font-family: 'Source Sans 3', sans-serif; font-size: 0.84rem; font-weight: 700; letter-spacing: 0.03em; padding: 8px 18px; border-radius: 8px; border: none; cursor: pointer; transition: all .18s; background: #f8d7da; color: #842029; }
+  .btn-hard:hover  { background: #f1aeb5; }
+  .btn-okay  { font-family: 'Source Sans 3', sans-serif; font-size: 0.84rem; font-weight: 700; letter-spacing: 0.03em; padding: 8px 18px; border-radius: 8px; border: none; cursor: pointer; transition: all .18s; background: #fff3cd; color: #664d03; }
+  .btn-okay:hover  { background: #ffe69c; }
+  .btn-known { font-family: 'Source Sans 3', sans-serif; font-size: 0.84rem; font-weight: 700; letter-spacing: 0.03em; padding: 8px 18px; border-radius: 8px; border: none; cursor: pointer; transition: all .18s; background: #d1e7dd; color: #0a3622; }
+  .btn-known:hover { background: #a3cfbb; }
+  .typing-area { width: 100%; max-width: 520px; margin: 16px auto 14px; background: white; border: 1.5px solid var(--light); border-radius: 16px; padding: 32px 36px; box-shadow: 0 8px 32px rgba(0,0,0,.1), 0 2px 8px rgba(0,0,0,.06); display: flex; flex-direction: column; align-items: center; gap: 14px; }
+  .typing-prompt { font-family: 'Playfair Display', serif; font-size: clamp(1.35rem,4vw,2rem); text-align: center; font-weight: 700; line-height: 1.3; }
+  .typing-input  { width: 100%; max-width: 340px; font-family: 'Source Sans 3', sans-serif; font-size: 1.05rem; padding: 10px 14px; border: 1.5px solid var(--light); border-radius: 8px; outline: none; transition: border-color .18s; }
+  .typing-input:focus { border-color: var(--hgreen); }
+  .typing-actions { display: flex; gap: 10px; }
+  .typing-feedback { font-size: 0.9rem; font-weight: 600; min-height: 1.4em; text-align: center; }
+  .typing-feedback.correct { color: var(--hgreen); }
+  .typing-feedback.wrong   { color: var(--col-fem); }
+  .unit-btn-partial  { border-color: #e6a817 !important; color: #7a4f00 !important; background: #fff8e6 !important; }
+  .unit-btn-partial.active { background: #e6a817 !important; border-color: #e6a817 !important; color: white !important; }
+  .unit-btn-mastered { border-color: var(--hgreen) !important; color: var(--hgreen) !important; background: #eaf7ee !important; }
+  .unit-btn-mastered.active { background: var(--hgreen) !important; border-color: var(--hgreen) !important; color: white !important; }
+  .review-pill { flex-shrink: 0; border: 1.5px solid var(--hgreen); background: #eaf7ee; color: var(--hgreen); font-family: 'Source Sans 3', sans-serif; font-size: 0.78rem; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; padding: 5px 13px; border-radius: 20px; cursor: pointer; transition: all .18s; white-space: nowrap; }
+  .review-pill:hover { background: var(--hgreen); color: white; }
+  .mastery-overlay { position: fixed; inset: 0; z-index: 999; display: flex; align-items: center; justify-content: center; background: rgba(0,0,0,.45); animation: fadeInOverlay .3s ease; }
+  @keyframes fadeInOverlay { from { opacity: 0; } to { opacity: 1; } }
+  .mastery-card { background: white; border-radius: 20px; padding: 40px 48px; text-align: center; max-width: 420px; width: 90%; box-shadow: 0 24px 64px rgba(0,0,0,.25); animation: popIn .4s cubic-bezier(.2,1.4,.4,1); position: relative; overflow: hidden; }
+  @keyframes popIn { from { transform: scale(0.7); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+  .mastery-card h2 { font-family: 'Playfair Display', serif; font-size: 2rem; color: var(--hgreen); margin-bottom: 8px; }
+  .mastery-card .mastery-unit { font-size: 0.8rem; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: var(--mid); margin-bottom: 16px; }
+  .mastery-card p { color: var(--mid); font-size: 0.95rem; line-height: 1.6; margin-bottom: 24px; }
+  .mastery-card .btn-close-mastery { background: var(--hgreen); color: white; border: none; border-radius: 10px; padding: 12px 32px; font-family: 'Source Sans 3', sans-serif; font-size: 0.95rem; font-weight: 700; cursor: pointer; transition: background .18s; }
+  .mastery-card .btn-close-mastery:hover { background: #14552f; }
+  .mastery-confetti { position: absolute; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; }
+  .sr-stats { display: flex; gap: 10px; justify-content: center; align-items: center; flex-wrap: wrap; margin-top: 10px; font-size: 0.75rem; font-weight: 600; }
+  .sr-stat  { padding: 3px 10px; border-radius: 20px; cursor: pointer; transition: filter .15s, transform .15s; user-select: none; }
+  .sr-stat:hover  { filter: brightness(0.92); transform: translateY(-1px); }
+  .sr-stat:active { transform: translateY(0); }
+  .sr-stat[data-count="0"] { opacity: 0.4; cursor: default; pointer-events: none; }
+  .sr-hard  { background: #f8d7da; color: #842029; }
+  .sr-okay  { background: #fff3cd; color: #664d03; }
+  .sr-known { background: #d1e7dd; color: #0a3622; }
+  .btn-clear-data { font-family: 'Source Sans 3', sans-serif; font-size: 0.72rem; color: var(--mid); background: none; border: none; cursor: pointer; text-decoration: underline; opacity: 0.5; padding: 0 4px; }
+  .btn-clear-data:hover { opacity: 1; }
+  .complete-banner .btn-review { background: rgba(255,255,255,.18); color: white; border: 1.5px solid rgba(255,255,255,.45); font-family: 'Source Sans 3', sans-serif; font-size: 0.84rem; font-weight: 600; padding: 9px 22px; border-radius: 8px; cursor: pointer; transition: all .18s; }
+  .complete-banner .btn-review:hover { background: rgba(255,255,255,.3); }
+  .complete-banner .btn-review:disabled { opacity: 0.35; cursor: default; }
+  .complete-banner .banner-actions { display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; }
+</style>
+</head>
+<body>
+
+<header>
+  <img class="header-dragon" src="favicon.svg" alt="Welsh dragon" aria-hidden="true">
+  <h1 data-i18n="title">Geirfa</h1>
+  <p class="subtitle"><span id="levelLabel">Canolradd</span> &middot; <span id="wordCountLabel">908 words</span></p>
+  <div class="header-btns">
+    <button class="lang-toggle" id="langToggle" onclick="toggleLang()">Cy</button>
+    <button class="settings-toggle" id="settingsToggle" onclick="toggleSettings()" aria-label="Settings">&#9881;</button>
+  </div>
+</header>
+
+<div class="toolbar">
+  <div class="unit-bar-wrap"><div class="unit-bar" id="unitBar"></div></div>
+</div>
+
+<div class="settings-panel" id="settingsPanel" style="display:none">
+  <div class="settings-inner">
+    <div class="settings-group">
+      <span class="settings-label" data-i18n="dirLabel">Direction</span>
+      <div class="direction-row">
+        <button class="dir-btn active" id="dirEW" onclick="setDirection('en-cy')" data-i18n="dirEW">English &rarr; Welsh</button>
+        <button class="dir-btn"        id="dirWE" onclick="setDirection('cy-en')" data-i18n="dirWE">Welsh &rarr; English</button>
+      </div>
+    </div>
+    <div class="settings-group">
+      <span class="settings-label" data-i18n="modeLabel">Mode</span>
+      <div class="mode-row">
+        <button class="mode-btn active" id="modeFlip" onclick="setTypingMode(false)" data-i18n="modeFlip">Flip cards</button>
+        <button class="mode-btn"        id="modeType" onclick="setTypingMode(true)"  data-i18n="modeType">Typing</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="progress-bar-wrap">
+  <div class="progress-info"><span id="progressLabel">Card 1 of 908</span><span id="progressPct">0%</span></div>
+  <div class="progress-track"><div class="progress-fill" id="progressFill" style="width:0%"></div></div>
+</div>
+
+<div class="card-shell">
+  <div class="card-area" id="cardArea" onclick="flipCard()">
+    <div class="card-inner" id="cardInner">
+      <div class="card-face card-front">
+        <div class="card-hint" id="frontHint">English</div>
+        <div class="card-word" id="frontWord">Loading&hellip;</div>
+        <span class="pile-badge pile-0" id="pileBadge"></span>
+        <div class="flip-cue" data-i18n="flipCue">tap to flip</div>
+        <div class="hint-text" id="hintText"></div>
+      </div>
+      <div class="card-face card-back" id="cardBack">
+        <div class="card-hint" id="backHint">Welsh</div>
+        <div class="card-word" id="backWord"></div>
+        <div class="card-category" id="backCategory"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="typing-area" id="typingArea" style="display:none">
+  <div class="card-hint" id="typingLang">Welsh</div>
+  <div class="typing-prompt" id="typingPrompt"></div>
+  <input type="text" class="typing-input" id="typingInput" data-i18n-placeholder="typingPlaceholder" placeholder="Type your answer&hellip;" onkeydown="if(event.key==='Enter')checkTyping()">
+  <div class="typing-actions">
+    <button class="btn btn-next" id="typingSubmit" onclick="checkTyping()" data-i18n="check">Check</button>
+  </div>
+  <div class="typing-feedback" id="typingFeedback"></div>
+</div>
+
+<div id="ratingRow" class="rating-row" style="display:none">
+  <span class="rating-label" data-i18n="howDidYou">How did you do?</span>
+  <button class="btn btn-hard"  onclick="rateCard(0)" data-i18n="hard">Hard</button>
+  <button class="btn btn-okay"  onclick="rateCard(1)" data-i18n="okay">Okay</button>
+  <button class="btn btn-known" onclick="rateCard(2)" data-i18n="gotIt">Got it</button>
+</div>
+
+<div class="card-actions" id="hint-row-wrap">
+  <button class="btn btn-hint" id="hintBtn" onclick="showHint()" data-i18n="hint">Hint</button>
+  <button class="btn btn-shuffle" onclick="shuffle()" data-i18n="shuffle">&#8651; Shuffle</button>
+  <button class="btn btn-restart" onclick="restart()" data-i18n="reset">&#8635; Reset</button>
+</div>
+
+<div class="complete-banner" id="completeBanner">
+  <h2 data-i18n="daIawn">Da iawn!</h2>
+  <p id="completeBannerMsg"></p>
+  <div class="banner-actions">
+    <button class="btn btn-next"  id="bannerRestartBtn"     onclick="restart()"       data-i18n="startAgain">Start again</button>
+    <button class="btn-review"    id="bannerReviewWeakBtn"  onclick="reviewWeak()"    data-i18n="reviewWeak">Retry difficult words</button>
+    <button class="btn btn-next"  id="bannerReviewMoreBtn"  onclick="reviewOldWords()" data-i18n="reviewMore">Review 10 more words</button>
+  </div>
+</div>
+
+<div class="sr-stats">
+  <div class="sr-stat sr-hard"  id="srStatHard"  data-count="0" onclick="reviewByPile(0)" title=""><span id="srHard">0</span> <span data-i18n="hard">Hard</span></div>
+  <div class="sr-stat sr-okay"  id="srStatOkay"  data-count="0" onclick="reviewByPile(1)" title=""><span id="srOkay">0</span> <span data-i18n="okay">Okay</span></div>
+  <div class="sr-stat sr-known" id="srStatKnown" data-count="0" onclick="reviewByPile(2)" title=""><span id="srKnown">0</span> <span data-i18n="gotIt">Known</span></div>
+  <button class="btn-clear-data" onclick="clearAllData()" data-i18n="clearProgress">Clear all progress</button>
+</div>
+
+<div class="key-hint"><kbd>Space</kbd> <span data-i18n="kbFlip">flip</span> &nbsp;&middot;&nbsp; <kbd>1</kbd> <span data-i18n="hard">Hard</span> &nbsp;&middot;&nbsp; <kbd>2</kbd> <span data-i18n="okay">Okay</span> &nbsp;&middot;&nbsp; <kbd>3</kbd> <span data-i18n="gotIt">Got it</span></div>
+
+<script>
+// ── Storage abstraction ───────────────────────────────────────────────────────
+// All persistence is routed through this single object.
+// To swap localStorage for IndexedDB, a server API, or anything else,
+// only the three methods below need to change — nothing else in the app
+// touches localStorage directly.
+const storage = {
+  get(key, fallback = null) {
+    try { return JSON.parse(localStorage.getItem(key)) ?? fallback; }
+    catch { return fallback; }
+  },
+  set(key, value) {
+    try { localStorage.setItem(key, JSON.stringify(value)); }
+    catch (e) { console.warn('storage.set failed:', key, e); }
+  },
+  remove(key) {
+    try { localStorage.removeItem(key); }
+    catch (e) { console.warn('storage.remove failed:', key, e); }
+  }
+};
+
+// ── Storage keys ──────────────────────────────────────────────────────────────
+const SR_KEY         = 'welsh_sr_piles';
+const STATE_KEY      = 'welsh_state';
+const MASTERY_KEY    = 'welsh_mastered_units';
+const TS_KEY         = 'welsh_sr_timestamps';
+const CARDS_KEY      = 'welsh_sr_cards';
+
+// ── Leitner box intervals (days) ─────────────────────────────────────────────
+// Box 0 = immediate, Box 8 = 365 days (effectively mastered)
+const BOX_INTERVALS_DAYS = [0, 1, 3, 7, 14, 30, 90, 180, 365];
+const DAY_MS = 86400000;
+
+let ALL_VOCAB = [];
+
+// ── Card data helpers ─────────────────────────────────────────────────────────
+// Per-card object: { pile, box, streak, reviewAfter, totalReviews, totalCorrect }
+function loadCards()  { return storage.get(CARDS_KEY, {}); }
+function saveCards()  { storage.set(CARDS_KEY, srCards); }
+
+function defaultCard(pile) {
+  return { pile: pile ?? 0, box: 0, streak: 0, reviewAfter: 0, totalReviews: 0, totalCorrect: 0 };
+}
+
+function getCard(key) {
+  return srCards[key] || defaultCard(srPiles[key] ?? 0);
+}
+
+// Migrate old welsh_sr_piles + welsh_sr_timestamps → welsh_sr_cards
+function migrateToCards() {
+  const oldPiles = storage.get(SR_KEY, null);
+  const oldTs    = storage.get(TS_KEY, null);
+  if (oldPiles === null && oldTs === null) return; // nothing to migrate
+  const cards = {};
+  const piles = oldPiles || {};
+  const ts    = oldTs    || {};
+  for (const key of new Set([...Object.keys(piles), ...Object.keys(ts)])) {
+    const pile = piles[key] ?? 0;
+    cards[key] = {
+      pile,
+      box:          pile === 2 ? 1 : 0,
+      streak:       pile === 2 ? 1 : 0,
+      reviewAfter:  ts[key] || 0,
+      totalReviews: 0,
+      totalCorrect: 0
+    };
+  }
+  storage.set(CARDS_KEY, cards);
+  storage.remove(SR_KEY);
+  storage.remove(TS_KEY);
+  return cards;
+}
+
+async function loadVocab() {
+  try {
+    const res = await fetch('vocabulary.json');
+    if (!res.ok) throw new Error('HTTP ' + res.status);
+    const raw = await res.json();
+    ALL_VOCAB = raw.map(v => ({
+      e: v.word_english,
+      c: v.word_welsh,
+      g: v.category,
+      l: v.level,
+      u: v.unit
+    }));
+    init();
+  } catch(err) {
+    document.getElementById('frontWord').textContent = t('errorLoad');
+    document.getElementById('frontHint').textContent = 'Error';
+    console.error('vocab load error:', err);
+  }
+}
+
+// ── Unit filter ───────────────────────────────────────────────────────────────
+let activeUnit = null;
+
+function getUnits() {
+  const units = [...new Set(ALL_VOCAB.map(v => v.u))];
+  return units.sort((a, b) => {
+    const na = parseInt(a), nb = parseInt(b);
+    if (!isNaN(na) && !isNaN(nb)) return na - nb;
+    if (!isNaN(na)) return -1;
+    if (!isNaN(nb)) return 1;
+    return a.localeCompare(b);
+  });
+}
+
+function matchUnit(item) { return item.u === activeUnit; }
+
+// ── Persistence helpers ───────────────────────────────────────────────────────
+// These thin wrappers keep domain logic separate from storage mechanics.
+// If storage.get/set ever become async, only these four functions need updating.
+
+function loadState()    { return storage.get(STATE_KEY, {}); }
+function loadMastered() { return new Set(storage.get(MASTERY_KEY, [])); }
+function saveMastered(s){ storage.set(MASTERY_KEY, [...s]); }
+
+function saveState() {
+  storage.set(STATE_KEY, {
+    unit:        activeUnit,
+    direction,
+    currentIndex,
+    deckIndices: deck.map(c => c._idx)
+  });
+}
+
+function clearAllData() {
+  if (!confirm(t('confirmClear'))) return;
+  storage.remove(SR_KEY);
+  storage.remove(STATE_KEY);
+  storage.remove(MASTERY_KEY);
+  storage.remove(TS_KEY);
+  storage.remove(CARDS_KEY);
+  srCards       = {};
+  srPiles       = {};
+  reviewMode    = false;
+  activeUnit = getUnits()[0] || null;
+  direction  = 'en-cy';
+  rebuildDeck();
+  updateDirectionUI();
+  buildUnitBar();
+  updateCard();
+  renderSRStats();
+}
+
+// ── Core state ────────────────────────────────────────────────────────────────
+// Migrate old format if needed, then load card data
+let srCards = loadCards();
+if (Object.keys(srCards).length === 0) {
+  const migrated = migrateToCards();
+  if (migrated) srCards = migrated;
+}
+// srPiles is now a compatibility view derived from srCards
+let srPiles = {};
+for (const [k, v] of Object.entries(srCards)) srPiles[k] = v.pile;
+let deck         = [];
+let currentIndex = 0;
+let isFlipped    = false;
+let direction    = 'en-cy';
+let typingMode        = false;
+let reviewMode        = false;  // true only when the "Review" pill session is active
+let reviewSessionGreen = new Set(); // cards confirmed "Got it" in the current review round
+
+// ── Helpers ───────────────────────────────────────────────────────────────────
+function getCatClass(cat) {
+  if (cat === 'feminine noun')  return 'cat-feminine';
+  if (cat === 'masculine noun') return 'cat-masculine';
+  if (cat === 'adjective')      return 'cat-adjective';
+  if (cat === 'verb')           return 'cat-verb';
+  return 'cat-other';
+}
+function cardKey(card) { return String(card._idx); }
+
+function shuffleArray(arr) {
+  for (let i = arr.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [arr[i], arr[j]] = [arr[j], arr[i]];
+  }
+  return arr;
+}
+
+// ── Spaced repetition: build ordered deck ─────────────────────────────────────
+function rebuildDeck() {
+  const now  = Date.now();
+  const base = ALL_VOCAB
+    .map((v, i) => ({ ...v, _idx: i }))
+    .filter(v => matchUnit(v));
+  const piles = [[], [], []];
+  const notDue = [];
+  base.forEach(card => {
+    const pile = srPiles[cardKey(card)] ?? 0;
+    if (pile === 2) {
+      const cd = srCards[cardKey(card)];
+      if (cd && cd.reviewAfter > now) { notDue.push(card); return; }
+    }
+    piles[pile].push(card);
+  });
+  shuffleArray(piles[0]);
+  shuffleArray(piles[1]);
+  shuffleArray(piles[2]);
+  shuffleArray(notDue);
+  deck         = [...piles[0], ...piles[1], ...piles[2], ...notDue];
+  currentIndex = 0;
+}
+
+// ── Mastery ───────────────────────────────────────────────────────────────────
+function getUnitMasteryState(unit) {
+  const words = ALL_VOCAB.map((v, i) => ({ ...v, _idx: i })).filter(v => v.u === unit);
+  if (words.length === 0) return 'none';
+  const known = words.filter(c => (srPiles[cardKey(c)] ?? 0) === 2).length;
+  const rated = words.filter(c => srPiles[cardKey(c)] !== undefined).length;
+  if (known === words.length) return 'mastered';
+  if (rated > 0) return 'partial';
+  return 'none';
+}
+
+function showMasteryCelebration(unit) {
+  const label = isNaN(parseInt(unit)) ? unit.charAt(0).toUpperCase() + unit.slice(1) : 'Unit ' + unit;
+  const overlay = document.createElement('div');
+  overlay.className = 'mastery-overlay';
+  overlay.innerHTML = `
+    <div class="mastery-card">
+      <canvas class="mastery-confetti" id="masteryCanvas"></canvas>
+      <div class="mastery-unit">${label}</div>
+      <h2>${t('masteryTitle')}</h2>
+      <p>${t('masteryBody')}</p>
+      <button class="btn-close-mastery" onclick="this.closest('.mastery-overlay').remove()">${t('masteryClose')}</button>
+    </div>`;
+  document.body.appendChild(overlay);
+  overlay.addEventListener('click', e => { if (e.target === overlay) overlay.remove(); });
+
+  const canvas = document.getElementById('masteryCanvas');
+  const ctx    = canvas.getContext('2d');
+  const card   = canvas.parentElement;
+  canvas.width  = card.offsetWidth;
+  canvas.height = card.offsetHeight;
+  const pieces = Array.from({ length: 60 }, () => ({
+    x: Math.random() * canvas.width, y: -10 - Math.random() * 80,
+    r: 4 + Math.random() * 5, d: 2 + Math.random() * 3,
+    color: ['#1a6b3c','#c8a84b','#2471a3','#b83232','#7d5fa5'][Math.floor(Math.random()*5)],
+    tilt: Math.random() * 10 - 5, tiltSpeed: 0.1 + Math.random() * 0.2
+  }));
+  let frame = 0;
+  function drawConfetti() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    pieces.forEach(p => {
+      ctx.beginPath();
+      ctx.ellipse(p.x, p.y, p.r, p.r * 0.5, p.tilt, 0, Math.PI * 2);
+      ctx.fillStyle = p.color; ctx.fill();
+      p.y += p.d; p.x += Math.sin(frame * 0.05 + p.tilt) * 0.8; p.tilt += p.tiltSpeed;
+    });
+    frame++;
+    if (frame < 200) requestAnimationFrame(drawConfetti);
+    else ctx.clearRect(0, 0, canvas.width, canvas.height);
+  }
+  drawConfetti();
+}
+
+// ── Rating ────────────────────────────────────────────────────────────────────
+function rateCard(pile) {
+  if (currentIndex >= deck.length) return;
+  const card = deck[currentIndex];
+  const key  = cardKey(card);
+
+  // Update card data with Leitner box logic
+  const cd = getCard(key);
+  cd.pile = pile;
+  cd.totalReviews++;
+  if (pile === 2) {
+    cd.streak++;
+    cd.totalCorrect++;
+    cd.box = Math.min(cd.box + 1, BOX_INTERVALS_DAYS.length - 1);
+    cd.reviewAfter = Date.now() + BOX_INTERVALS_DAYS[cd.box] * DAY_MS;
+  } else if (pile === 1) {
+    cd.streak = 0;
+    cd.box = Math.max(cd.box - 3, 0);
+    cd.reviewAfter = Date.now();
+  } else {
+    cd.streak = 0;
+    cd.box = Math.max(cd.box - 5, 0);
+    cd.reviewAfter = Date.now();
+  }
+  srCards[key] = cd;
+  srPiles[key] = pile;
+  saveCards();
+  renderSRStats();
+  refreshUnitBar();
+  if (pile === 2 && activeUnit !== null) {
+    const state = getUnitMasteryState(activeUnit);
+    if (state === 'mastered') {
+      const celebrated = loadMastered();
+      if (!celebrated.has(activeUnit)) {
+        celebrated.add(activeUnit);
+        saveMastered(celebrated);
+        setTimeout(() => showMasteryCelebration(activeUnit), 400);
+      }
+    }
+  }
+  if (reviewMode && pile === 2) reviewSessionGreen.add(key);
+  if (reviewMode && pile < 2) {
+    // Send card to the back so all other unvisited cards are seen first
+    deck.splice(currentIndex, 1);
+    deck.push(card);
+    // currentIndex unchanged — next card slides into the current slot
+    showRatingButtons(false);
+    updateCard();
+  } else {
+    advanceCard();
+  }
+}
+
+function renderSRStats() {
+  const base  = activeUnit === null
+    ? deck.map((v, i) => ({ ...v, _idx: v._idx }))
+    : ALL_VOCAB.map((v, i) => ({ ...v, _idx: i })).filter(v => matchUnit(v));
+  const hard  = base.filter(c => srPiles[cardKey(c)] === 0).length;
+  const okay  = base.filter(c => srPiles[cardKey(c)] === 1).length;
+  const known = base.filter(c => srPiles[cardKey(c)] === 2).length;
+  document.getElementById('srHard').textContent  = hard;
+  document.getElementById('srOkay').textContent  = okay;
+  document.getElementById('srKnown').textContent = known;
+  // data-count drives the CSS pointer-events / opacity for empty pills
+  document.getElementById('srStatHard').dataset.count  = hard;
+  document.getElementById('srStatOkay').dataset.count  = okay;
+  document.getElementById('srStatKnown').dataset.count = known;
+  // Tooltip hints
+  const pileLabels = [t('hard'), t('okay'), t('gotIt')];
+  const counts = [hard, okay, known];
+  const ids = ['srStatHard', 'srStatOkay', 'srStatKnown'];
+  ids.forEach((id, i) => {
+    document.getElementById(id).title = counts[i] > 0
+      ? (lang === 'cy' ? `Adolygu ${counts[i]} gair ${pileLabels[i].toLowerCase()}` : `Review ${counts[i]} ${pileLabels[i].toLowerCase()} word${counts[i] !== 1 ? 's' : ''}`)
+      : '';
+  });
+}
+
+function showRatingButtons(show) {
+  document.getElementById('ratingRow').style.display = show ? 'flex' : 'none';
+}
+
+// ── Typing mode ───────────────────────────────────────────────────────────────
+function setTypingMode(on) {
+  typingMode = on;
+  document.getElementById('modeFlip').classList.toggle('active', !on);
+  document.getElementById('modeType').classList.toggle('active',  on);
+  showRatingButtons(false);
+  resetTypingArea();
+  updateCard();
+  saveState();
+}
+
+function renderTypingCard() {
+  if (currentIndex >= deck.length) return;
+  const card = deck[currentIndex];
+  document.getElementById('typingPrompt').textContent    = direction === 'en-cy' ? card.e : card.c;
+  document.getElementById('typingInput').value           = '';
+  document.getElementById('typingInput').disabled        = false;
+  document.getElementById('typingFeedback').textContent  = '';
+  document.getElementById('typingFeedback').className    = 'typing-feedback';
+  document.getElementById('typingSubmit').style.display  = 'inline-block';
+  document.getElementById('typingLang').textContent      = direction === 'en-cy' ? t('cardLangCy') : t('cardLangEn');
+  const hintEl1 = document.getElementById('hintText');
+  hintEl1.textContent = '';
+  hintEl1.classList.remove('visible');
+  document.getElementById('hintBtn').disabled            = false;
+  hintRevealed = 0;
+  document.getElementById('typingInput').focus();
+}
+
+function resetTypingArea() {
+  document.getElementById('typingInput').value           = '';
+  document.getElementById('typingFeedback').textContent  = '';
+  document.getElementById('typingFeedback').className    = 'typing-feedback';
+  document.getElementById('typingSubmit').style.display  = 'inline-block';
+  document.getElementById('typingInput').disabled        = false;
+}
+
+function normalise(s) {
+  return s.trim().toLowerCase().replace(/\(.*?\)/g,'').replace(/[.,;!?]/g,'').replace(/\s+/g,' ').trim();
+}
+
+function checkTyping() {
+  if (currentIndex >= deck.length) return;
+  const card    = deck[currentIndex];
+  const answer  = direction === 'en-cy' ? card.c : card.e;
+  const user    = normalise(document.getElementById('typingInput').value);
+  const correct = normalise(answer);
+  const isOk    = correct.split('/').map(s => s.trim()).some(v => v === user);
+  const fb = document.getElementById('typingFeedback');
+  fb.textContent = isOk ? t('correct') : t('notQuite') + answer;
+  fb.className   = 'typing-feedback ' + (isOk ? 'correct' : 'wrong');
+  document.getElementById('typingInput').disabled       = true;
+  document.getElementById('typingSubmit').style.display = 'none';
+  showRatingButtons(true);
+  updateProgress();
+  saveState();
+}
+
+// ── Unit bar ──────────────────────────────────────────────────────────────────
+function unitPillLabel(unit, state) {
+  const tick  = state === 'mastered' ? ' \u2713' : '';
+  const count = ALL_VOCAB.filter(v => v.u === unit).length;
+  const lbl   = isNaN(parseInt(unit)) ? unit.charAt(0).toUpperCase() + unit.slice(1) : t('unitLabel') + ' ' + unit;
+  return lbl + ' (' + count + ')' + tick;
+}
+
+function buildUnitBar() {
+  const bar = document.getElementById('unitBar');
+  bar.innerHTML = '';
+
+  // Prepend "Review" pill once any unit has ever been mastered (never removed after that)
+  const showReview = getUnits().some(u => getUnitMasteryState(u) === 'mastered') || loadMastered().size > 0;
+  if (showReview) {
+    const reviewPill = document.createElement('button');
+    reviewPill.className   = 'review-pill';
+    reviewPill.id          = 'unitBarReviewBtn';
+    const dueCount = getDueCards().length;
+    reviewPill.textContent = (lang === 'cy' ? 'Adolygu' : 'Review') + (dueCount > 0 ? ' (' + dueCount + ')' : '');
+    reviewPill.onclick     = reviewOldWords;
+    reviewPill.disabled    = dueCount === 0;
+    reviewPill.style.opacity = dueCount === 0 ? '0.4' : '';
+    reviewPill.style.cursor  = dueCount === 0 ? 'default' : '';
+    bar.appendChild(reviewPill);
+  }
+
+  getUnits().forEach(unit => {
+    const state = getUnitMasteryState(unit);
+    const btn   = document.createElement('button');
+    let cls = 'unit-btn';
+    if (state === 'mastered') cls += ' unit-btn-mastered';
+    else if (state === 'partial') cls += ' unit-btn-partial';
+    if (activeUnit === unit) cls += ' active';
+    btn.className    = cls;
+    btn.dataset.unit = unit;
+    btn.textContent  = unitPillLabel(unit, state);
+    btn.onclick      = () => setUnit(unit, btn);
+    bar.appendChild(btn);
+  });
+}
+
+function refreshUnitBar() {
+  const showReview = getUnits().some(u => getUnitMasteryState(u) === 'mastered') || loadMastered().size > 0;
+  const bar = document.getElementById('unitBar');
+  const existing = document.getElementById('unitBarReviewBtn');
+  if (showReview && !existing) {
+    buildUnitBar(); return;
+  } else if (showReview && existing) {
+    const dueCount = getDueCards().length;
+    existing.textContent = (lang === 'cy' ? 'Adolygu' : 'Review') + (dueCount > 0 ? ' (' + dueCount + ')' : '');
+    existing.disabled    = dueCount === 0;
+    existing.style.opacity = dueCount === 0 ? '0.4' : '';
+    existing.style.cursor  = dueCount === 0 ? 'default' : '';
+  }
+  document.querySelectorAll('.unit-btn').forEach(btn => {
+    const state = getUnitMasteryState(btn.dataset.unit);
+    btn.classList.remove('unit-btn-mastered', 'unit-btn-partial');
+    if (state === 'mastered') btn.classList.add('unit-btn-mastered');
+    else if (state === 'partial') btn.classList.add('unit-btn-partial');
+    btn.textContent = unitPillLabel(btn.dataset.unit, state);
+  });
+}
+
+// ── Word count in subtitle ────────────────────────────────────────────────────
+// Shows total words across ALL units in the current level (not just the active unit).
+// Currently there is only one level (Canolradd), so this is always 908.
+function updateWordCount() {
+  const count = ALL_VOCAB.length;
+  const el = document.getElementById('wordCountLabel');
+  if (el) el.textContent = count + (lang === 'cy' ? ' gair' : ' words');
+}
+
+function setUnit(unit, btn) {
+  activeUnit = unit;
+  reviewMode = false;
+  document.querySelectorAll('.unit-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  btn.scrollIntoView({ block: 'nearest', inline: 'center', behavior: 'smooth' });
+  rebuildDeck();
+  renderSRStats();
+  updateWordCount();
+  if (typingMode) renderTypingCard(); else updateCard();
+  saveState();
+}
+
+function setDirection(dir) {
+  direction = dir;
+  updateDirectionUI();
+  const inner = document.getElementById('cardInner');
+  inner.style.transition = 'none';
+  inner.classList.remove('flipped');
+  isFlipped = false;
+  setTimeout(() => inner.style.transition = '', 30);
+  const hintEl2 = document.getElementById('hintText');
+  hintEl2.textContent = '';
+  hintEl2.classList.remove('visible');
+  document.getElementById('hintBtn').disabled = false;
+  hintRevealed = 0;
+  showRatingButtons(false);
+  if (typingMode) renderTypingCard(); else renderCard();
+  saveState();
+}
+
+function updateDirectionUI() {
+  document.getElementById('dirEW').classList.toggle('active', direction === 'en-cy');
+  document.getElementById('dirWE').classList.toggle('active', direction === 'cy-en');
+}
+
+// ── Render ────────────────────────────────────────────────────────────────────
+function renderCard() {
+  if (currentIndex >= deck.length) return;
+  const card     = deck[currentIndex];
+  const pile     = srPiles[cardKey(card)] ?? 0;
+  const pileBadge = document.getElementById('pileBadge');
+  const isRated = srPiles[cardKey(card)] !== undefined;
+  if (!isRated) {
+    pileBadge.textContent = '';
+    pileBadge.className   = 'pile-badge pile-0';
+  } else {
+    const labels = [t('pileHard'), t('pileOkay'), t('pileKnown')];
+    const classes = ['pile-0-rated', 'pile-1', 'pile-2'];
+    const cd = srCards[cardKey(card)];
+    const boxLabel = (pile === 2 && cd && cd.box > 0) ? ' (' + cd.box + ')' : '';
+    pileBadge.textContent = labels[pile] + boxLabel;
+    pileBadge.className   = 'pile-badge ' + classes[pile];
+  }
+
+  if (direction === 'en-cy') {
+    document.getElementById('frontHint').textContent = t('cardLangEn');
+    document.getElementById('frontWord').textContent = card.e;
+    document.getElementById('backHint').textContent  = t('cardLangCy');
+    document.getElementById('backWord').textContent  = card.c;
+  } else {
+    document.getElementById('frontHint').textContent = t('cardLangCy');
+    document.getElementById('frontWord').textContent = card.c;
+    document.getElementById('backHint').textContent  = t('cardLangEn');
+    document.getElementById('backWord').textContent  = card.e;
+  }
+  document.getElementById('backCategory').textContent = card.g;
+  document.getElementById('cardBack').className = 'card-face card-back ' + getCatClass(card.g);
+}
+
+function updateCard() {
+  const banner    = document.getElementById('completeBanner');
+  const cardShell = document.querySelector('.card-shell');
+  const typArea   = document.getElementById('typingArea');
+
+  if (currentIndex >= deck.length) {
+    banner.style.display    = 'block';
+    cardShell.style.display = 'none';
+    typArea.style.display   = 'none';
+    document.getElementById('hint-row-wrap').style.display = 'none';
+    document.getElementById('ratingRow').style.display     = 'none';
+    if (reviewMode) {
+      document.getElementById('completeBannerMsg').textContent = t('allGreen');
+      document.getElementById('bannerRestartBtn').style.display    = 'none';
+      document.getElementById('bannerReviewWeakBtn').style.display = 'none';
+      const reviewMoreBtn = document.getElementById('bannerReviewMoreBtn');
+      const dueNow = getDueCards().length;
+      reviewMoreBtn.style.display = '';
+      reviewMoreBtn.disabled = dueNow === 0;
+    } else {
+      document.getElementById('completeBannerMsg').textContent = t('completedSet');
+      document.getElementById('bannerRestartBtn').style.display    = '';
+      document.getElementById('bannerReviewMoreBtn').style.display = 'none';
+      const weakCount = deck.filter(v => (srPiles[cardKey(v)] ?? 0) < 2).length;
+      const reviewWeakBtn = document.getElementById('bannerReviewWeakBtn');
+      reviewWeakBtn.style.display = '';
+      reviewWeakBtn.disabled = weakCount === 0;
+      reviewWeakBtn.title    = weakCount === 0 ? t('allKnown') : weakCount + ' cards to review';
+    }
+    updateProgress(); saveState(); return;
+  }
+
+  banner.style.display    = 'none';
+  cardShell.style.display = 'block';
+  showRatingButtons(false);
+
+  if (typingMode) {
+    document.getElementById('cardArea').style.display      = 'none';
+    typArea.style.display                                  = 'block';
+    document.getElementById('hint-row-wrap').style.display = 'none';
+    renderTypingCard();
+  } else {
+    document.getElementById('cardArea').style.display      = 'block';
+    typArea.style.display                                  = 'none';
+    document.getElementById('hint-row-wrap').style.display = 'flex';
+    // Reset card to unflipped state
+    const inner = document.getElementById('cardInner');
+    inner.style.transition = 'none';
+    inner.classList.remove('flipped');
+    isFlipped = false;
+    setTimeout(() => inner.style.transition = '', 30);
+    const hintEl3 = document.getElementById('hintText');
+    hintEl3.textContent = '';
+    hintEl3.classList.remove('visible');
+    document.getElementById('hintBtn').disabled = false;
+    hintRevealed = 0;
+    renderCard();
+  }
+
+  updateProgress();
+  saveState();
+}
+
+function updateProgress() {
+  const total = deck.length;
+  let pct, label;
+  if (reviewMode) {
+    const green = reviewSessionGreen.size;
+    pct   = total > 0 ? Math.round(green / total * 100) : 0;
+    label = green + ' of ' + total + ' done';
+  } else {
+    pct   = total > 0 ? Math.round((currentIndex / total) * 100) : 0;
+    label = 'Card ' + Math.min(currentIndex + 1, total) + ' of ' + total;
+  }
+  document.getElementById('progressLabel').textContent = label;
+  document.getElementById('progressPct').textContent   = pct + '%';
+  document.getElementById('progressFill').style.width  = pct + '%';
+}
+
+// ── Card interactions ──────────────────────────────────────────────────────────
+function flipCard() {
+  if (currentIndex >= deck.length || typingMode) return;
+  isFlipped = !isFlipped;
+  document.getElementById('cardInner').classList.toggle('flipped', isFlipped);
+  showRatingButtons(isFlipped);
+}
+
+function advanceCard() { currentIndex++; showRatingButtons(false); updateCard(); }
+
+function shuffle() {
+  shuffleArray(deck);
+  currentIndex = 0;
+  showRatingButtons(false); updateCard();
+}
+
+function restart() { reviewMode = false; rebuildDeck(); showRatingButtons(false); updateCard(); }
+
+// ── Review non-"Got it" cards ─────────────────────────────────────────────────
+function reviewWeak() {
+  const base = deck.filter(v => (srPiles[cardKey(v)] ?? 0) < 2);
+  if (base.length === 0) return;
+  shuffleArray(base);
+  deck         = base;
+  currentIndex = 0;
+  showRatingButtons(false);
+  updateCard();
+}
+
+// ── Review cards by SR pile ───────────────────────────────────────────────────
+function reviewByPile(pile) {
+  reviewMode = false;
+  const base = ALL_VOCAB
+    .map((v, i) => ({ ...v, _idx: i }))
+    .filter(v => matchUnit(v) && (srPiles[cardKey(v)] ?? 0) === pile);
+  if (base.length === 0) return;
+  shuffleArray(base);
+  deck         = base;
+  currentIndex = 0;
+  showRatingButtons(false);
+  updateCard();
+}
+
+// ── Review oldest "Got it" words ──────────────────────────────────────────────
+function getDueCards() {
+  const now = Date.now();
+  return ALL_VOCAB
+    .map((v, i) => ({ ...v, _idx: i }))
+    .filter(v => {
+      const cd = srCards[cardKey(v)];
+      return cd && cd.pile === 2 && cd.reviewAfter <= now;
+    })
+    .sort((a, b) => (srCards[cardKey(a)].reviewAfter || 0) - (srCards[cardKey(b)].reviewAfter || 0));
+}
+
+function reviewOldWords() {
+  reviewMode = true;
+  reviewSessionGreen = new Set();
+  const now = Date.now();
+  // All due "Got it" cards across ALL units, prioritised by overdue ratio
+  const due = getDueCards();
+  if (due.length < 1) return;
+  // Sort by urgency: how overdue relative to the card's interval
+  due.sort((a, b) => {
+    const cdA = srCards[cardKey(a)], cdB = srCards[cardKey(b)];
+    const intA = (BOX_INTERVALS_DAYS[cdA.box] || 1) * DAY_MS;
+    const intB = (BOX_INTERVALS_DAYS[cdB.box] || 1) * DAY_MS;
+    return (now - cdB.reviewAfter) / intB - (now - cdA.reviewAfter) / intA;
+  });
+  // Take top 20 most urgent, shuffle, pick 10
+  const pool = due.slice(0, 20);
+  shuffleArray(pool);
+  deck         = pool.slice(0, 10);
+  currentIndex = 0;
+  activeUnit   = null;
+  document.querySelectorAll('.unit-btn').forEach(b => b.classList.remove('active'));
+  showRatingButtons(false);
+  renderSRStats();
+  updateCard();
+}
+function welshLetters(str) {
+  const s = str.trim();
+  const digraphs = ['ch','dd','ff','ng','ll','ph','rh','th'];
+  const letters = [];
+  let i = 0;
+  while (i < s.length) {
+    const pair = s.slice(i, i + 2).toLowerCase();
+    if (i + 1 < s.length && digraphs.includes(pair)) {
+      letters.push(s.slice(i, i + 2));
+      i += 2;
+    } else {
+      letters.push(s[i]);
+      i++;
+    }
+  }
+  return letters;
+}
+
+let hintRevealed = 0;
+
+function showHint() {
+  if (currentIndex >= deck.length) return;
+  const card   = deck[currentIndex];
+  const answer = direction === 'en-cy' ? card.c : card.e;
+  const letters = welshLetters(answer);
+  hintRevealed++;
+  const hintEl = document.getElementById('hintText');
+  const revealed = letters.slice(0, hintRevealed).join('');
+  const prefix = lang === 'cy' ? 'Yn dechrau â: ' : 'Starts with: ';
+  hintEl.innerHTML = '<span class="hint-prefix">' + prefix + '</span><span class="hint-letters">' + revealed.replace(/</g,'&lt;') + '</span>';
+  hintEl.classList.add('visible');
+  if (hintRevealed >= letters.length) {
+    document.getElementById('hintBtn').disabled = true;
+  }
+}
+
+// ── Keyboard ───────────────────────────────────────────────────────────────────
+document.addEventListener('keydown', e => {
+  if (typingMode) return;
+  if (e.key === ' ' || e.key === 'ArrowUp' || e.key === 'ArrowDown') {
+    e.preventDefault(); flipCard();
+  } else if (e.key === '1') { if (isFlipped) rateCard(0); }
+    else if (e.key === '2') { if (isFlipped) rateCard(1); }
+    else if (e.key === '3') { if (isFlipped) rateCard(2); }
+});
+
+// ── Session restore ────────────────────────────────────────────────────────────
+function init() {
+  const saved = loadState();
+  activeUnit = saved.unit || getUnits()[0] || null;
+  if (saved.direction) direction = saved.direction;
+
+  rebuildDeck();
+  buildUnitBar();
+  renderSRStats();
+  updateDirectionUI();
+  updateWordCount();
+
+  if (saved.deckIndices && saved.deckIndices.length === deck.length) {
+    const reordered = saved.deckIndices
+      .map(idx => ALL_VOCAB[idx] ? { ...ALL_VOCAB[idx], _idx: idx } : null)
+      .filter(Boolean);
+    if (reordered.length === deck.length) deck = reordered;
+    if (saved.currentIndex !== undefined) currentIndex = Math.min(saved.currentIndex, deck.length);
+  }
+
+  updateCard();
+  applyLang();
+  setTimeout(() => {
+    const activeBtn = document.querySelector('.unit-btn.active');
+    if (activeBtn) activeBtn.scrollIntoView({ block: 'nearest', inline: 'center', behavior: 'smooth' });
+  }, 100);
+}
+
+// ── i18n ──────────────────────────────────────────────────────────────────────
+let lang = 'en';
+
+const TRANSLATIONS = {
+  en: {
+    title: 'Geirfa', subtitle: '908 words · Flip to reveal',
+    langToggle: 'Cy', dirEW: 'English → Welsh', dirWE: 'Welsh → English',
+    dirLabel: 'Direction', modeLabel: 'Mode', modeFlip: 'Flip cards', modeType: 'Typing',
+    flipCue: 'tap to flip', typingPlaceholder: 'Type your answer…',
+    check: 'Check', howDidYou: 'How did you do?',
+    hard: 'Hard', okay: 'Okay', gotIt: 'Got it', hint: 'Hint',
+    shuffle: '⇌ Shuffle', reset: '↺ Reset', daIawn: 'Da iawn!',
+    allGreen: "You've refreshed every card in this set!",
+    reviewMore: 'Review 10 more words',
+    completedSet: "You've been through all the cards in this set.",
+    reviewWeak: 'Retry difficult words', startAgain: 'Start again',
+    allKnown: 'All cards marked as Got it!',
+    clearProgress: 'Clear all progress', kbFlip: 'flip',
+    cardLangEn: 'English', cardLangCy: 'Welsh', startsWith: 'Starts with: ',
+    correct: 'Correct!', notQuite: 'Not quite — the answer is: ',
+    confirmClear: 'Clear all progress and ratings? This cannot be undone.',
+    unitLabel: 'Unit', pileHard: 'Hard', pileOkay: 'Okay', pileKnown: 'Known', masteryUnit: '',
+    masteryTitle: "Wedi'i feistroli!",
+    masteryBody: "You've marked every word in this set as <strong>Got it</strong>. Da iawn ti — you've mastered it for now!",
+    masteryClose: 'Ardderchog! ✓', errorLoad: 'Failed to load vocabulary.json', loading: 'Loading…',
+  },
+  cy: {
+    title: 'Geirfa', subtitle: '908 gair · Cliciwch i droi',
+    langToggle: 'En', dirEW: 'Saesneg → Cymraeg', dirWE: 'Cymraeg → Saesneg',
+    dirLabel: 'Cyfeiriad', modeLabel: 'Modd', modeFlip: 'Cardiau troi', modeType: 'Teipio',
+    flipCue: 'tapiwch i droi', typingPlaceholder: 'Teipiwch eich ateb…',
+    check: 'Gwirio', howDidYou: 'Sut wnaethoch chi?',
+    hard: 'Anodd', okay: 'Iawn', gotIt: 'Wedi dysgu', hint: 'Awgrym',
+    shuffle: '⇌ Cymysgu', reset: '↺ Ailosod', daIawn: 'Da iawn!',
+    allGreen: 'Rydych chi wedi adnewyddu pob carden yn y set hon!',
+    reviewMore: 'Adolygu 10 gair arall',
+    completedSet: 'Rydych chi wedi gweld pob carden yn y set hon.',
+    reviewWeak: 'Ailgynnig geiriau anodd', startAgain: 'Dechrau eto',
+    allKnown: "Pob carden wedi'i marcio fel Wedi dysgu!",
+    clearProgress: 'Dileu pob cynnydd', kbFlip: 'troi',
+    cardLangEn: 'Saesneg', cardLangCy: 'Cymraeg', startsWith: 'Yn dechrau â: ',
+    correct: 'Cywir!', notQuite: 'Nid yn iawn — yr ateb yw: ',
+    confirmClear: 'Dileu pob cynnydd a sgôr? Ni ellir dadwneud hyn.',
+    unitLabel: 'Uned', pileHard: 'Anodd', pileOkay: 'Iawn', pileKnown: 'Wedi dysgu', masteryUnit: '',
+    masteryTitle: "Wedi'i feistroli!",
+    masteryBody: "Rydych chi wedi marcio pob gair yn y set hon fel <strong>Wedi dysgu</strong>. Da iawn ti!",
+    masteryClose: 'Ardderchog! ✓', errorLoad: 'Methwyd â llwytho vocabulary.json', loading: 'Yn llwytho…',
+  }
+};
+
+function t(key) {
+  return (TRANSLATIONS[lang]?.[key] !== undefined) ? TRANSLATIONS[lang][key] : (TRANSLATIONS.en[key] || key);
+}
+
+function applyLang() {
+  document.querySelectorAll('[data-i18n]').forEach(el => { el.innerHTML = t(el.dataset.i18n); });
+  document.querySelectorAll('[data-i18n-placeholder]').forEach(el => { el.placeholder = t(el.dataset.i18nPlaceholder); });
+  document.getElementById('langToggle').textContent = t('langToggle');
+  document.title = lang === 'cy' ? 'Cwis Geirfa Cymraeg' : 'Welsh Vocabulary Quiz';
+  document.documentElement.lang = lang === 'cy' ? 'cy' : 'en';
+  updateCardLangLabels();
+  updateWordCount();
+  if (ALL_VOCAB.length > 0) refreshUnitBar();
+}
+
+function updateCardLangLabels() {
+  const isCyFront = direction === 'cy-en';
+  document.getElementById('frontHint').textContent  = isCyFront ? t('cardLangCy') : t('cardLangEn');
+  document.getElementById('backHint').textContent   = isCyFront ? t('cardLangEn') : t('cardLangCy');
+  document.getElementById('typingLang').textContent = isCyFront ? t('cardLangEn') : t('cardLangCy');
+}
+
+function toggleSettings() {
+  const panel = document.getElementById('settingsPanel');
+  const btn   = document.getElementById('settingsToggle');
+  const open  = panel.style.display === 'none';
+  panel.style.display = open ? 'block' : 'none';
+  btn.classList.toggle('open', open);
+}
+
+function toggleLang() { lang = lang === 'en' ? 'cy' : 'en'; applyLang(); }
+
+loadVocab();
+
+if ('serviceWorker' in navigator) {
+  navigator.serviceWorker.register('./sw.js');
+}
+</script>
+</body>
+</html>
