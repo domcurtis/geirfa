@@ -41,15 +41,15 @@ gh api repos/domcurtis/geirfa/pulls \
 
 ## Service worker cache version
 
-**Bump the cache version in `sw.js` once per pull request, not per commit.**
+**Bump the cache version in `sw.js` exactly once per pull request.**
 
 The app uses a cache-first service worker strategy, so iOS (and other platforms) will keep serving stale cached files until the cache name changes. The version is on line 1:
 
 ```js
-const CACHE = 'geirfa-v5';
+const CACHE = 'geirfa-v7';
 ```
 
-Increment the number (e.g. `v5` → `v6`) once when you start work on a feature branch. Do not bump it again on subsequent commits within the same PR. Failure to bump means the user's installed web app will not receive the update; bumping multiple times per PR creates unnecessary version churn.
+Increment the number once on the first commit of a feature branch. Do **not** bump it again on subsequent commits within the same PR — only one version bump per PR is needed. Failure to bump means the user's installed web app will not receive the update; bumping multiple times per PR creates unnecessary version churn.
 
 ## Vocabulary data
 
