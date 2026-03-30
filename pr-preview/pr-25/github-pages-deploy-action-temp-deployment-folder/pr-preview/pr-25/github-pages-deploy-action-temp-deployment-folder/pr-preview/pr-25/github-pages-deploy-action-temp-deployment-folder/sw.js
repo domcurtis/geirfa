@@ -1,4 +1,4 @@
-const CACHE = 'geirfa-v9';
+const CACHE = 'geirfa-v8';
 const PRECACHE = ['./index.html', './vocabulary.json', './favicon.svg', './apple-touch-icon.png', './manifest.json'];
 
 self.addEventListener('install', e => {
@@ -21,8 +21,4 @@ self.addEventListener('fetch', e => {
   e.respondWith(
     caches.match(e.request).then(cached => cached || fetch(e.request))
   );
-});
-
-self.addEventListener('message', e => {
-  if (e.data === 'getVersion') e.ports[0].postMessage(CACHE);
 });

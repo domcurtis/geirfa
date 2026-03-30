@@ -191,7 +191,6 @@
         <button class="mode-btn"        id="modeType" onclick="setTypingMode(true)"  data-i18n="modeType">Typing</button>
       </div>
     </div>
-    <div id="appVersion" style="width:100%;text-align:center;font-size:0.65rem;color:#bbb;margin-top:4px"></div>
   </div>
 </div>
 
@@ -1112,14 +1111,6 @@ loadVocab();
 if ('serviceWorker' in navigator) {
   navigator.serviceWorker.register('./sw.js');
 }
-
-navigator.serviceWorker.ready.then(reg => {
-  const sw = reg.active;
-  if (!sw) return;
-  const mc = new MessageChannel();
-  mc.port1.onmessage = e => { document.getElementById('appVersion').textContent = e.data; };
-  sw.postMessage('getVersion', [mc.port2]);
-});
 </script>
 </body>
 </html>
