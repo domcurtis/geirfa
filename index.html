@@ -282,9 +282,10 @@ const storage = {
 };
 
 // ── Storage keys ──────────────────────────────────────────────────────────────
-const STATE_KEY      = 'welsh_state';
-const MASTERY_KEY    = 'welsh_mastered_units';
-const CARDS_KEY      = 'welsh_sr_cards';
+const STATE_KEY           = 'welsh_state';
+const MASTERY_KEY         = 'welsh_mastered_units';
+const CARDS_KEY           = 'welsh_sr_cards';
+const REVIEW_SNAPSHOT_KEY = 'welsh_review_snapshot';
 
 // ── Leitner box intervals (days) ─────────────────────────────────────────────
 // Box 0 = immediate, Box 8 = 365 days (effectively mastered)
@@ -359,11 +360,23 @@ function saveState() {
   });
 }
 
+function restoreReviewSnapshot() {
+  const snapshot = storage.get(REVIEW_SNAPSHOT_KEY, null);
+  if (!snapshot) return;
+  for (const [key, cd] of Object.entries(snapshot)) {
+    srCards[key] = cd;
+    srPiles[key] = cd.pile;
+  }
+  saveCards();
+  storage.remove(REVIEW_SNAPSHOT_KEY);
+}
+
 function clearAllData() {
   if (!confirm(t('confirmClear'))) return;
   storage.remove(STATE_KEY);
   storage.remove(MASTERY_KEY);
   storage.remove(CARDS_KEY);
+  storage.remove(REVIEW_SNAPSHOT_KEY);
   srCards       = {};
   srPiles       = {};
   reviewMode    = false;
@@ -698,6 +711,7 @@ function updateWordCount() {
 }
 
 function setUnit(unit, btn) {
+  restoreReviewSnapshot(); // abandon any in-progress review session cleanly
   activeUnit = unit;
   reviewMode = false;
   document.querySelectorAll('.unit-btn').forEach(b => b.classList.remove('active'));
@@ -779,6 +793,7 @@ function updateCard() {
     document.getElementById('hint-row-wrap').style.display = 'none';
     document.getElementById('ratingRow').style.display     = 'none';
     if (reviewMode) {
+      storage.remove(REVIEW_SNAPSHOT_KEY); // session completed successfully — no need to restore
       document.getElementById('completeBannerMsg').textContent = t('allGreen');
       document.getElementById('bannerRestartBtn').style.display    = 'none';
       document.getElementById('bannerReviewWeakBtn').style.display = 'none';
@@ -862,7 +877,7 @@ function shuffle() {
   showRatingButtons(false); updateCard();
 }
 
-function restart() { reviewMode = false; rebuildDeck(); showRatingButtons(false); updateCard(); }
+function restart() { restoreReviewSnapshot(); reviewMode = false; rebuildDeck(); showRatingButtons(false); updateCard(); }
 
 // ── Review non-"Got it" cards ─────────────────────────────────────────────────
 function reviewWeak() {
@@ -902,6 +917,7 @@ function getDueCards() {
 }
 
 function reviewOldWords() {
+  restoreReviewSnapshot(); // undo any prior interrupted session before starting a new one
   reviewMode = true;
   reviewSessionGreen = new Set();
   const now = Date.now();
@@ -920,6 +936,13 @@ function reviewOldWords() {
   shuffleArray(pool);
   deck         = pool.slice(0, 10);
   currentIndex = 0;
+  // Snapshot the pre-session state of every card we are about to review
+  const snapshot = {};
+  deck.forEach(card => {
+    const key = cardKey(card);
+    if (srCards[key]) snapshot[key] = { ...srCards[key] };
+  });
+  storage.set(REVIEW_SNAPSHOT_KEY, snapshot);
   activeUnit   = null;
   document.querySelectorAll('.unit-btn').forEach(b => b.classList.remove('active'));
   showRatingButtons(false);
@@ -974,6 +997,7 @@ document.addEventListener('keydown', e => {
 
 // ── Session restore ────────────────────────────────────────────────────────────
 function init() {
+  restoreReviewSnapshot(); // undo any review session interrupted by a page reload
   const saved = loadState();
   activeUnit = saved.unit || getUnits()[0] || null;
   if (saved.direction) direction = saved.direction;
