@@ -22,3 +22,7 @@ self.addEventListener('fetch', e => {
     caches.match(e.request).then(cached => cached || fetch(e.request))
   );
 });
+
+self.addEventListener('message', e => {
+  if (e.data === 'getVersion') e.ports[0].postMessage(CACHE);
+});

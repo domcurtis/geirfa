@@ -1113,9 +1113,12 @@ if ('serviceWorker' in navigator) {
   navigator.serviceWorker.register('./sw.js');
 }
 
-caches.keys().then(keys => {
-  const v = keys.find(k => k.startsWith('geirfa-'));
-  if (v) document.getElementById('appVersion').textContent = v;
+navigator.serviceWorker.ready.then(reg => {
+  const sw = reg.active;
+  if (!sw) return;
+  const mc = new MessageChannel();
+  mc.port1.onmessage = e => { document.getElementById('appVersion').textContent = e.data; };
+  sw.postMessage('getVersion', [mc.port2]);
 });
 </script>
 </body>
