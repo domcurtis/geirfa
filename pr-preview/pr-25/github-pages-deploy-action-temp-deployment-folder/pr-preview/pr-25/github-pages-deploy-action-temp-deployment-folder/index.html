@@ -191,7 +191,6 @@
         <button class="mode-btn"        id="modeType" onclick="setTypingMode(true)"  data-i18n="modeType">Typing</button>
       </div>
     </div>
-    <div id="appVersion" style="width:100%;text-align:center;font-size:0.65rem;color:#bbb;margin-top:4px"></div>
   </div>
 </div>
 
@@ -1112,11 +1111,6 @@ loadVocab();
 if ('serviceWorker' in navigator) {
   navigator.serviceWorker.register('./sw.js');
 }
-
-caches.keys().then(keys => {
-  const v = keys.find(k => k.startsWith('geirfa-'));
-  if (v) document.getElementById('appVersion').textContent = v;
-});
 </script>
 </body>
 </html>
