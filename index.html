@@ -406,6 +406,10 @@ let reviewMode        = false;  // true only when the "Review" pill session is a
 let reviewSessionGreen = new Set(); // cards confirmed "Got it" in the current review round
 
 // ── Helpers ───────────────────────────────────────────────────────────────────
+function getEnglishCat(cat) {
+  if (cat === 'feminine noun' || cat === 'masculine noun') return 'noun';
+  return cat;
+}
 function getCatClass(cat) {
   if (cat === 'feminine noun')  return 'cat-feminine';
   if (cat === 'masculine noun') return 'cat-masculine';
@@ -597,7 +601,7 @@ function renderTypingCard() {
   if (currentIndex >= deck.length) return;
   const card = deck[currentIndex];
   document.getElementById('typingPrompt').textContent    = direction === 'en-cy' ? card.e : card.c;
-  document.getElementById('typingCategory').textContent  = direction === 'en-cy' ? card.g : '';
+  document.getElementById('typingCategory').textContent  = direction === 'en-cy' ? getEnglishCat(card.g) : '';
   document.getElementById('typingInput').value           = '';
   document.getElementById('typingInput').disabled        = false;
   document.getElementById('typingFeedback').textContent  = '';
@@ -773,7 +777,7 @@ function renderCard() {
   if (direction === 'en-cy') {
     document.getElementById('frontHint').textContent = t('cardLangEn');
     document.getElementById('frontWord').textContent = card.e;
-    document.getElementById('frontCategory').textContent = card.g;
+    document.getElementById('frontCategory').textContent = getEnglishCat(card.g);
     document.getElementById('backHint').textContent  = t('cardLangCy');
     document.getElementById('backWord').textContent  = card.c;
   } else {
