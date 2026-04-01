@@ -74,6 +74,8 @@
   .card-word { font-family: 'Playfair Display', serif; font-size: clamp(1.35rem,4vw,2rem); text-align: center; line-height: 1.3; font-weight: 700; }
   .card-back .card-word { font-size: clamp(1.5rem,4.5vw,2.3rem); margin-bottom: 10px; }
   .card-category { display: inline-block; margin-top: 14px; font-size: 0.76rem; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; background: rgba(255,255,255,.2); padding: 3px 11px; border-radius: 20px; }
+  .front-category { position: absolute; top: 12px; left: 14px; font-size: 0.65rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--mid); opacity: 0.4; }
+  .typing-category { font-size: 0.65rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--mid); opacity: 0.4; margin-top: -8px; }
   .flip-cue { margin-top: 18px; font-size: 0.72rem; opacity: 0.32; letter-spacing: 0.08em; }
   .card-actions { display: flex; gap: 8px; justify-content: center; align-items: center; width: 100%; max-width: 520px; margin: 10px auto 0; flex-wrap: wrap; }
   .complete-banner { display: none; background: var(--hgreen); color: white; border-radius: 16px; padding: 28px 36px; text-align: center; width: 100%; max-width: 520px; margin: 16px auto 14px; box-shadow: 0 8px 32px rgba(0,0,0,.1); }
@@ -203,9 +205,10 @@
   <div class="card-area" id="cardArea" onclick="flipCard()">
     <div class="card-inner" id="cardInner">
       <div class="card-face card-front">
+        <div class="front-category" id="frontCategory"></div>
+        <span class="pile-badge pile-0" id="pileBadge"></span>
         <div class="card-hint" id="frontHint">English</div>
         <div class="card-word" id="frontWord">Loading&hellip;</div>
-        <span class="pile-badge pile-0" id="pileBadge"></span>
         <div class="flip-cue" data-i18n="flipCue">tap to flip</div>
         <div class="hint-text" id="hintText"></div>
       </div>
@@ -221,6 +224,7 @@
 <div class="typing-area" id="typingArea" style="display:none">
   <div class="card-hint" id="typingLang">Welsh</div>
   <div class="typing-prompt" id="typingPrompt"></div>
+  <div class="typing-category" id="typingCategory"></div>
   <input type="text" class="typing-input" id="typingInput" data-i18n-placeholder="typingPlaceholder" placeholder="Type your answer&hellip;" onkeydown="if(event.key==='Enter')checkTyping()">
   <div class="typing-actions">
     <button class="btn btn-next" id="typingSubmit" onclick="checkTyping()" data-i18n="check">Check</button>
@@ -403,6 +407,10 @@ let reviewMode        = false;  // true only when the "Review" pill session is a
 let reviewSessionGreen = new Set(); // cards confirmed "Got it" in the current review round
 
 // ── Helpers ───────────────────────────────────────────────────────────────────
+function getEnglishCat(cat) {
+  if (cat === 'feminine noun' || cat === 'masculine noun') return 'noun';
+  return cat;
+}
 function getCatClass(cat) {
   if (cat === 'feminine noun')  return 'cat-feminine';
   if (cat === 'masculine noun') return 'cat-masculine';
@@ -594,6 +602,7 @@ function renderTypingCard() {
   if (currentIndex >= deck.length) return;
   const card = deck[currentIndex];
   document.getElementById('typingPrompt').textContent    = direction === 'en-cy' ? card.e : card.c;
+  document.getElementById('typingCategory').textContent  = direction === 'en-cy' ? getEnglishCat(card.g) : '';
   document.getElementById('typingInput').value           = '';
   document.getElementById('typingInput').disabled        = false;
   document.getElementById('typingFeedback').textContent  = '';
@@ -769,11 +778,13 @@ function renderCard() {
   if (direction === 'en-cy') {
     document.getElementById('frontHint').textContent = t('cardLangEn');
     document.getElementById('frontWord').textContent = card.e;
+    document.getElementById('frontCategory').textContent = getEnglishCat(card.g);
     document.getElementById('backHint').textContent  = t('cardLangCy');
     document.getElementById('backWord').textContent  = card.c;
   } else {
     document.getElementById('frontHint').textContent = t('cardLangCy');
     document.getElementById('frontWord').textContent = card.c;
+    document.getElementById('frontCategory').textContent = '';
     document.getElementById('backHint').textContent  = t('cardLangEn');
     document.getElementById('backWord').textContent  = card.e;
   }
