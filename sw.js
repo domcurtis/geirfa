@@ -1,4 +1,4 @@
-const CACHE = 'geirfa-v10';
+const CACHE = 'geirfa-v11';
 const PRECACHE = ['./index.html', './vocabulary.json', './favicon.svg', './apple-touch-icon.png', './manifest.json'];
 
 self.addEventListener('install', e => {
