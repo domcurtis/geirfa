@@ -133,26 +133,8 @@
   .unit-btn-partial.active { background: #e6a817 !important; border-color: #e6a817 !important; color: white !important; }
   .unit-btn-mastered { border-color: var(--hgreen) !important; color: var(--hgreen) !important; background: #eaf7ee !important; }
   .unit-btn-mastered.active { background: var(--hgreen) !important; border-color: var(--hgreen) !important; color: white !important; }
-  .review-fab { position: fixed; bottom: 20px; right: 20px; z-index: 90; display: none; cursor: pointer; -webkit-tap-highlight-color: transparent; background: white; border: 1.5px solid var(--light); border-radius: 14px; padding: 10px 16px; text-align: center; transition: transform .25s cubic-bezier(.2,1.2,.4,1), border-color .5s ease, box-shadow .4s ease, opacity .3s ease; box-shadow: 0 2px 12px rgba(0,0,0,.08); }
-  .review-fab.visible { display: block; }
-  .review-fab:hover { transform: translateY(-2px); box-shadow: 0 4px 20px rgba(0,0,0,.12); }
-  .review-fab:active { transform: translateY(0) scale(0.97); }
-  .review-fab-count { font-family: 'Playfair Display', serif; font-weight: 700; line-height: 1; transition: font-size .4s cubic-bezier(.2,1.2,.4,1), color .5s ease; }
-  .review-fab-label { font-family: 'Source Sans 3', sans-serif; font-size: 0.58rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; transition: color .5s ease; margin-top: 2px; }
-  .review-fab.due { border-color: var(--gold); }
-  .review-fab.due .review-fab-count, .review-fab.due .review-fab-label { color: #8a6d1b; }
-  .review-fab.due { animation: fabBob 3s ease-in-out infinite; }
-  .review-fab.warm { border-color: #c87533; }
-  .review-fab.warm .review-fab-count, .review-fab.warm .review-fab-label { color: #934b10; }
-  .review-fab.warm { animation: fabBob 2.2s ease-in-out infinite; }
-  .review-fab.urgent { border-color: var(--col-fem); }
-  .review-fab.urgent .review-fab-count, .review-fab.urgent .review-fab-label { color: var(--col-fem); }
-  .review-fab.urgent { animation: fabBob 1.6s ease-in-out infinite; }
-  @keyframes fabBob { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-3px); } }
-  .review-fab.disabled { pointer-events: none; opacity: 0.35; }
-  @media (max-width: 480px) { .review-fab { bottom: 14px; right: 14px; padding: 8px 13px; border-radius: 12px; } }
-  @keyframes slideInUnit { from { opacity: 0; transform: translateX(20px) scale(0.85); } to { opacity: 1; transform: translateX(0) scale(1); } }
-  .unit-btn-new { animation: slideInUnit .45s cubic-bezier(.2,1.2,.4,1); }
+  .review-pill { flex-shrink: 0; border: 1.5px solid var(--hgreen); background: #eaf7ee; color: var(--hgreen); font-family: 'Source Sans 3', sans-serif; font-size: 0.78rem; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; padding: 5px 13px; border-radius: 20px; cursor: pointer; transition: all .18s; white-space: nowrap; }
+  .review-pill:hover { background: var(--hgreen); color: white; }
   .mastery-overlay { position: fixed; inset: 0; z-index: 999; display: flex; align-items: center; justify-content: center; background: rgba(0,0,0,.45); animation: fadeInOverlay .3s ease; }
   @keyframes fadeInOverlay { from { opacity: 0; } to { opacity: 1; } }
   .mastery-card { background: white; border-radius: 20px; padding: 40px 48px; text-align: center; max-width: 420px; width: 90%; box-shadow: 0 24px 64px rgba(0,0,0,.25); animation: popIn .4s cubic-bezier(.2,1.4,.4,1); position: relative; overflow: hidden; }
@@ -209,13 +191,6 @@
       <div class="mode-row">
         <button class="mode-btn active" id="modeFlip" onclick="setTypingMode(false)" data-i18n="modeFlip">Flip cards</button>
         <button class="mode-btn"        id="modeType" onclick="setTypingMode(true)"  data-i18n="modeType">Typing</button>
-      </div>
-    </div>
-    <div class="settings-group">
-      <span class="settings-label" data-i18n="showAllLabel">Units</span>
-      <div class="mode-row">
-        <button class="mode-btn" id="showAllOff" onclick="setShowAllUnits(false)" data-i18n="progressive">Progressive</button>
-        <button class="mode-btn" id="showAllOn"  onclick="setShowAllUnits(true)"  data-i18n="showAll">Show all</button>
       </div>
     </div>
   </div>
@@ -289,11 +264,6 @@
 
 <div class="key-hint"><kbd>Space</kbd> <span data-i18n="kbFlip">flip</span> &nbsp;&middot;&nbsp; <kbd>1</kbd> <span data-i18n="hard">Hard</span> &nbsp;&middot;&nbsp; <kbd>2</kbd> <span data-i18n="okay">Okay</span> &nbsp;&middot;&nbsp; <kbd>3</kbd> <span data-i18n="gotIt">Got it</span></div>
 
-<div class="review-fab" id="reviewFab" onclick="reviewOldWords()">
-  <div class="review-fab-count" id="reviewFabCount">0</div>
-  <div class="review-fab-label" id="reviewFabLabel">to review</div>
-</div>
-
 <script>
 // ── Storage abstraction ───────────────────────────────────────────────────────
 // All persistence is routed through this single object.
@@ -320,8 +290,6 @@ const STATE_KEY           = 'welsh_state';
 const MASTERY_KEY         = 'welsh_mastered_units';
 const CARDS_KEY           = 'welsh_sr_cards';
 const REVIEW_SNAPSHOT_KEY = 'welsh_review_snapshot';
-const UNLOCK_KEY          = 'welsh_unlocked_up_to';
-const SHOW_ALL_KEY        = 'welsh_show_all_units';
 
 // ── Leitner box intervals (days) ─────────────────────────────────────────────
 // Box 0 = immediate, Box 8 = 365 days (effectively mastered)
@@ -387,55 +355,6 @@ function loadState()    { return storage.get(STATE_KEY, {}); }
 function loadMastered() { return new Set(storage.get(MASTERY_KEY, [])); }
 function saveMastered(s){ storage.set(MASTERY_KEY, [...s]); }
 
-let showAllUnits = storage.get(SHOW_ALL_KEY, false);
-
-function getUnlockedUpTo() {
-  const saved = storage.get(UNLOCK_KEY, null);
-  if (saved !== null) return saved;
-  // Auto-detect from existing progress: find highest unit with any rated card
-  const units = getUnits();
-  let highest = units.length > 0 ? parseInt(units[0]) || 1 : 1;
-  for (const u of units) {
-    const n = parseInt(u);
-    if (isNaN(n)) continue;
-    const hasProgress = ALL_VOCAB.some((v, i) => v.u === u && srPiles[String(i)] !== undefined);
-    if (hasProgress && n > highest) highest = n;
-  }
-  // Also unlock the one after the highest mastered
-  const mastered = loadMastered();
-  for (const u of mastered) {
-    const n = parseInt(u);
-    if (!isNaN(n) && n >= highest) highest = n + 1;
-  }
-  storage.set(UNLOCK_KEY, highest);
-  return highest;
-}
-
-function unlockUpTo(unitNum) {
-  const current = getUnlockedUpTo();
-  if (unitNum > current) {
-    storage.set(UNLOCK_KEY, unitNum);
-  }
-}
-
-function getVisibleUnits() {
-  const all = getUnits();
-  if (showAllUnits) return all;
-  const cap = getUnlockedUpTo();
-  return all.filter(u => {
-    const n = parseInt(u);
-    return isNaN(n) || n <= cap;
-  });
-}
-
-function setShowAllUnits(val) {
-  showAllUnits = val;
-  storage.set(SHOW_ALL_KEY, val);
-  document.getElementById('showAllOn').classList.toggle('active', val);
-  document.getElementById('showAllOff').classList.toggle('active', !val);
-  buildUnitBar();
-}
-
 function saveState() {
   storage.set(STATE_KEY, {
     unit:        activeUnit,
@@ -462,7 +381,6 @@ function clearAllData() {
   storage.remove(MASTERY_KEY);
   storage.remove(CARDS_KEY);
   storage.remove(REVIEW_SNAPSHOT_KEY);
-  storage.remove(UNLOCK_KEY);
   srCards       = {};
   srPiles       = {};
   reviewMode    = false;
@@ -623,9 +541,6 @@ function rateCard(pile) {
       if (!celebrated.has(activeUnit)) {
         celebrated.add(activeUnit);
         saveMastered(celebrated);
-        // Unlock the next unit
-        const unitNum = parseInt(activeUnit);
-        if (!isNaN(unitNum)) unlockUpTo(unitNum + 1);
         setTimeout(() => showMasteryCelebration(activeUnit), 400);
       }
     }
@@ -739,41 +654,26 @@ function unitPillLabel(unit, state) {
   return lbl + ' (' + count + ')' + tick;
 }
 
-function updateReviewFab() {
-  const fab   = document.getElementById('reviewFab');
-  const count = document.getElementById('reviewFabCount');
-  const label = document.getElementById('reviewFabLabel');
-  const showReview = getUnits().some(u => getUnitMasteryState(u) === 'mastered') || loadMastered().size > 0;
-  fab.classList.toggle('visible', showReview);
-  if (!showReview) return;
-
-  const n = getDueCards().length;
-  count.textContent = n;
-  label.textContent = lang === 'cy' ? (n === 0 ? 'dim eto' : "i'w hadolygu") : (n === 0 ? 'all clear' : 'to review');
-
-  // Urgency tiers control colour class + count font size
-  fab.classList.remove('due', 'warm', 'urgent', 'disabled');
-  if (n === 0) {
-    fab.classList.add('disabled');
-    count.style.fontSize = '1.2rem';
-  } else if (n <= 9) {
-    fab.classList.add('due');
-    count.style.fontSize = '1.4rem';
-  } else if (n <= 19) {
-    fab.classList.add('warm');
-    count.style.fontSize = '1.7rem';
-  } else {
-    fab.classList.add('urgent');
-    count.style.fontSize = '2rem';
-  }
-}
-
 function buildUnitBar() {
   const bar = document.getElementById('unitBar');
   bar.innerHTML = '';
-  updateReviewFab();
 
-  getVisibleUnits().forEach(unit => {
+  // Prepend "Review" pill once any unit has ever been mastered (never removed after that)
+  const showReview = getUnits().some(u => getUnitMasteryState(u) === 'mastered') || loadMastered().size > 0;
+  if (showReview) {
+    const reviewPill = document.createElement('button');
+    reviewPill.className   = 'review-pill';
+    reviewPill.id          = 'unitBarReviewBtn';
+    const dueCount = getDueCards().length;
+    reviewPill.textContent = (lang === 'cy' ? 'Adolygu' : 'Review') + (dueCount > 0 ? ' (' + dueCount + ')' : '');
+    reviewPill.onclick     = reviewOldWords;
+    reviewPill.disabled    = dueCount === 0;
+    reviewPill.style.opacity = dueCount === 0 ? '0.4' : '';
+    reviewPill.style.cursor  = dueCount === 0 ? 'default' : '';
+    bar.appendChild(reviewPill);
+  }
+
+  getUnits().forEach(unit => {
     const state = getUnitMasteryState(unit);
     const btn   = document.createElement('button');
     let cls = 'unit-btn';
@@ -789,30 +689,17 @@ function buildUnitBar() {
 }
 
 function refreshUnitBar() {
-  updateReviewFab();
-  // Check if a new unit should now be visible (after mastery)
-  const visibleInBar = new Set([...document.querySelectorAll('.unit-btn')].map(b => b.dataset.unit));
-  const shouldShow   = new Set(getVisibleUnits());
-  const needsNew     = [...shouldShow].some(u => !visibleInBar.has(u));
-  if (needsNew) {
-    // Rebuild and animate the new pill(s)
-    const bar = document.getElementById('unitBar');
-    bar.innerHTML = '';
-    getVisibleUnits().forEach(unit => {
-      const state = getUnitMasteryState(unit);
-      const btn   = document.createElement('button');
-      let cls = 'unit-btn';
-      if (state === 'mastered') cls += ' unit-btn-mastered';
-      else if (state === 'partial') cls += ' unit-btn-partial';
-      if (activeUnit === unit) cls += ' active';
-      if (!visibleInBar.has(unit)) cls += ' unit-btn-new';
-      btn.className    = cls;
-      btn.dataset.unit = unit;
-      btn.textContent  = unitPillLabel(unit, state);
-      btn.onclick      = () => setUnit(unit, btn);
-      bar.appendChild(btn);
-    });
-    return;
+  const showReview = getUnits().some(u => getUnitMasteryState(u) === 'mastered') || loadMastered().size > 0;
+  const bar = document.getElementById('unitBar');
+  const existing = document.getElementById('unitBarReviewBtn');
+  if (showReview && !existing) {
+    buildUnitBar(); return;
+  } else if (showReview && existing) {
+    const dueCount = getDueCards().length;
+    existing.textContent = (lang === 'cy' ? 'Adolygu' : 'Review') + (dueCount > 0 ? ' (' + dueCount + ')' : '');
+    existing.disabled    = dueCount === 0;
+    existing.style.opacity = dueCount === 0 ? '0.4' : '';
+    existing.style.cursor  = dueCount === 0 ? 'default' : '';
   }
   document.querySelectorAll('.unit-btn').forEach(btn => {
     const state = getUnitMasteryState(btn.dataset.unit);
@@ -1126,10 +1013,6 @@ function init() {
   activeUnit = saved.unit || getUnits()[0] || null;
   if (saved.direction) direction = saved.direction;
 
-  // Initialise show-all toggle UI
-  document.getElementById('showAllOn').classList.toggle('active', showAllUnits);
-  document.getElementById('showAllOff').classList.toggle('active', !showAllUnits);
-
   rebuildDeck();
   buildUnitBar();
   renderSRStats();
@@ -1177,7 +1060,6 @@ const TRANSLATIONS = {
     masteryTitle: "Wedi'i feistroli!",
     masteryBody: "You've marked every word in this set as <strong>Got it</strong>. Da iawn ti — you've mastered it for now!",
     masteryClose: 'Ardderchog! ✓', errorLoad: 'Failed to load vocabulary.json', loading: 'Loading…',
-    showAllLabel: 'Units', progressive: 'Progressive', showAll: 'Show all',
   },
   cy: {
     title: 'Geirfa', subtitle: '908 gair · Cliciwch i droi',
@@ -1200,7 +1082,6 @@ const TRANSLATIONS = {
     masteryTitle: "Wedi'i feistroli!",
     masteryBody: "Rydych chi wedi marcio pob gair yn y set hon fel <strong>Wedi dysgu</strong>. Da iawn ti!",
     masteryClose: 'Ardderchog! ✓', errorLoad: 'Methwyd â llwytho vocabulary.json', loading: 'Yn llwytho…',
-    showAllLabel: 'Unedau', progressive: 'Fesul un', showAll: 'Dangos pob',
   }
 };
 
