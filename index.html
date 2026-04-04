@@ -84,8 +84,8 @@
   .btn { font-family: 'Source Sans 3', sans-serif; font-size: 0.84rem; font-weight: 600; letter-spacing: 0.04em; padding: 9px 22px; border-radius: 8px; border: none; cursor: pointer; transition: all .18s; }
   .btn-next    { background: var(--dark); color: white; }
   .btn-next:hover { background: #333; }
-  .btn-wordlist { background: white; color: var(--mid); border: 1.5px solid var(--light); }
-  .btn-wordlist:hover { border-color: var(--hgreen); color: var(--hgreen); }
+  .btn-wordlist-link { font-family: 'Source Sans 3', sans-serif; font-size: 0.75rem; font-weight: 600; color: var(--mid); background: none; border: none; cursor: pointer; text-decoration: underline; text-underline-offset: 2px; padding: 3px 6px; transition: color .18s; }
+  .btn-wordlist-link:hover { color: var(--hgreen); }
   .btn-hint { background: white; color: var(--mid); border: 1.5px solid var(--light); }
   .btn-hint:hover { border-color: var(--gold); color: var(--gold); }
   .btn-hint:disabled { opacity: 0.35; cursor: default; }
@@ -218,6 +218,9 @@
         <button class="mode-btn"        id="modeType" onclick="setTypingMode(true)"  data-i18n="modeType">Typing</button>
       </div>
     </div>
+    <div class="settings-group">
+      <button class="btn-clear-data" onclick="clearAllData()" data-i18n="clearProgress">Clear all progress</button>
+    </div>
   </div>
 </div>
 
@@ -266,7 +269,6 @@
 
 <div class="card-actions" id="hint-row-wrap">
   <button class="btn btn-hint" id="hintBtn" onclick="showHint()" data-i18n="hint">Hint</button>
-  <button class="btn btn-wordlist" onclick="showWordList()" data-i18n="wordList">Word list</button>
 </div>
 
 <div class="complete-banner" id="completeBanner">
@@ -283,7 +285,7 @@
   <div class="sr-stat sr-hard"  id="srStatHard"  data-count="0" onclick="reviewByPile(0)" title=""><span id="srHard">0</span> <span data-i18n="hard">Hard</span></div>
   <div class="sr-stat sr-okay"  id="srStatOkay"  data-count="0" onclick="reviewByPile(1)" title=""><span id="srOkay">0</span> <span data-i18n="okay">Okay</span></div>
   <div class="sr-stat sr-known" id="srStatKnown" data-count="0" onclick="reviewByPile(2)" title=""><span id="srKnown">0</span> <span data-i18n="gotIt">Known</span></div>
-  <button class="btn-clear-data" onclick="clearAllData()" data-i18n="clearProgress">Clear all progress</button>
+  <button class="btn-wordlist-link" onclick="showWordList()" data-i18n="wordList">Word list</button>
 </div>
 
 <div class="key-hint"><kbd>Space</kbd> <span data-i18n="kbFlip">flip</span> &nbsp;&middot;&nbsp; <kbd>1</kbd> <span data-i18n="hard">Hard</span> &nbsp;&middot;&nbsp; <kbd>2</kbd> <span data-i18n="okay">Okay</span> &nbsp;&middot;&nbsp; <kbd>3</kbd> <span data-i18n="gotIt">Got it</span></div>
