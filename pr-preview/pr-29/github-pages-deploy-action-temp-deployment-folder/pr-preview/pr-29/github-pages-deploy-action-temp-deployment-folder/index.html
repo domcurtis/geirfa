@@ -91,8 +91,6 @@
   .btn-hint { background: white; color: var(--mid); border: 1.5px solid var(--light); }
   .btn-hint:hover { border-color: var(--gold); color: var(--gold); }
   .btn-hint:disabled { opacity: 0.35; cursor: default; }
-  .btn-speak { background:none; border:none; font-size:1.4rem; cursor:pointer; opacity:0.6; padding:4px 8px; vertical-align:middle; }
-  .btn-speak:hover { opacity:1; }
   .hint-text { position: absolute; bottom: 16px; left: 24px; right: 0; text-align: left; opacity: 0; transition: opacity 0.25s ease; }
   .hint-prefix { font-family: 'Source Sans 3', sans-serif; font-size: clamp(0.8rem,2.2vw,1rem); font-weight: 400; color: #999; }
   .hint-letters { font-family: 'Arimo', sans-serif; font-size: clamp(1.1rem,3.5vw,1.7rem); font-weight: 700; color: #c0392b; letter-spacing: 0.15em; margin-left: 0.5em; }
@@ -229,7 +227,6 @@
       <div class="card-face card-back" id="cardBack">
         <div class="card-hint" id="backHint">Welsh</div>
         <div class="card-word" id="backWord"></div>
-        <button class="btn-speak" id="backSpeak" onclick="speakWelsh()" aria-label="Pronounce" style="display:none">&#x1f50a;</button>
         <div class="card-category" id="backCategory"></div>
       </div>
     </div>
@@ -245,7 +242,6 @@
     <button class="btn btn-next" id="typingSubmit" onclick="checkTyping()" data-i18n="check">Check</button>
   </div>
   <div class="typing-feedback" id="typingFeedback"></div>
-  <button class="btn-speak" id="typingSpeak" onclick="speakWelsh()" aria-label="Pronounce" style="display:none">&#x1f50a;</button>
 </div>
 
 <div id="ratingRow" class="rating-row" style="display:none">
@@ -644,7 +640,6 @@ function resetTypingArea() {
   document.getElementById('typingFeedback').className    = 'typing-feedback';
   document.getElementById('typingSubmit').style.display  = 'inline-block';
   document.getElementById('typingInput').disabled        = false;
-  showSpeakButton('typingSpeak', false);
 }
 
 function normalise(s) {
@@ -663,7 +658,6 @@ function checkTyping() {
   fb.className   = 'typing-feedback ' + (isOk ? 'correct' : 'wrong');
   document.getElementById('typingInput').disabled       = true;
   document.getElementById('typingSubmit').style.display = 'none';
-  showSpeakButton('typingSpeak', true);
   showRatingButtons(true);
   updateProgress();
   saveState();
@@ -866,7 +860,6 @@ function updateCard() {
     inner.style.transition = 'none';
     inner.classList.remove('flipped');
     isFlipped = false;
-    showSpeakButton('backSpeak', false);
     setTimeout(() => inner.style.transition = '', 30);
     const hintEl3 = document.getElementById('hintText');
     hintEl3.textContent = '';
@@ -896,53 +889,12 @@ function updateProgress() {
   document.getElementById('progressFill').style.width  = pct + '%';
 }
 
-// ── Speech synthesis ─────────────────────────────────────────────────────────
-let welshVoice = null;
-function initSpeech() {
-  if (!window.speechSynthesis) return;
-  const findWelsh = () => {
-    welshVoice = speechSynthesis.getVoices().find(v => v.lang && (v.lang.startsWith('cy') || v.lang.startsWith('cy'))) || null;
-  };
-  speechSynthesis.onvoiceschanged = findWelsh;
-  findWelsh();
-  // iOS Safari: onvoiceschanged is unreliable; poll briefly
-  if (!welshVoice) {
-    let attempts = 0;
-    const poll = setInterval(() => {
-      findWelsh();
-      if (welshVoice || ++attempts > 10) clearInterval(poll);
-    }, 250);
-  }
-}
-
-function speakWelsh() {
-  if (!window.speechSynthesis) return;
-  const card = deck[currentIndex];
-  if (!card) return;
-  // Lazy-find voice if not yet detected
-  if (!welshVoice) {
-    welshVoice = speechSynthesis.getVoices().find(v => v.lang && v.lang.startsWith('cy')) || null;
-    if (!welshVoice) return;
-  }
-  speechSynthesis.cancel();
-  const utt = new SpeechSynthesisUtterance(card.c);
-  utt.voice = welshVoice;
-  utt.lang = 'cy';
-  utt.rate = 0.9;
-  speechSynthesis.speak(utt);
-}
-
-function showSpeakButton(id, show) {
-  document.getElementById(id).style.display = show ? 'inline-block' : 'none';
-}
-
 // ── Card interactions ──────────────────────────────────────────────────────────
 function flipCard() {
   if (currentIndex >= deck.length || typingMode) return;
   isFlipped = !isFlipped;
   document.getElementById('cardInner').classList.toggle('flipped', isFlipped);
   showRatingButtons(isFlipped);
-  showSpeakButton('backSpeak', isFlipped);
 }
 
 function advanceCard() { currentIndex++; showRatingButtons(false); updateCard(); }
@@ -1094,7 +1046,6 @@ function init() {
 
   updateCard();
   applyLang();
-  initSpeech();
   setTimeout(() => {
     const activeBtn = document.querySelector('.unit-btn.active');
     if (activeBtn) activeBtn.scrollIntoView({ block: 'nearest', inline: 'center', behavior: 'smooth' });
