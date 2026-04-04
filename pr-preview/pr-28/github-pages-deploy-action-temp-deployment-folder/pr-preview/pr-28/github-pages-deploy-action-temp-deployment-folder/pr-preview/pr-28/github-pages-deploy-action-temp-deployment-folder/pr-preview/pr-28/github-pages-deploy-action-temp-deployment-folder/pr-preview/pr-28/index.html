@@ -133,20 +133,20 @@
   .unit-btn-partial.active { background: #e6a817 !important; border-color: #e6a817 !important; color: white !important; }
   .unit-btn-mastered { border-color: var(--hgreen) !important; color: var(--hgreen) !important; background: #eaf7ee !important; }
   .unit-btn-mastered.active { background: var(--hgreen) !important; border-color: var(--hgreen) !important; color: white !important; }
-  .review-fab { position: fixed; bottom: 20px; right: 20px; z-index: 90; display: none; cursor: pointer; -webkit-tap-highlight-color: transparent; background: white; border: 1.5px solid var(--light); border-radius: 14px; padding: 10px 16px; text-align: center; transition: transform .25s cubic-bezier(.2,1.2,.4,1), border-color .5s ease, box-shadow .4s ease, opacity .3s ease; box-shadow: 0 2px 12px rgba(0,0,0,.08); }
-  .review-fab.visible { display: block; }
-  .review-fab:hover { transform: translateY(-2px); box-shadow: 0 4px 20px rgba(0,0,0,.12); }
-  .review-fab:active { transform: translateY(0) scale(0.97); }
-  .review-fab-count { display: none; }
-  .review-fab-label { font-family: 'Source Sans 3', sans-serif; font-size: 0.72rem; font-weight: 700; letter-spacing: 0.06em; transition: color .5s ease; }
-  .review-fab.due { border-color: var(--gold); }
-  .review-fab.due .review-fab-count, .review-fab.due .review-fab-label { color: #8a6d1b; }
-  .review-fab.warm { border-color: #c87533; }
-  .review-fab.warm .review-fab-count, .review-fab.warm .review-fab-label { color: #934b10; }
-  .review-fab.urgent { border-color: var(--col-fem); }
-  .review-fab.urgent .review-fab-count, .review-fab.urgent .review-fab-label { color: var(--col-fem); }
-  .review-fab.disabled { pointer-events: none; opacity: 0.35; }
-  @media (max-width: 480px) { .review-fab { bottom: 14px; right: 14px; padding: 8px 13px; border-radius: 12px; } }
+  .review-fab { position: fixed; bottom: 24px; right: 24px; z-index: 90; display: none; flex-direction: column; align-items: center; gap: 0; cursor: pointer; -webkit-tap-highlight-color: transparent; }
+  .review-fab.visible { display: flex; }
+  .review-fab-circle { width: 52px; height: 52px; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; font-size: 1.35rem; box-shadow: 0 4px 16px rgba(0,0,0,.18), 0 1px 4px rgba(0,0,0,.10); transition: transform .22s cubic-bezier(.2,1.2,.4,1), background .4s ease, box-shadow .3s ease; }
+  .review-fab:hover .review-fab-circle { transform: scale(1.1); box-shadow: 0 6px 24px rgba(0,0,0,.22), 0 2px 6px rgba(0,0,0,.12); }
+  .review-fab:active .review-fab-circle { transform: scale(0.95); }
+  .review-fab-label { font-family: 'Source Sans 3', sans-serif; font-size: 0.62rem; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; margin-top: 4px; transition: color .4s ease; }
+  .review-fab-badge { position: absolute; top: -4px; right: -4px; min-width: 20px; height: 20px; border-radius: 10px; background: white; font-family: 'Source Sans 3', sans-serif; font-size: 0.68rem; font-weight: 700; display: flex; align-items: center; justify-content: center; padding: 0 5px; box-shadow: 0 1px 4px rgba(0,0,0,.15); transition: color .4s ease, transform .22s ease; }
+  .review-fab.due .review-fab-circle { animation: fabPulse 2.5s ease-in-out infinite; }
+  .review-fab.urgent .review-fab-circle { animation: fabPulse 1.6s ease-in-out infinite; }
+  @keyframes fabPulse { 0%, 100% { box-shadow: 0 4px 16px rgba(0,0,0,.18); } 50% { box-shadow: 0 4px 20px rgba(0,0,0,.28), 0 0 0 6px rgba(0,0,0,.04); } }
+  .review-fab.disabled { pointer-events: none; }
+  .review-fab.disabled .review-fab-circle { opacity: 0.45; }
+  .review-fab.disabled .review-fab-label { opacity: 0.4; }
+  @media (max-width: 480px) { .review-fab { bottom: 16px; right: 16px; } .review-fab-circle { width: 48px; height: 48px; font-size: 1.2rem; } }
   @keyframes slideInUnit { from { opacity: 0; transform: translateX(20px) scale(0.85); } to { opacity: 1; transform: translateX(0) scale(1); } }
   .unit-btn-new { animation: slideInUnit .45s cubic-bezier(.2,1.2,.4,1); }
   .mastery-overlay { position: fixed; inset: 0; z-index: 999; display: flex; align-items: center; justify-content: center; background: rgba(0,0,0,.45); animation: fadeInOverlay .3s ease; }
@@ -286,8 +286,11 @@
 <div class="key-hint"><kbd>Space</kbd> <span data-i18n="kbFlip">flip</span> &nbsp;&middot;&nbsp; <kbd>1</kbd> <span data-i18n="hard">Hard</span> &nbsp;&middot;&nbsp; <kbd>2</kbd> <span data-i18n="okay">Okay</span> &nbsp;&middot;&nbsp; <kbd>3</kbd> <span data-i18n="gotIt">Got it</span></div>
 
 <div class="review-fab" id="reviewFab" onclick="reviewOldWords()">
-  <div class="review-fab-count" id="reviewFabCount">0</div>
-  <div class="review-fab-label" id="reviewFabLabel">to review</div>
+  <div class="review-fab-circle" id="reviewFabCircle" style="position:relative">
+    <span>&#8635;</span>
+    <div class="review-fab-badge" id="reviewFabBadge">0</div>
+  </div>
+  <div class="review-fab-label" id="reviewFabLabel">Review</div>
 </div>
 
 <script>
@@ -737,27 +740,37 @@ function unitPillLabel(unit, state) {
 
 function updateReviewFab() {
   const fab   = document.getElementById('reviewFab');
-  const count = document.getElementById('reviewFabCount');
-  const label = document.getElementById('reviewFabLabel');
+  const circle = document.getElementById('reviewFabCircle');
+  const badge  = document.getElementById('reviewFabBadge');
+  const label  = document.getElementById('reviewFabLabel');
   const showReview = getUnits().some(u => getUnitMasteryState(u) === 'mastered') || loadMastered().size > 0;
   fab.classList.toggle('visible', showReview);
   if (!showReview) return;
 
-  const n = getDueCards().length;
-  count.textContent = '';
-  label.textContent = (lang === 'cy' ? 'Adolygu' : 'Review') + (n > 0 ? ' (' + n + ')' : '');
+  const dueCount = getDueCards().length;
+  badge.textContent = dueCount;
+  label.textContent = lang === 'cy' ? 'Adolygu' : 'Review';
 
-  // Urgency tiers control colour class + count font size
-  fab.classList.remove('due', 'warm', 'urgent', 'disabled');
-  if (n === 0) {
+  // Urgency tiers: none → calm → due → urgent
+  fab.classList.remove('due', 'urgent', 'disabled');
+  let bg, badgeColor;
+  if (dueCount === 0) {
+    bg = '#a8c5b0'; badgeColor = '#5a7a62';      // muted sage — nothing to do
     fab.classList.add('disabled');
-  } else if (n <= 9) {
+  } else if (dueCount <= 9) {
+    bg = '#d4a843'; badgeColor = '#7a4f00';       // warm gold — a few due
     fab.classList.add('due');
-  } else if (n <= 19) {
-    fab.classList.add('warm');
+  } else if (dueCount <= 19) {
+    bg = '#c87533'; badgeColor = '#8b3e00';       // burnt orange — getting behind
+    fab.classList.add('due');
   } else {
+    bg = '#b84233'; badgeColor = '#7a1a1a';       // warm red — urgent
     fab.classList.add('urgent');
   }
+  circle.style.background = bg;
+  badge.style.color = badgeColor;
+  badge.style.display = dueCount > 0 ? '' : 'none';
+  label.style.color = bg;
 }
 
 function buildUnitBar() {
