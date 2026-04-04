@@ -137,8 +137,8 @@
   .review-fab.visible { display: block; }
   .review-fab:hover { transform: translateY(-2px); box-shadow: 0 4px 20px rgba(0,0,0,.12); }
   .review-fab:active { transform: translateY(0) scale(0.97); }
-  .review-fab-count { font-family: 'Playfair Display', serif; font-weight: 700; line-height: 1; transition: font-size .4s cubic-bezier(.2,1.2,.4,1), color .5s ease; }
-  .review-fab-label { font-family: 'Source Sans 3', sans-serif; font-size: 0.58rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; transition: color .5s ease; margin-top: 2px; }
+  .review-fab-count { display: none; }
+  .review-fab-label { font-family: 'Source Sans 3', sans-serif; font-size: 0.72rem; font-weight: 700; letter-spacing: 0.06em; transition: color .5s ease; }
   .review-fab.due { border-color: var(--gold); }
   .review-fab.due .review-fab-count, .review-fab.due .review-fab-label { color: #8a6d1b; }
   .review-fab.warm { border-color: #c87533; }
@@ -744,23 +744,19 @@ function updateReviewFab() {
   if (!showReview) return;
 
   const n = getDueCards().length;
-  count.textContent = n;
-  label.textContent = lang === 'cy' ? (n === 0 ? 'dim eto' : (n === 1 ? 'gair yn ddyledus' : 'gair yn ddyledus')) : (n === 0 ? 'all clear' : (n === 1 ? 'word due' : 'words due'));
+  count.textContent = '';
+  label.textContent = (lang === 'cy' ? 'Adolygu' : 'Review') + (n > 0 ? ' (' + n + ')' : '');
 
   // Urgency tiers control colour class + count font size
   fab.classList.remove('due', 'warm', 'urgent', 'disabled');
   if (n === 0) {
     fab.classList.add('disabled');
-    count.style.fontSize = '1.2rem';
   } else if (n <= 9) {
     fab.classList.add('due');
-    count.style.fontSize = '1.4rem';
   } else if (n <= 19) {
     fab.classList.add('warm');
-    count.style.fontSize = '1.7rem';
   } else {
     fab.classList.add('urgent');
-    count.style.fontSize = '2rem';
   }
 }
 
