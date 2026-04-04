@@ -141,14 +141,10 @@
   .review-fab-label { font-family: 'Source Sans 3', sans-serif; font-size: 0.58rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; transition: color .5s ease; margin-top: 2px; }
   .review-fab.due { border-color: var(--gold); }
   .review-fab.due .review-fab-count, .review-fab.due .review-fab-label { color: #8a6d1b; }
-  .review-fab.due { animation: fabBob 3s ease-in-out infinite; }
   .review-fab.warm { border-color: #c87533; }
   .review-fab.warm .review-fab-count, .review-fab.warm .review-fab-label { color: #934b10; }
-  .review-fab.warm { animation: fabBob 2.2s ease-in-out infinite; }
   .review-fab.urgent { border-color: var(--col-fem); }
   .review-fab.urgent .review-fab-count, .review-fab.urgent .review-fab-label { color: var(--col-fem); }
-  .review-fab.urgent { animation: fabBob 1.6s ease-in-out infinite; }
-  @keyframes fabBob { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-3px); } }
   .review-fab.disabled { pointer-events: none; opacity: 0.35; }
   @media (max-width: 480px) { .review-fab { bottom: 14px; right: 14px; padding: 8px 13px; border-radius: 12px; } }
   @keyframes slideInUnit { from { opacity: 0; transform: translateX(20px) scale(0.85); } to { opacity: 1; transform: translateX(0) scale(1); } }
@@ -749,7 +745,7 @@ function updateReviewFab() {
 
   const n = getDueCards().length;
   count.textContent = n;
-  label.textContent = lang === 'cy' ? (n === 0 ? 'dim eto' : "i'w hadolygu") : (n === 0 ? 'all clear' : 'to review');
+  label.textContent = lang === 'cy' ? (n === 0 ? 'dim eto' : (n === 1 ? 'gair yn ddyledus' : 'gair yn ddyledus')) : (n === 0 ? 'all clear' : (n === 1 ? 'word due' : 'words due'));
 
   // Urgency tiers control colour class + count font size
   fab.classList.remove('due', 'warm', 'urgent', 'disabled');
