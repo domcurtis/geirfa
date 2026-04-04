@@ -901,16 +901,29 @@ let welshVoice = null;
 function initSpeech() {
   if (!window.speechSynthesis) return;
   const findWelsh = () => {
-    welshVoice = speechSynthesis.getVoices().find(v => v.lang && v.lang.startsWith('cy')) || null;
+    welshVoice = speechSynthesis.getVoices().find(v => v.lang && (v.lang.startsWith('cy') || v.lang.startsWith('cy'))) || null;
   };
   speechSynthesis.onvoiceschanged = findWelsh;
   findWelsh();
+  // iOS Safari: onvoiceschanged is unreliable; poll briefly
+  if (!welshVoice) {
+    let attempts = 0;
+    const poll = setInterval(() => {
+      findWelsh();
+      if (welshVoice || ++attempts > 10) clearInterval(poll);
+    }, 250);
+  }
 }
 
 function speakWelsh() {
-  if (!welshVoice) return;
+  if (!window.speechSynthesis) return;
   const card = deck[currentIndex];
   if (!card) return;
+  // Lazy-find voice if not yet detected
+  if (!welshVoice) {
+    welshVoice = speechSynthesis.getVoices().find(v => v.lang && v.lang.startsWith('cy')) || null;
+    if (!welshVoice) return;
+  }
   speechSynthesis.cancel();
   const utt = new SpeechSynthesisUtterance(card.c);
   utt.voice = welshVoice;
@@ -920,7 +933,7 @@ function speakWelsh() {
 }
 
 function showSpeakButton(id, show) {
-  document.getElementById(id).style.display = (show && welshVoice) ? 'inline-block' : 'none';
+  document.getElementById(id).style.display = show ? 'inline-block' : 'none';
 }
 
 // ── Card interactions ──────────────────────────────────────────────────────────
