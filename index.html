@@ -133,6 +133,8 @@
   .unit-btn-partial.active { background: #e6a817 !important; border-color: #e6a817 !important; color: white !important; }
   .unit-btn-mastered { border-color: var(--hgreen) !important; color: var(--hgreen) !important; background: #eaf7ee !important; }
   .unit-btn-mastered.active { background: var(--hgreen) !important; border-color: var(--hgreen) !important; color: white !important; }
+  .review-pill-wrap { display: none; text-align: center; margin: 18px 0 8px; }
+  .review-pill-wrap.visible { display: block; }
   .unit-btn-review { border-color: var(--gold) !important; color: #8a6d1b !important; background: #fffdf4 !important; }
   .unit-btn-review.active { background: var(--gold) !important; border-color: var(--gold) !important; color: white !important; }
   .unit-btn-review.review-disabled { pointer-events: none; opacity: 0.35; }
@@ -254,6 +256,10 @@
     <button class="btn-review"    id="bannerReviewWeakBtn"  onclick="reviewWeak()"    data-i18n="reviewWeak">Retry difficult words</button>
     <button class="btn btn-next"  id="bannerReviewMoreBtn"  onclick="reviewOldWords()" data-i18n="reviewMore">Review 10 more words</button>
   </div>
+</div>
+
+<div class="review-pill-wrap" id="reviewPillWrap">
+  <button class="unit-btn unit-btn-review" id="reviewFab" onclick="reviewOldWords()"></button>
 </div>
 
 <div class="sr-stats">
@@ -658,9 +664,10 @@ function unitPillLabel(unit, state) {
 
 function updateReviewFab() {
   const fab = document.getElementById('reviewFab');
-  if (!fab) return;
+  const wrap = document.getElementById('reviewPillWrap');
+  if (!fab || !wrap) return;
   const showReview = getUnits().some(u => getUnitMasteryState(u) === 'mastered') || loadMastered().size > 0;
-  fab.style.display = showReview ? '' : 'none';
+  wrap.classList.toggle('visible', showReview);
   if (!showReview) return;
 
   const n = getDueCards().length;
@@ -688,12 +695,6 @@ function buildUnitBar() {
     bar.appendChild(btn);
   });
 
-  // Append review pill
-  const reviewBtn = document.createElement('button');
-  reviewBtn.id = 'reviewFab';
-  reviewBtn.className = 'unit-btn unit-btn-review';
-  reviewBtn.onclick = () => reviewOldWords();
-  bar.appendChild(reviewBtn);
   updateReviewFab();
 }
 
