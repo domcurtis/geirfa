@@ -133,20 +133,9 @@
   .unit-btn-partial.active { background: #e6a817 !important; border-color: #e6a817 !important; color: white !important; }
   .unit-btn-mastered { border-color: var(--hgreen) !important; color: var(--hgreen) !important; background: #eaf7ee !important; }
   .unit-btn-mastered.active { background: var(--hgreen) !important; border-color: var(--hgreen) !important; color: white !important; }
-  .review-fab { position: fixed; bottom: 20px; right: 20px; z-index: 90; display: none; cursor: pointer; -webkit-tap-highlight-color: transparent; background: white; border: 1.5px solid var(--light); border-radius: 14px; padding: 10px 16px; text-align: center; transition: transform .25s cubic-bezier(.2,1.2,.4,1), border-color .5s ease, box-shadow .4s ease, opacity .3s ease; box-shadow: 0 2px 12px rgba(0,0,0,.08); }
-  .review-fab.visible { display: block; }
-  .review-fab:hover { transform: translateY(-2px); box-shadow: 0 4px 20px rgba(0,0,0,.12); }
-  .review-fab:active { transform: translateY(0) scale(0.97); }
-  .review-fab-count { display: none; }
-  .review-fab-label { font-family: 'Source Sans 3', sans-serif; font-size: 0.72rem; font-weight: 700; letter-spacing: 0.06em; transition: color .5s ease; }
-  .review-fab.due { border-color: var(--gold); }
-  .review-fab.due .review-fab-count, .review-fab.due .review-fab-label { color: #8a6d1b; }
-  .review-fab.warm { border-color: #c87533; }
-  .review-fab.warm .review-fab-count, .review-fab.warm .review-fab-label { color: #934b10; }
-  .review-fab.urgent { border-color: var(--col-fem); }
-  .review-fab.urgent .review-fab-count, .review-fab.urgent .review-fab-label { color: var(--col-fem); }
-  .review-fab.disabled { pointer-events: none; opacity: 0.35; }
-  @media (max-width: 480px) { .review-fab { bottom: 14px; right: 14px; padding: 8px 13px; border-radius: 12px; } }
+  .unit-btn-review { border-color: var(--gold) !important; color: #8a6d1b !important; background: #fffdf4 !important; }
+  .unit-btn-review.active { background: var(--gold) !important; border-color: var(--gold) !important; color: white !important; }
+  .unit-btn-review.review-disabled { pointer-events: none; opacity: 0.35; }
   .mastery-overlay { position: fixed; inset: 0; z-index: 999; display: flex; align-items: center; justify-content: center; background: rgba(0,0,0,.45); animation: fadeInOverlay .3s ease; }
   @keyframes fadeInOverlay { from { opacity: 0; } to { opacity: 1; } }
   .mastery-card { background: white; border-radius: 20px; padding: 40px 48px; text-align: center; max-width: 420px; width: 90%; box-shadow: 0 24px 64px rgba(0,0,0,.25); animation: popIn .4s cubic-bezier(.2,1.4,.4,1); position: relative; overflow: hidden; }
@@ -276,10 +265,6 @@
 
 <div class="key-hint"><kbd>Space</kbd> <span data-i18n="kbFlip">flip</span> &nbsp;&middot;&nbsp; <kbd>1</kbd> <span data-i18n="hard">Hard</span> &nbsp;&middot;&nbsp; <kbd>2</kbd> <span data-i18n="okay">Okay</span> &nbsp;&middot;&nbsp; <kbd>3</kbd> <span data-i18n="gotIt">Got it</span></div>
 
-<div class="review-fab" id="reviewFab" onclick="reviewOldWords()">
-  <div class="review-fab-count" id="reviewFabCount">0</div>
-  <div class="review-fab-label" id="reviewFabLabel">to review</div>
-</div>
 
 <script>
 // ── Storage abstraction ───────────────────────────────────────────────────────
@@ -672,34 +657,22 @@ function unitPillLabel(unit, state) {
 }
 
 function updateReviewFab() {
-  const fab   = document.getElementById('reviewFab');
-  const count = document.getElementById('reviewFabCount');
-  const label = document.getElementById('reviewFabLabel');
+  const fab = document.getElementById('reviewFab');
+  if (!fab) return;
   const showReview = getUnits().some(u => getUnitMasteryState(u) === 'mastered') || loadMastered().size > 0;
-  fab.classList.toggle('visible', showReview);
+  fab.style.display = showReview ? '' : 'none';
   if (!showReview) return;
 
   const n = getDueCards().length;
-  count.textContent = '';
-  label.textContent = (lang === 'cy' ? 'Adolygu' : 'Review') + (n > 0 ? ' (' + n + ')' : '');
+  fab.textContent = (lang === 'cy' ? 'Adolygu' : 'Review') + (n > 0 ? ' (' + n + ')' : '');
 
-  // Urgency tiers control colour class + count font size
-  fab.classList.remove('due', 'warm', 'urgent', 'disabled');
-  if (n === 0) {
-    fab.classList.add('disabled');
-  } else if (n <= 9) {
-    fab.classList.add('due');
-  } else if (n <= 19) {
-    fab.classList.add('warm');
-  } else {
-    fab.classList.add('urgent');
-  }
+  fab.classList.toggle('review-disabled', n === 0);
+  fab.classList.toggle('active', reviewMode);
 }
 
 function buildUnitBar() {
   const bar = document.getElementById('unitBar');
   bar.innerHTML = '';
-  updateReviewFab();
 
   getUnits().forEach(unit => {
     const state = getUnitMasteryState(unit);
@@ -714,11 +687,19 @@ function buildUnitBar() {
     btn.onclick      = () => setUnit(unit, btn);
     bar.appendChild(btn);
   });
+
+  // Append review pill
+  const reviewBtn = document.createElement('button');
+  reviewBtn.id = 'reviewFab';
+  reviewBtn.className = 'unit-btn unit-btn-review';
+  reviewBtn.onclick = () => reviewOldWords();
+  bar.appendChild(reviewBtn);
+  updateReviewFab();
 }
 
 function refreshUnitBar() {
   updateReviewFab();
-  document.querySelectorAll('.unit-btn').forEach(btn => {
+  document.querySelectorAll('.unit-btn[data-unit]').forEach(btn => {
     const state = getUnitMasteryState(btn.dataset.unit);
     btn.classList.remove('unit-btn-mastered', 'unit-btn-partial');
     if (state === 'mastered') btn.classList.add('unit-btn-mastered');
@@ -905,7 +886,7 @@ function shuffle() {
   showRatingButtons(false); updateCard();
 }
 
-function restart() { restoreReviewSnapshot(); reviewMode = false; rebuildDeck(); showRatingButtons(false); updateCard(); }
+function restart() { restoreReviewSnapshot(); reviewMode = false; updateReviewFab(); rebuildDeck(); showRatingButtons(false); updateCard(); }
 
 // ── Review non-"Got it" cards ─────────────────────────────────────────────────
 function reviewWeak() {
@@ -973,6 +954,8 @@ function reviewOldWords() {
   storage.set(REVIEW_SNAPSHOT_KEY, snapshot);
   activeUnit   = null;
   document.querySelectorAll('.unit-btn').forEach(b => b.classList.remove('active'));
+  const reviewPill = document.getElementById('reviewFab');
+  if (reviewPill) { reviewPill.classList.add('active'); reviewPill.scrollIntoView({ block: 'nearest', inline: 'center', behavior: 'smooth' }); }
   showRatingButtons(false);
   renderSRStats();
   updateCard();
