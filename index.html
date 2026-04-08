@@ -133,12 +133,12 @@
   .unit-btn-partial.active { background: #e6a817 !important; border-color: #e6a817 !important; color: white !important; }
   .unit-btn-mastered { border-color: var(--hgreen) !important; color: var(--hgreen) !important; background: #eaf7ee !important; }
   .unit-btn-mastered.active { background: var(--hgreen) !important; border-color: var(--hgreen) !important; color: white !important; }
-  .review-fab { position: fixed; bottom: 20px; right: 20px; z-index: 90; display: none; cursor: pointer; -webkit-tap-highlight-color: transparent; background: white; border: 1.5px solid var(--light); border-radius: 14px; padding: 10px 16px; text-align: center; transition: transform .25s cubic-bezier(.2,1.2,.4,1), border-color .5s ease, box-shadow .4s ease, opacity .3s ease; box-shadow: 0 2px 12px rgba(0,0,0,.08); }
+  .review-fab { position: fixed; bottom: 20px; right: 20px; z-index: 90; display: none; cursor: pointer; -webkit-tap-highlight-color: transparent; background: white; border: 2px solid var(--light); border-radius: 16px; padding: 14px 22px; text-align: center; transition: transform .25s cubic-bezier(.2,1.2,.4,1), border-color .5s ease, box-shadow .4s ease, opacity .3s ease; box-shadow: 0 2px 12px rgba(0,0,0,.08); }
   .review-fab.visible { display: block; }
   .review-fab:hover { transform: translateY(-2px); box-shadow: 0 4px 20px rgba(0,0,0,.12); }
   .review-fab:active { transform: translateY(0) scale(0.97); }
   .review-fab-count { display: none; }
-  .review-fab-label { font-family: 'Source Sans 3', sans-serif; font-size: 0.72rem; font-weight: 700; letter-spacing: 0.06em; transition: color .5s ease; }
+  .review-fab-label { font-family: 'Source Sans 3', sans-serif; font-size: 0.88rem; font-weight: 700; letter-spacing: 0.06em; transition: color .5s ease; }
   .review-fab.due { border-color: var(--gold); }
   .review-fab.due .review-fab-count, .review-fab.due .review-fab-label { color: #8a6d1b; }
   .review-fab.warm { border-color: #c87533; }
@@ -146,7 +146,10 @@
   .review-fab.urgent { border-color: var(--col-fem); }
   .review-fab.urgent .review-fab-count, .review-fab.urgent .review-fab-label { color: var(--col-fem); }
   .review-fab.disabled { pointer-events: none; opacity: 0.35; }
-  @media (max-width: 480px) { .review-fab { bottom: 14px; right: 14px; padding: 8px 13px; border-radius: 12px; } }
+  @media (max-width: 480px) { .review-fab { bottom: 14px; right: 14px; padding: 12px 18px; border-radius: 14px; } }
+  body.review-active { background: #f0ede6; }
+  body.review-active .unit-bar-wrap::before { background: linear-gradient(to right, #f0ede6, transparent); }
+  body.review-active .unit-bar-wrap::after  { background: linear-gradient(to left,  #f0ede6, transparent); }
   .mastery-overlay { position: fixed; inset: 0; z-index: 999; display: flex; align-items: center; justify-content: center; background: rgba(0,0,0,.45); animation: fadeInOverlay .3s ease; }
   @keyframes fadeInOverlay { from { opacity: 0; } to { opacity: 1; } }
   .mastery-card { background: white; border-radius: 20px; padding: 40px 48px; text-align: center; max-width: 420px; width: 90%; box-shadow: 0 24px 64px rgba(0,0,0,.25); animation: popIn .4s cubic-bezier(.2,1.4,.4,1); position: relative; overflow: hidden; }
@@ -400,7 +403,7 @@ function clearAllData() {
   storage.remove(REVIEW_SNAPSHOT_KEY);
   srCards       = {};
   srPiles       = {};
-  reviewMode    = false;
+  reviewMode    = false; syncReviewBg();
   activeUnit = getUnits()[0] || null;
   direction  = 'en-cy';
   rebuildDeck();
@@ -422,6 +425,7 @@ let direction    = 'en-cy';
 let typingMode        = false;
 let reviewMode        = false;  // true only when the "Review" pill session is active
 let reviewSessionGreen = new Set(); // cards confirmed "Got it" in the current review round
+function syncReviewBg() { document.body.classList.toggle('review-active', reviewMode); }
 
 // ── Helpers ───────────────────────────────────────────────────────────────────
 function getEnglishCat(cat) {
@@ -739,7 +743,7 @@ function updateWordCount() {
 function setUnit(unit, btn) {
   restoreReviewSnapshot(); // abandon any in-progress review session cleanly
   activeUnit = unit;
-  reviewMode = false;
+  reviewMode = false; syncReviewBg();
   document.querySelectorAll('.unit-btn').forEach(b => b.classList.remove('active'));
   btn.classList.add('active');
   btn.scrollIntoView({ block: 'nearest', inline: 'center', behavior: 'smooth' });
@@ -905,7 +909,7 @@ function shuffle() {
   showRatingButtons(false); updateCard();
 }
 
-function restart() { restoreReviewSnapshot(); reviewMode = false; rebuildDeck(); showRatingButtons(false); updateCard(); }
+function restart() { restoreReviewSnapshot(); reviewMode = false; syncReviewBg(); rebuildDeck(); showRatingButtons(false); updateCard(); }
 
 // ── Review non-"Got it" cards ─────────────────────────────────────────────────
 function reviewWeak() {
@@ -920,7 +924,7 @@ function reviewWeak() {
 
 // ── Review cards by SR pile ───────────────────────────────────────────────────
 function reviewByPile(pile) {
-  reviewMode = false;
+  reviewMode = false; syncReviewBg();
   const base = ALL_VOCAB
     .map((v, i) => ({ ...v, _idx: i }))
     .filter(v => matchUnit(v) && (srPiles[cardKey(v)] ?? 0) === pile);
@@ -946,7 +950,7 @@ function getDueCards() {
 
 function reviewOldWords() {
   restoreReviewSnapshot(); // undo any prior interrupted session before starting a new one
-  reviewMode = true;
+  reviewMode = true; syncReviewBg();
   reviewSessionGreen = new Set();
   const now = Date.now();
   // All due "Got it" cards across ALL units, prioritised by overdue ratio
