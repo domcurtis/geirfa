@@ -18,7 +18,7 @@
     --cream: #faf7f2; --dark: #1c1c1c; --mid: #5a5a5a; --light: #e8e2d9; --gold: #c8a84b; --hgreen: #1a6b3c;
     --col-fem: #b83232; --col-masc: #2471a3; --col-verb: #7a7a7a; --col-adj: #1a6b3c; --col-other: #7d5fa5;
   }
-  body { font-family: 'Source Sans 3', sans-serif; background: var(--cream); min-height: 100vh; display: flex; flex-direction: column; align-items: center; padding: 0 16px 48px; color: var(--dark); }
+  body { font-family: 'Source Sans 3', sans-serif; background: var(--cream); min-height: 100vh; display: flex; flex-direction: column; align-items: center; padding: 0 16px 48px; color: var(--dark); transition: background .4s ease; }
   header { width: 100%; max-width: 720px; padding: 20px 0 16px; text-align: center; border-bottom: 2px solid var(--light); margin-bottom: 12px; position: relative; }
   .header-dragon { position: absolute; left: 0; top: 50%; transform: translateY(-50%); width: 72px; height: 44px; opacity: 0.88; }
   @media (max-width: 480px) { .header-dragon { width: 52px; height: 32px; } }
@@ -147,9 +147,12 @@
   .review-fab.urgent .review-fab-count, .review-fab.urgent .review-fab-label { color: var(--col-fem); }
   .review-fab.disabled { pointer-events: none; opacity: 0.35; }
   @media (max-width: 480px) { .review-fab { bottom: 14px; right: 14px; padding: 12px 18px; border-radius: 14px; } }
-  body.review-active { background: #f0ede6; }
-  body.review-active .unit-bar-wrap::before { background: linear-gradient(to right, #f0ede6, transparent); }
-  body.review-active .unit-bar-wrap::after  { background: linear-gradient(to left,  #f0ede6, transparent); }
+  body.review-active { background: #f2efe4; }
+  body.review-active .unit-bar-wrap::before { background: linear-gradient(to right, #f2efe4, transparent); }
+  body.review-active .unit-bar-wrap::after  { background: linear-gradient(to left,  #f2efe4, transparent); }
+  body.review-active .progress-fill { background: var(--gold); }
+  body.review-active .review-fab { background: var(--dark); border-color: var(--dark); }
+  body.review-active .review-fab-label { color: white; }
   .mastery-overlay { position: fixed; inset: 0; z-index: 999; display: flex; align-items: center; justify-content: center; background: rgba(0,0,0,.45); animation: fadeInOverlay .3s ease; }
   @keyframes fadeInOverlay { from { opacity: 0; } to { opacity: 1; } }
   .mastery-card { background: white; border-radius: 20px; padding: 40px 48px; text-align: center; max-width: 420px; width: 90%; box-shadow: 0 24px 64px rgba(0,0,0,.25); animation: popIn .4s cubic-bezier(.2,1.4,.4,1); position: relative; overflow: hidden; }
@@ -425,7 +428,11 @@ let direction    = 'en-cy';
 let typingMode        = false;
 let reviewMode        = false;  // true only when the "Review" pill session is active
 let reviewSessionGreen = new Set(); // cards confirmed "Got it" in the current review round
-function syncReviewBg() { document.body.classList.toggle('review-active', reviewMode); }
+function syncReviewBg() {
+  document.body.classList.toggle('review-active', reviewMode);
+  const el = document.getElementById('levelLabel');
+  if (el) el.textContent = reviewMode ? (lang === 'cy' ? 'Adolygu' : 'Reviewing') : 'Canolradd';
+}
 
 // ── Helpers ───────────────────────────────────────────────────────────────────
 function getEnglishCat(cat) {
@@ -1118,6 +1125,7 @@ function applyLang() {
   document.documentElement.lang = lang === 'cy' ? 'cy' : 'en';
   updateCardLangLabels();
   updateWordCount();
+  syncReviewBg();
   if (ALL_VOCAB.length > 0) refreshUnitBar();
 }
 
