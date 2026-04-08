@@ -171,6 +171,37 @@
   .complete-banner .btn-review:hover { background: rgba(255,255,255,.3); }
   .complete-banner .btn-review:disabled { opacity: 0.35; cursor: default; }
   .complete-banner .banner-actions { display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; }
+  /* ── Review callout banner ─────────────────────────────────────────── */
+  .review-callout { width: 100%; max-width: 520px; margin: 0 auto 14px; background: white; border: 2px solid var(--gold); border-radius: 14px; cursor: pointer; transition: transform .18s, box-shadow .18s; box-shadow: 0 2px 12px rgba(200,168,75,.18); animation: reviewCalloutPulse 3s ease-in-out infinite; }
+  .review-callout.warm { border-color: #c87533; }
+  .review-callout.urgent { border-color: var(--col-fem); box-shadow: 0 2px 16px rgba(184,50,50,.2); }
+  .review-callout:hover { transform: translateY(-2px); box-shadow: 0 6px 24px rgba(200,168,75,.3); }
+  .review-callout:active { transform: scale(0.98); }
+  .review-callout-inner { display: flex; align-items: center; gap: 12px; padding: 14px 18px; }
+  .review-callout-icon { width: 36px; height: 36px; border-radius: 50%; background: var(--gold); color: white; display: flex; align-items: center; justify-content: center; font-size: 0.85rem; flex-shrink: 0; }
+  .review-callout.warm .review-callout-icon { background: #c87533; }
+  .review-callout.urgent .review-callout-icon { background: var(--col-fem); }
+  .review-callout-text { flex: 1; font-size: 0.9rem; font-weight: 600; color: var(--dark); }
+  .review-callout-text strong { font-size: 1.1rem; color: #8a6d1b; }
+  .review-callout.warm .review-callout-text strong { color: #934b10; }
+  .review-callout.urgent .review-callout-text strong { color: var(--col-fem); }
+  .review-callout-arrow { font-size: 1.4rem; color: var(--mid); opacity: 0.45; }
+  @keyframes reviewCalloutPulse { 0%, 100% { box-shadow: 0 2px 12px rgba(200,168,75,.18); } 50% { box-shadow: 0 4px 22px rgba(200,168,75,.38); } }
+  /* ── Review launch overlay (deck fan) ──────────────────────────────── */
+  .review-launch-overlay { position: fixed; inset: 0; z-index: 200; display: flex; flex-direction: column; align-items: center; justify-content: center; background: rgba(26,107,60,0.92); cursor: pointer; animation: reviewOverlayFadeIn .3s ease forwards; }
+  @keyframes reviewOverlayFadeIn { from { opacity: 0; } to { opacity: 1; } }
+  .review-launch-fan { position: relative; width: 200px; height: 140px; margin-bottom: 28px; }
+  .review-mini-card { position: absolute; width: 80px; height: 56px; border-radius: 8px; background: white; box-shadow: 0 4px 16px rgba(0,0,0,.25); top: 50%; left: 50%; opacity: 0; animation: miniCardFan .5s cubic-bezier(.2,1.2,.4,1) forwards; animation-delay: calc(var(--i) * 60ms); }
+  @keyframes miniCardFan { 0% { opacity: 0; transform: translate(-50%,-50%) rotate(0deg) scale(0.7); } 60% { opacity: 1; } 100% { opacity: 1; transform: translate(-50%,-50%) rotate(var(--rot)) translateX(var(--tx)) scale(1); } }
+  .review-launch-label { font-family: 'Playfair Display', serif; font-size: 1.6rem; color: white; font-weight: 700; opacity: 0; animation: reviewLabelFadeUp .4s ease .55s forwards; }
+  .review-launch-hint { font-size: 0.72rem; color: rgba(255,255,255,.55); letter-spacing: 0.08em; margin-top: 10px; opacity: 0; animation: reviewLabelFadeUp .4s ease .75s forwards; }
+  @keyframes reviewLabelFadeUp { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+  /* ── Review progress dots ──────────────────────────────────────────── */
+  .review-dots-strip { display: flex; gap: 8px; justify-content: center; align-items: center; width: 100%; max-width: 520px; margin: 8px auto 4px; padding: 6px 0; }
+  .review-dot { width: 10px; height: 10px; border-radius: 50%; background: var(--light); border: 1.5px solid #ccc; transition: background .3s, transform .25s, border-color .3s; }
+  .review-dot.current { background: var(--gold); border-color: var(--gold); transform: scale(1.3); }
+  .review-dot.done { background: var(--hgreen); border-color: var(--hgreen); }
+  .review-dot.failed { background: var(--col-fem); border-color: var(--col-fem); }
 </style>
 </head>
 <body>
@@ -213,6 +244,16 @@
   <div class="progress-track"><div class="progress-fill" id="progressFill" style="width:0%"></div></div>
 </div>
 
+<div class="review-callout" id="reviewCallout" style="display:none" onclick="reviewOldWords()">
+  <div class="review-callout-inner">
+    <div class="review-callout-icon">&#9654;</div>
+    <div class="review-callout-text">
+      <strong id="reviewCalloutCount">0</strong><span id="reviewCalloutLabel"> cards due for review</span>
+    </div>
+    <div class="review-callout-arrow">&#8250;</div>
+  </div>
+</div>
+
 <div class="card-shell">
   <div class="card-area" id="cardArea" onclick="flipCard()">
     <div class="card-inner" id="cardInner">
@@ -250,6 +291,8 @@
   <button class="btn btn-okay"  onclick="rateCard(1)" data-i18n="okay">Okay</button>
   <button class="btn btn-known" onclick="rateCard(2)" data-i18n="gotIt">Got it</button>
 </div>
+
+<div class="review-dots-strip" id="reviewDotsStrip" style="display:none"></div>
 
 <div class="card-actions" id="hint-row-wrap">
   <button class="btn btn-hint" id="hintBtn" onclick="showHint()" data-i18n="hint">Hint</button>
@@ -422,6 +465,7 @@ let direction    = 'en-cy';
 let typingMode        = false;
 let reviewMode        = false;  // true only when the "Review" pill session is active
 let reviewSessionGreen = new Set(); // cards confirmed "Got it" in the current review round
+let reviewDotCount = 0; // initial deck size when a review session starts
 
 // ── Helpers ───────────────────────────────────────────────────────────────────
 function getEnglishCat(cat) {
@@ -573,6 +617,7 @@ function rateCard(pile) {
   } else {
     advanceCard();
   }
+  updateReviewDots();
 }
 
 function renderSRStats() {
@@ -685,14 +730,26 @@ function updateReviewFab() {
 
   // Urgency tiers control colour class + count font size
   fab.classList.remove('due', 'warm', 'urgent', 'disabled');
+  let urgencyClass = '';
   if (n === 0) {
     fab.classList.add('disabled');
   } else if (n <= 9) {
-    fab.classList.add('due');
+    fab.classList.add('due'); urgencyClass = 'due';
   } else if (n <= 19) {
-    fab.classList.add('warm');
+    fab.classList.add('warm'); urgencyClass = 'warm';
   } else {
-    fab.classList.add('urgent');
+    fab.classList.add('urgent'); urgencyClass = 'urgent';
+  }
+
+  // Drive the review callout banner
+  const callout = document.getElementById('reviewCallout');
+  if (n > 0 && !reviewMode) {
+    callout.style.display = '';
+    callout.className = 'review-callout' + (urgencyClass ? ' ' + urgencyClass : '');
+    document.getElementById('reviewCalloutCount').textContent = n;
+    document.getElementById('reviewCalloutLabel').textContent = n === 1 ? ' card due for review' : ' cards due for review';
+  } else {
+    callout.style.display = 'none';
   }
 }
 
@@ -829,6 +886,8 @@ function updateCard() {
       const dueNow = getDueCards().length;
       reviewMoreBtn.style.display = '';
       reviewMoreBtn.disabled = dueNow === 0;
+      document.getElementById('reviewDotsStrip').style.display = 'none';
+      document.getElementById('reviewCallout').style.display = 'none';
     } else {
       document.getElementById('completeBannerMsg').textContent = t('completedSet');
       document.getElementById('bannerRestartBtn').style.display    = '';
@@ -870,6 +929,7 @@ function updateCard() {
   }
 
   updateProgress();
+  updateReviewDots();
   saveState();
 }
 
@@ -905,7 +965,11 @@ function shuffle() {
   showRatingButtons(false); updateCard();
 }
 
-function restart() { restoreReviewSnapshot(); reviewMode = false; rebuildDeck(); showRatingButtons(false); updateCard(); }
+function restart() {
+  restoreReviewSnapshot(); reviewMode = false; rebuildDeck(); showRatingButtons(false);
+  document.getElementById('reviewDotsStrip').style.display = 'none';
+  updateCard(); updateReviewFab();
+}
 
 // ── Review non-"Got it" cards ─────────────────────────────────────────────────
 function reviewWeak() {
@@ -929,6 +993,7 @@ function reviewByPile(pile) {
   deck         = base;
   currentIndex = 0;
   showRatingButtons(false);
+  document.getElementById('reviewDotsStrip').style.display = 'none';
   updateCard();
 }
 
@@ -946,10 +1011,44 @@ function getDueCards() {
 
 function reviewOldWords() {
   restoreReviewSnapshot(); // undo any prior interrupted session before starting a new one
+  const due = getDueCards();
+  if (due.length < 1) return;
+  const count = Math.min(due.length, 10);
+
+  // Build and show the fan overlay
+  const overlay = document.getElementById('reviewLaunchOverlay');
+  const fan     = document.getElementById('reviewLaunchFan');
+  fan.innerHTML = '';
+  for (let i = 0; i < count; i++) {
+    const card = document.createElement('div');
+    card.className = 'review-mini-card';
+    const rot = count > 1 ? -40 + (80 / (count - 1)) * i : 0;
+    card.style.setProperty('--i', i);
+    card.style.setProperty('--rot', rot + 'deg');
+    card.style.setProperty('--tx', '50px');
+    fan.appendChild(card);
+  }
+  overlay.style.display = 'flex';
+  // Reset CSS animation so it replays if triggered again
+  overlay.style.animation = 'none';
+  overlay.offsetHeight; // force reflow
+  overlay.style.animation = '';
+
+  if (reviewOldWords._timer) clearTimeout(reviewOldWords._timer);
+  reviewOldWords._timer = setTimeout(_startReviewSession, 1400);
+}
+
+function skipReviewAnimation() {
+  if (reviewOldWords._timer) { clearTimeout(reviewOldWords._timer); reviewOldWords._timer = null; }
+  document.getElementById('reviewLaunchOverlay').style.display = 'none';
+  _startReviewSession();
+}
+
+function _startReviewSession() {
+  document.getElementById('reviewLaunchOverlay').style.display = 'none';
   reviewMode = true;
   reviewSessionGreen = new Set();
   const now = Date.now();
-  // All due "Got it" cards across ALL units, prioritised by overdue ratio
   const due = getDueCards();
   if (due.length < 1) return;
   // Sort by urgency: how overdue relative to the card's interval
@@ -964,6 +1063,7 @@ function reviewOldWords() {
   shuffleArray(pool);
   deck         = pool.slice(0, 10);
   currentIndex = 0;
+  reviewDotCount = deck.length;
   // Snapshot the pre-session state of every card we are about to review
   const snapshot = {};
   deck.forEach(card => {
@@ -975,8 +1075,40 @@ function reviewOldWords() {
   document.querySelectorAll('.unit-btn').forEach(b => b.classList.remove('active'));
   showRatingButtons(false);
   renderSRStats();
+  renderReviewDots();
   updateCard();
 }
+// ── Review progress dots ──────────────────────────────────────────────────────
+function renderReviewDots() {
+  const strip = document.getElementById('reviewDotsStrip');
+  strip.innerHTML = '';
+  if (!reviewMode) { strip.style.display = 'none'; return; }
+  strip.style.display = 'flex';
+  for (let i = 0; i < reviewDotCount; i++) {
+    const dot = document.createElement('div');
+    dot.className = 'review-dot' + (i === currentIndex ? ' current' : '');
+    dot.id = 'review-dot-' + i;
+    strip.appendChild(dot);
+  }
+}
+
+function updateReviewDots() {
+  if (!reviewMode) return;
+  for (let i = 0; i < reviewDotCount; i++) {
+    const dot = document.getElementById('review-dot-' + i);
+    if (!dot) continue;
+    if (i < currentIndex) {
+      const card = deck[i];
+      const cls = (card && reviewSessionGreen.has(cardKey(card))) ? 'done' : 'failed';
+      dot.className = 'review-dot ' + cls;
+    } else if (i === currentIndex) {
+      dot.className = 'review-dot current';
+    } else {
+      dot.className = 'review-dot';
+    }
+  }
+}
+
 function welshLetters(str) {
   const s = str.trim();
   const digraphs = ['ch','dd','ff','ng','ll','ph','rh','th'];
@@ -1140,5 +1272,12 @@ if ('serviceWorker' in navigator) {
   navigator.serviceWorker.register('./sw.js');
 }
 </script>
+
+<div class="review-launch-overlay" id="reviewLaunchOverlay" style="display:none" onclick="skipReviewAnimation()">
+  <div class="review-launch-fan" id="reviewLaunchFan"></div>
+  <div class="review-launch-label">Review</div>
+  <div class="review-launch-hint">tap to skip</div>
+</div>
+
 </body>
 </html>
