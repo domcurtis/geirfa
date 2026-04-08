@@ -18,7 +18,7 @@
     --cream: #faf7f2; --dark: #1c1c1c; --mid: #5a5a5a; --light: #e8e2d9; --gold: #c8a84b; --hgreen: #1a6b3c;
     --col-fem: #b83232; --col-masc: #2471a3; --col-verb: #7a7a7a; --col-adj: #1a6b3c; --col-other: #7d5fa5;
   }
-  body { font-family: 'Source Sans 3', sans-serif; background: var(--cream); min-height: 100vh; display: flex; flex-direction: column; align-items: center; padding: 0 16px 48px; color: var(--dark); transition: background .4s ease; }
+  body { font-family: 'Source Sans 3', sans-serif; background: var(--cream); min-height: 100vh; display: flex; flex-direction: column; align-items: center; padding: 0 16px 48px; color: var(--dark); }
   header { width: 100%; max-width: 720px; padding: 20px 0 16px; text-align: center; border-bottom: 2px solid var(--light); margin-bottom: 12px; position: relative; }
   .header-dragon { position: absolute; left: 0; top: 50%; transform: translateY(-50%); width: 72px; height: 44px; opacity: 0.88; }
   @media (max-width: 480px) { .header-dragon { width: 52px; height: 32px; } }
@@ -84,10 +84,8 @@
   .btn { font-family: 'Source Sans 3', sans-serif; font-size: 0.84rem; font-weight: 600; letter-spacing: 0.04em; padding: 9px 22px; border-radius: 8px; border: none; cursor: pointer; transition: all .18s; }
   .btn-next    { background: var(--dark); color: white; }
   .btn-next:hover { background: #333; }
-  .btn-shuffle { background: white; color: var(--mid); border: 1.5px solid var(--light); }
-  .btn-shuffle:hover { border-color: var(--gold); color: var(--gold); }
-  .btn-restart { background: white; color: var(--mid); border: 1.5px solid var(--light); }
-  .btn-restart:hover { border-color: var(--col-fem); color: var(--col-fem); }
+  .btn-wordlist-link { font-family: 'Source Sans 3', sans-serif; font-size: 0.75rem; font-weight: 600; color: var(--mid); background: none; border: none; cursor: pointer; text-decoration: underline; text-underline-offset: 2px; padding: 3px 6px; transition: color .18s; }
+  .btn-wordlist-link:hover { color: var(--hgreen); }
   .btn-hint { background: white; color: var(--mid); border: 1.5px solid var(--light); }
   .btn-hint:hover { border-color: var(--gold); color: var(--gold); }
   .btn-hint:disabled { opacity: 0.35; cursor: default; }
@@ -133,12 +131,12 @@
   .unit-btn-partial.active { background: #e6a817 !important; border-color: #e6a817 !important; color: white !important; }
   .unit-btn-mastered { border-color: var(--hgreen) !important; color: var(--hgreen) !important; background: #eaf7ee !important; }
   .unit-btn-mastered.active { background: var(--hgreen) !important; border-color: var(--hgreen) !important; color: white !important; }
-  .review-fab { position: fixed; bottom: 20px; right: 20px; z-index: 90; display: none; cursor: pointer; -webkit-tap-highlight-color: transparent; background: white; border: 2px solid var(--light); border-radius: 16px; padding: 14px 22px; text-align: center; transition: transform .25s cubic-bezier(.2,1.2,.4,1), border-color .5s ease, box-shadow .4s ease, opacity .3s ease; box-shadow: 0 2px 12px rgba(0,0,0,.08); }
+  .review-fab { position: fixed; bottom: 20px; right: 20px; z-index: 90; display: none; cursor: pointer; -webkit-tap-highlight-color: transparent; background: white; border: 1.5px solid var(--light); border-radius: 14px; padding: 10px 16px; text-align: center; transition: transform .25s cubic-bezier(.2,1.2,.4,1), border-color .5s ease, box-shadow .4s ease, opacity .3s ease; box-shadow: 0 2px 12px rgba(0,0,0,.08); }
   .review-fab.visible { display: block; }
   .review-fab:hover { transform: translateY(-2px); box-shadow: 0 4px 20px rgba(0,0,0,.12); }
   .review-fab:active { transform: translateY(0) scale(0.97); }
   .review-fab-count { display: none; }
-  .review-fab-label { font-family: 'Source Sans 3', sans-serif; font-size: 0.88rem; font-weight: 700; letter-spacing: 0.06em; transition: color .5s ease; }
+  .review-fab-label { font-family: 'Source Sans 3', sans-serif; font-size: 0.72rem; font-weight: 700; letter-spacing: 0.06em; transition: color .5s ease; }
   .review-fab.due { border-color: var(--gold); }
   .review-fab.due .review-fab-count, .review-fab.due .review-fab-label { color: #8a6d1b; }
   .review-fab.warm { border-color: #c87533; }
@@ -146,14 +144,7 @@
   .review-fab.urgent { border-color: var(--col-fem); }
   .review-fab.urgent .review-fab-count, .review-fab.urgent .review-fab-label { color: var(--col-fem); }
   .review-fab.disabled { pointer-events: none; opacity: 0.35; }
-  @media (max-width: 480px) { .review-fab { bottom: 14px; right: 14px; padding: 12px 18px; border-radius: 14px; } }
-  body.review-active { background: #f2efe4; }
-  body.review-active .unit-bar-wrap::before { background: linear-gradient(to right, #f2efe4, transparent); }
-  body.review-active .unit-bar-wrap::after  { background: linear-gradient(to left,  #f2efe4, transparent); }
-  body.review-active .progress-fill { background: var(--gold); }
-  body.review-active .review-fab { background: var(--gold); border-color: var(--gold); }
-  body.review-active .review-fab .review-fab-label,
-  body.review-active .review-fab .review-fab-count { color: white; }
+  @media (max-width: 480px) { .review-fab { bottom: 14px; right: 14px; padding: 8px 13px; border-radius: 12px; } }
   .mastery-overlay { position: fixed; inset: 0; z-index: 999; display: flex; align-items: center; justify-content: center; background: rgba(0,0,0,.45); animation: fadeInOverlay .3s ease; }
   @keyframes fadeInOverlay { from { opacity: 0; } to { opacity: 1; } }
   .mastery-card { background: white; border-radius: 20px; padding: 40px 48px; text-align: center; max-width: 420px; width: 90%; box-shadow: 0 24px 64px rgba(0,0,0,.25); animation: popIn .4s cubic-bezier(.2,1.4,.4,1); position: relative; overflow: hidden; }
@@ -164,6 +155,21 @@
   .mastery-card .btn-close-mastery { background: var(--hgreen); color: white; border: none; border-radius: 10px; padding: 12px 32px; font-family: 'Source Sans 3', sans-serif; font-size: 0.95rem; font-weight: 700; cursor: pointer; transition: background .18s; }
   .mastery-card .btn-close-mastery:hover { background: #14552f; }
   .mastery-confetti { position: absolute; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; }
+  .wordlist-overlay { position: fixed; inset: 0; z-index: 999; display: flex; align-items: center; justify-content: center; background: rgba(0,0,0,.45); animation: fadeInOverlay .3s ease; }
+  .wordlist-card { background: white; border-radius: 20px; padding: 28px 32px; max-width: 480px; width: 92%; max-height: 82vh; display: flex; flex-direction: column; box-shadow: 0 24px 64px rgba(0,0,0,.25); animation: popIn .4s cubic-bezier(.2,1.4,.4,1); }
+  .wordlist-card h2 { font-family: 'Playfair Display', serif; font-size: 1.3rem; color: var(--dark); margin-bottom: 4px; text-align: center; }
+  .wordlist-card .wordlist-count { font-size: 0.75rem; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: var(--mid); text-align: center; margin-bottom: 16px; }
+  .wordlist-body { overflow-y: auto; flex: 1; -webkit-overflow-scrolling: touch; overscroll-behavior: contain; }
+  .wordlist-table { width: 100%; border-collapse: collapse; font-size: 0.85rem; }
+  .wordlist-table tr { border-bottom: 1px solid var(--light); }
+  .wordlist-table tr:last-child { border-bottom: none; }
+  .wordlist-table td { padding: 6px 8px; vertical-align: middle; }
+  .wordlist-table .wl-dot { width: 18px; padding-right: 0; }
+  .wordlist-table .wl-dot span { display: inline-block; width: 8px; height: 8px; border-radius: 50%; }
+  .wordlist-table .wl-cy { font-weight: 600; color: var(--dark); }
+  .wordlist-table .wl-en { color: var(--mid); }
+  .wordlist-close { display: block; margin: 16px auto 0; background: var(--dark); color: white; border: none; border-radius: 10px; padding: 10px 28px; font-family: 'Source Sans 3', sans-serif; font-size: 0.88rem; font-weight: 700; cursor: pointer; transition: background .18s; }
+  .wordlist-close:hover { background: #333; }
   .sr-stats { display: flex; gap: 10px; justify-content: center; align-items: center; flex-wrap: wrap; margin-top: 10px; font-size: 0.75rem; font-weight: 600; }
   .sr-stat  { padding: 3px 10px; border-radius: 20px; cursor: pointer; transition: filter .15s, transform .15s; user-select: none; }
   .sr-stat:hover  { filter: brightness(0.92); transform: translateY(-1px); }
@@ -211,6 +217,9 @@
         <button class="mode-btn active" id="modeFlip" onclick="setTypingMode(false)" data-i18n="modeFlip">Flip cards</button>
         <button class="mode-btn"        id="modeType" onclick="setTypingMode(true)"  data-i18n="modeType">Typing</button>
       </div>
+    </div>
+    <div class="settings-group">
+      <button class="btn-clear-data" onclick="clearAllData()" data-i18n="clearProgress">Clear all progress</button>
     </div>
   </div>
 </div>
@@ -260,8 +269,6 @@
 
 <div class="card-actions" id="hint-row-wrap">
   <button class="btn btn-hint" id="hintBtn" onclick="showHint()" data-i18n="hint">Hint</button>
-  <button class="btn btn-shuffle" onclick="shuffle()" data-i18n="shuffle">&#8651; Shuffle</button>
-  <button class="btn btn-restart" onclick="restart()" data-i18n="reset">&#8635; Reset</button>
 </div>
 
 <div class="complete-banner" id="completeBanner">
@@ -278,7 +285,7 @@
   <div class="sr-stat sr-hard"  id="srStatHard"  data-count="0" onclick="reviewByPile(0)" title=""><span id="srHard">0</span> <span data-i18n="hard">Hard</span></div>
   <div class="sr-stat sr-okay"  id="srStatOkay"  data-count="0" onclick="reviewByPile(1)" title=""><span id="srOkay">0</span> <span data-i18n="okay">Okay</span></div>
   <div class="sr-stat sr-known" id="srStatKnown" data-count="0" onclick="reviewByPile(2)" title=""><span id="srKnown">0</span> <span data-i18n="gotIt">Known</span></div>
-  <button class="btn-clear-data" onclick="clearAllData()" data-i18n="clearProgress">Clear all progress</button>
+  <button class="btn-wordlist-link" onclick="showWordList()" data-i18n="wordList">Word list</button>
 </div>
 
 <div class="key-hint"><kbd>Space</kbd> <span data-i18n="kbFlip">flip</span> &nbsp;&middot;&nbsp; <kbd>1</kbd> <span data-i18n="hard">Hard</span> &nbsp;&middot;&nbsp; <kbd>2</kbd> <span data-i18n="okay">Okay</span> &nbsp;&middot;&nbsp; <kbd>3</kbd> <span data-i18n="gotIt">Got it</span></div>
@@ -407,7 +414,7 @@ function clearAllData() {
   storage.remove(REVIEW_SNAPSHOT_KEY);
   srCards       = {};
   srPiles       = {};
-  reviewMode    = false; syncReviewBg();
+  reviewMode    = false;
   activeUnit = getUnits()[0] || null;
   direction  = 'en-cy';
   rebuildDeck();
@@ -429,11 +436,6 @@ let direction    = 'en-cy';
 let typingMode        = false;
 let reviewMode        = false;  // true only when the "Review" pill session is active
 let reviewSessionGreen = new Set(); // cards confirmed "Got it" in the current review round
-function syncReviewBg() {
-  document.body.classList.toggle('review-active', reviewMode);
-  const el = document.getElementById('levelLabel');
-  if (el) el.textContent = reviewMode ? (lang === 'cy' ? 'Adolygu' : 'Reviewing') : 'Canolradd';
-}
 
 // ── Helpers ───────────────────────────────────────────────────────────────────
 function getEnglishCat(cat) {
@@ -532,6 +534,45 @@ function showMasteryCelebration(unit) {
     else ctx.clearRect(0, 0, canvas.width, canvas.height);
   }
   drawConfetti();
+}
+
+// ── Word list overlay ────────────────────────────────────────────────────────
+function catDotColor(cat) {
+  if (cat === 'feminine noun')  return 'var(--col-fem)';
+  if (cat === 'masculine noun') return 'var(--col-masc)';
+  if (cat === 'adjective')      return 'var(--col-adj)';
+  if (cat === 'verb')           return 'var(--col-verb)';
+  return 'var(--col-other)';
+}
+
+function showWordList() {
+  if (!activeUnit) return;
+  const words = ALL_VOCAB.filter(c => matchUnit(c));
+  const catOrder = ['feminine noun', 'masculine noun', 'verb', 'adjective', 'other'];
+  words.sort((a, b) => {
+    const ca = catOrder.indexOf(a.g), cb = catOrder.indexOf(b.g);
+    if (ca !== cb) return ca - cb;
+    return a.c.localeCompare(b.c, 'cy');
+  });
+  const label = isNaN(parseInt(activeUnit))
+    ? activeUnit.charAt(0).toUpperCase() + activeUnit.slice(1)
+    : t('unitLabel') + ' ' + activeUnit;
+  const rows = words.map(w =>
+    `<tr><td class="wl-dot"><span style="background:${catDotColor(w.g)}"></span></td><td class="wl-cy">${w.c}</td><td class="wl-en">${w.e}</td></tr>`
+  ).join('');
+  const overlay = document.createElement('div');
+  overlay.className = 'wordlist-overlay';
+  overlay.innerHTML = `
+    <div class="wordlist-card">
+      <h2>${label}</h2>
+      <div class="wordlist-count">${words.length} ${lang === 'cy' ? 'gair' : 'words'}</div>
+      <div class="wordlist-body"><table class="wordlist-table">${rows}</table></div>
+      <button class="wordlist-close" onclick="this.closest('.wordlist-overlay').remove()">${t('close')}</button>
+    </div>`;
+  document.body.appendChild(overlay);
+  overlay.addEventListener('click', e => { if (e.target === overlay) overlay.remove(); });
+  const onKey = e => { if (e.key === 'Escape') { overlay.remove(); document.removeEventListener('keydown', onKey); } };
+  document.addEventListener('keydown', onKey);
 }
 
 // ── Rating ────────────────────────────────────────────────────────────────────
@@ -751,7 +792,7 @@ function updateWordCount() {
 function setUnit(unit, btn) {
   restoreReviewSnapshot(); // abandon any in-progress review session cleanly
   activeUnit = unit;
-  reviewMode = false; syncReviewBg();
+  reviewMode = false;
   document.querySelectorAll('.unit-btn').forEach(b => b.classList.remove('active'));
   btn.classList.add('active');
   btn.scrollIntoView({ block: 'nearest', inline: 'center', behavior: 'smooth' });
@@ -911,13 +952,7 @@ function flipCard() {
 
 function advanceCard() { currentIndex++; showRatingButtons(false); updateCard(); }
 
-function shuffle() {
-  shuffleArray(deck);
-  currentIndex = 0;
-  showRatingButtons(false); updateCard();
-}
-
-function restart() { restoreReviewSnapshot(); reviewMode = false; syncReviewBg(); rebuildDeck(); showRatingButtons(false); updateCard(); }
+function restart() { restoreReviewSnapshot(); reviewMode = false; rebuildDeck(); showRatingButtons(false); updateCard(); }
 
 // ── Review non-"Got it" cards ─────────────────────────────────────────────────
 function reviewWeak() {
@@ -932,7 +967,7 @@ function reviewWeak() {
 
 // ── Review cards by SR pile ───────────────────────────────────────────────────
 function reviewByPile(pile) {
-  reviewMode = false; syncReviewBg();
+  reviewMode = false;
   const base = ALL_VOCAB
     .map((v, i) => ({ ...v, _idx: i }))
     .filter(v => matchUnit(v) && (srPiles[cardKey(v)] ?? 0) === pile);
@@ -958,7 +993,7 @@ function getDueCards() {
 
 function reviewOldWords() {
   restoreReviewSnapshot(); // undo any prior interrupted session before starting a new one
-  reviewMode = true; syncReviewBg();
+  reviewMode = true;
   reviewSessionGreen = new Set();
   const now = Date.now();
   // All due "Got it" cards across ALL units, prioritised by overdue ratio
@@ -1075,7 +1110,7 @@ const TRANSLATIONS = {
     flipCue: 'tap to flip', typingPlaceholder: 'Type your answer…',
     check: 'Check', howDidYou: 'How did you do?',
     hard: 'Hard', okay: 'Okay', gotIt: 'Got it', hint: 'Hint',
-    shuffle: '⇌ Shuffle', reset: '↺ Reset', daIawn: 'Da iawn!',
+    wordList: 'Word list', close: 'Close', daIawn: 'Da iawn!',
     allGreen: "You've refreshed every card in this set!",
     reviewMore: 'Review 10 more words',
     completedSet: "You've been through all the cards in this set.",
@@ -1097,7 +1132,7 @@ const TRANSLATIONS = {
     flipCue: 'tapiwch i droi', typingPlaceholder: 'Teipiwch eich ateb…',
     check: 'Gwirio', howDidYou: 'Sut wnaethoch chi?',
     hard: 'Anodd', okay: 'Iawn', gotIt: 'Wedi dysgu', hint: 'Awgrym',
-    shuffle: '⇌ Cymysgu', reset: '↺ Ailosod', daIawn: 'Da iawn!',
+    wordList: 'Rhestr geiriau', close: 'Cau', daIawn: 'Da iawn!',
     allGreen: 'Rydych chi wedi adnewyddu pob carden yn y set hon!',
     reviewMore: 'Adolygu 10 gair arall',
     completedSet: 'Rydych chi wedi gweld pob carden yn y set hon.',
@@ -1126,7 +1161,6 @@ function applyLang() {
   document.documentElement.lang = lang === 'cy' ? 'cy' : 'en';
   updateCardLangLabels();
   updateWordCount();
-  syncReviewBg();
   if (ALL_VOCAB.length > 0) refreshUnitBar();
 }
 
