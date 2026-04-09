@@ -18,7 +18,7 @@
     --cream: #faf7f2; --dark: #1c1c1c; --mid: #5a5a5a; --light: #e8e2d9; --gold: #c8a84b; --hgreen: #1a6b3c;
     --col-fem: #b83232; --col-masc: #2471a3; --col-verb: #7a7a7a; --col-adj: #1a6b3c; --col-other: #7d5fa5;
   }
-  body { font-family: 'Source Sans 3', sans-serif; background: var(--cream); min-height: 100vh; display: flex; flex-direction: column; align-items: center; padding: 0 16px 48px; color: var(--dark); }
+  body { font-family: 'Source Sans 3', sans-serif; background: var(--cream); min-height: 100vh; display: flex; flex-direction: column; align-items: center; padding: 0 16px 48px; color: var(--dark); transition: background .4s ease; }
   header { width: 100%; max-width: 720px; padding: 20px 0 16px; text-align: center; border-bottom: 2px solid var(--light); margin-bottom: 12px; position: relative; }
   .header-dragon { position: absolute; left: 0; top: 50%; transform: translateY(-50%); width: 72px; height: 44px; opacity: 0.88; }
   @media (max-width: 480px) { .header-dragon { width: 52px; height: 32px; } }
@@ -133,20 +133,21 @@
   .unit-btn-partial.active { background: #e6a817 !important; border-color: #e6a817 !important; color: white !important; }
   .unit-btn-mastered { border-color: var(--hgreen) !important; color: var(--hgreen) !important; background: #eaf7ee !important; }
   .unit-btn-mastered.active { background: var(--hgreen) !important; border-color: var(--hgreen) !important; color: white !important; }
-  .review-fab { position: fixed; bottom: 20px; right: 20px; z-index: 90; display: none; cursor: pointer; -webkit-tap-highlight-color: transparent; background: white; border: 1.5px solid var(--light); border-radius: 14px; padding: 10px 16px; text-align: center; transition: transform .25s cubic-bezier(.2,1.2,.4,1), border-color .5s ease, box-shadow .4s ease, opacity .3s ease; box-shadow: 0 2px 12px rgba(0,0,0,.08); }
+  .review-fab { position: fixed; bottom: 20px; right: 20px; z-index: 90; display: none; cursor: pointer; -webkit-tap-highlight-color: transparent; background: white; border: 1.5px solid var(--gold); border-radius: 20px; padding: 7px 16px; text-align: center; transition: transform .25s cubic-bezier(.2,1.2,.4,1), box-shadow .4s ease; box-shadow: 0 2px 12px rgba(0,0,0,.08); }
   .review-fab.visible { display: block; }
   .review-fab:hover { transform: translateY(-2px); box-shadow: 0 4px 20px rgba(0,0,0,.12); }
   .review-fab:active { transform: translateY(0) scale(0.97); }
   .review-fab-count { display: none; }
-  .review-fab-label { font-family: 'Source Sans 3', sans-serif; font-size: 0.72rem; font-weight: 700; letter-spacing: 0.06em; transition: color .5s ease; }
-  .review-fab.due { border-color: var(--gold); }
-  .review-fab.due .review-fab-count, .review-fab.due .review-fab-label { color: #8a6d1b; }
-  .review-fab.warm { border-color: #c87533; }
-  .review-fab.warm .review-fab-count, .review-fab.warm .review-fab-label { color: #934b10; }
-  .review-fab.urgent { border-color: var(--col-fem); }
-  .review-fab.urgent .review-fab-count, .review-fab.urgent .review-fab-label { color: var(--col-fem); }
+  .review-fab-label { font-family: 'Source Sans 3', sans-serif; font-size: 0.82rem; font-weight: 600; letter-spacing: 0.06em; color: #8a6d1b; }
   .review-fab.disabled { pointer-events: none; opacity: 0.35; }
-  @media (max-width: 480px) { .review-fab { bottom: 14px; right: 14px; padding: 8px 13px; border-radius: 12px; } }
+  @media (max-width: 480px) { .review-fab { bottom: 14px; right: 14px; } }
+  body.review-active { background: #f2efe4; }
+  body.review-active .unit-bar-wrap::before { background: linear-gradient(to right, #f2efe4, transparent); }
+  body.review-active .unit-bar-wrap::after  { background: linear-gradient(to left,  #f2efe4, transparent); }
+  body.review-active .progress-fill { background: var(--gold); }
+  body.review-active .review-fab { background: var(--gold); border-color: var(--gold); }
+  body.review-active .review-fab .review-fab-label,
+  body.review-active .review-fab .review-fab-count { color: white; }
   .mastery-overlay { position: fixed; inset: 0; z-index: 999; display: flex; align-items: center; justify-content: center; background: rgba(0,0,0,.45); animation: fadeInOverlay .3s ease; }
   @keyframes fadeInOverlay { from { opacity: 0; } to { opacity: 1; } }
   .mastery-card { background: white; border-radius: 20px; padding: 40px 48px; text-align: center; max-width: 420px; width: 90%; box-shadow: 0 24px 64px rgba(0,0,0,.25); animation: popIn .4s cubic-bezier(.2,1.4,.4,1); position: relative; overflow: hidden; }
@@ -400,7 +401,7 @@ function clearAllData() {
   storage.remove(REVIEW_SNAPSHOT_KEY);
   srCards       = {};
   srPiles       = {};
-  reviewMode    = false;
+  reviewMode    = false; syncReviewBg();
   activeUnit = getUnits()[0] || null;
   direction  = 'en-cy';
   rebuildDeck();
@@ -422,6 +423,11 @@ let direction    = 'en-cy';
 let typingMode        = false;
 let reviewMode        = false;  // true only when the "Review" pill session is active
 let reviewSessionGreen = new Set(); // cards confirmed "Got it" in the current review round
+function syncReviewBg() {
+  document.body.classList.toggle('review-active', reviewMode);
+  const el = document.getElementById('levelLabel');
+  if (el) el.textContent = reviewMode ? (lang === 'cy' ? 'Adolygu' : 'Reviewing') : 'Canolradd';
+}
 
 // ── Helpers ───────────────────────────────────────────────────────────────────
 function getEnglishCat(cat) {
@@ -683,17 +689,7 @@ function updateReviewFab() {
   count.textContent = '';
   label.textContent = (lang === 'cy' ? 'Adolygu' : 'Review') + (n > 0 ? ' (' + n + ')' : '');
 
-  // Urgency tiers control colour class + count font size
-  fab.classList.remove('due', 'warm', 'urgent', 'disabled');
-  if (n === 0) {
-    fab.classList.add('disabled');
-  } else if (n <= 9) {
-    fab.classList.add('due');
-  } else if (n <= 19) {
-    fab.classList.add('warm');
-  } else {
-    fab.classList.add('urgent');
-  }
+  fab.classList.toggle('disabled', n === 0);
 }
 
 function buildUnitBar() {
@@ -739,7 +735,7 @@ function updateWordCount() {
 function setUnit(unit, btn) {
   restoreReviewSnapshot(); // abandon any in-progress review session cleanly
   activeUnit = unit;
-  reviewMode = false;
+  reviewMode = false; syncReviewBg();
   document.querySelectorAll('.unit-btn').forEach(b => b.classList.remove('active'));
   btn.classList.add('active');
   btn.scrollIntoView({ block: 'nearest', inline: 'center', behavior: 'smooth' });
@@ -905,7 +901,7 @@ function shuffle() {
   showRatingButtons(false); updateCard();
 }
 
-function restart() { restoreReviewSnapshot(); reviewMode = false; rebuildDeck(); showRatingButtons(false); updateCard(); }
+function restart() { restoreReviewSnapshot(); reviewMode = false; syncReviewBg(); rebuildDeck(); showRatingButtons(false); updateCard(); }
 
 // ── Review non-"Got it" cards ─────────────────────────────────────────────────
 function reviewWeak() {
@@ -920,7 +916,7 @@ function reviewWeak() {
 
 // ── Review cards by SR pile ───────────────────────────────────────────────────
 function reviewByPile(pile) {
-  reviewMode = false;
+  reviewMode = false; syncReviewBg();
   const base = ALL_VOCAB
     .map((v, i) => ({ ...v, _idx: i }))
     .filter(v => matchUnit(v) && (srPiles[cardKey(v)] ?? 0) === pile);
@@ -946,7 +942,7 @@ function getDueCards() {
 
 function reviewOldWords() {
   restoreReviewSnapshot(); // undo any prior interrupted session before starting a new one
-  reviewMode = true;
+  reviewMode = true; syncReviewBg();
   reviewSessionGreen = new Set();
   const now = Date.now();
   // All due "Got it" cards across ALL units, prioritised by overdue ratio
@@ -1114,6 +1110,7 @@ function applyLang() {
   document.documentElement.lang = lang === 'cy' ? 'cy' : 'en';
   updateCardLangLabels();
   updateWordCount();
+  syncReviewBg();
   if (ALL_VOCAB.length > 0) refreshUnitBar();
 }
 
