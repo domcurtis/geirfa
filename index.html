@@ -173,9 +173,9 @@
   .complete-banner .btn-review:disabled { opacity: 0.35; cursor: default; }
   .complete-banner .banner-actions { display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; }
   /* ── Context search button ─────────────────────────────────────── */
-  .ctx-search-btn { background: rgba(255,255,255,.2); border: 1.5px solid rgba(255,255,255,.4); color: inherit; font-family: 'Source Sans 3', sans-serif; font-size: 0.72rem; font-weight: 600; letter-spacing: 0.06em; padding: 4px 12px; border-radius: 20px; cursor: pointer; transition: background .18s; margin-top: 8px; }
+  .ctx-search-btn { position: absolute; bottom: 12px; right: 14px; background: rgba(255,255,255,.2); border: none; color: inherit; font-family: 'Source Sans 3', sans-serif; font-size: 0.65rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; padding: 2px 8px; border-radius: 20px; cursor: pointer; transition: background .18s; }
   .ctx-search-btn:hover { background: rgba(255,255,255,.35); }
-  .ctx-search-typing { background: white; border-color: var(--light); color: var(--mid); margin-top: 10px; display: inline-block; }
+  .ctx-search-typing { position: static; background: white; color: var(--mid); margin-top: 10px; display: inline-block; border: 1.5px solid var(--light); }
   .ctx-search-typing:hover { border-color: var(--hgreen); color: var(--hgreen); background: white; }
 </style>
 </head>
