@@ -172,11 +172,6 @@
   .complete-banner .btn-review:hover { background: rgba(255,255,255,.3); }
   .complete-banner .btn-review:disabled { opacity: 0.35; cursor: default; }
   .complete-banner .banner-actions { display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; }
-  /* ── Context search button ─────────────────────────────────────── */
-  .ctx-search-btn { position: absolute; bottom: 12px; right: 14px; background: rgba(255,255,255,.2); border: none; color: inherit; font-family: 'Source Sans 3', sans-serif; font-size: 0.65rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; padding: 2px 8px; border-radius: 20px; cursor: pointer; transition: background .18s; }
-  .ctx-search-btn:hover { background: rgba(255,255,255,.35); }
-  .ctx-search-typing { position: static; background: white; color: var(--mid); margin-top: 10px; display: inline-block; border: 1.5px solid var(--light); }
-  .ctx-search-typing:hover { border-color: var(--hgreen); color: var(--hgreen); background: white; }
 </style>
 </head>
 <body>
@@ -232,9 +227,8 @@
       </div>
       <div class="card-face card-back" id="cardBack">
         <div class="card-hint" id="backHint">Welsh</div>
-        <div class="card-word" id="backWord"></div>
+        <div class="card-word" id="backWord" onclick="event.stopPropagation(); searchInContext()"></div>
         <div class="card-category" id="backCategory"></div>
-        <button class="ctx-search-btn" id="ctxSearchBack" onclick="event.stopPropagation(); searchInContext()" aria-label="Search in context"><span data-i18n="searchCtx">Search</span></button>
       </div>
     </div>
   </div>
@@ -249,7 +243,6 @@
     <button class="btn btn-next" id="typingSubmit" onclick="checkTyping()" data-i18n="check">Check</button>
   </div>
   <div class="typing-feedback" id="typingFeedback"></div>
-  <button class="ctx-search-btn ctx-search-typing" id="ctxSearchTyping" style="display:none" onclick="searchInContext()"><span data-i18n="searchCtx">Search</span></button>
 </div>
 
 <div id="ratingRow" class="rating-row" style="display:none">
@@ -644,7 +637,6 @@ function renderTypingCard() {
   hintEl1.classList.remove('visible');
   document.getElementById('hintBtn').disabled            = false;
   hintRevealed = 0;
-  document.getElementById('ctxSearchTyping').style.display = 'none';
   document.getElementById('typingInput').focus();
 }
 
@@ -668,12 +660,12 @@ function checkTyping() {
   const correct = normalise(answer);
   const isOk    = correct.split('/').map(s => s.trim()).some(v => v === user);
   const fb = document.getElementById('typingFeedback');
-  fb.textContent = isOk ? t('correct') : t('notQuite') + answer;
+  if (isOk) { fb.textContent = t('correct'); }
+  else { fb.innerHTML = t('notQuite') + '<span onclick="searchInContext()" style="cursor:pointer;text-decoration:underline">' + answer.replace(/</g,'&lt;') + '</span>'; }
   fb.className   = 'typing-feedback ' + (isOk ? 'correct' : 'wrong');
   document.getElementById('typingInput').disabled       = true;
   document.getElementById('typingSubmit').style.display = 'none';
   showRatingButtons(true);
-  document.getElementById('ctxSearchTyping').style.display = '';
   updateProgress();
   saveState();
 }
@@ -1090,7 +1082,6 @@ const TRANSLATIONS = {
     masteryTitle: "Wedi'i feistroli!",
     masteryBody: "You've marked every word in this set as <strong>Got it</strong>. Da iawn ti — you've mastered it for now!",
     masteryClose: 'Ardderchog! ✓', errorLoad: 'Failed to load vocabulary.json', loading: 'Loading…',
-    searchCtx: 'Search',
   },
   cy: {
     title: 'Geirfa', subtitle: '908 gair · Cliciwch i droi',
@@ -1113,7 +1104,6 @@ const TRANSLATIONS = {
     masteryTitle: "Wedi'i feistroli!",
     masteryBody: "Rydych chi wedi marcio pob gair yn y set hon fel <strong>Wedi dysgu</strong>. Da iawn ti!",
     masteryClose: 'Ardderchog! ✓', errorLoad: 'Methwyd â llwytho vocabulary.json', loading: 'Yn llwytho…',
-    searchCtx: 'Chwilio',
   }
 };
 
