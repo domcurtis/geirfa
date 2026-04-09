@@ -227,7 +227,7 @@
       </div>
       <div class="card-face card-back" id="cardBack">
         <div class="card-hint" id="backHint">Welsh</div>
-        <div class="card-word" id="backWord" onclick="event.stopPropagation(); searchInContext()"></div>
+        <div class="card-word" id="backWord"></div>
         <div class="card-category" id="backCategory"></div>
       </div>
     </div>
@@ -660,8 +660,7 @@ function checkTyping() {
   const correct = normalise(answer);
   const isOk    = correct.split('/').map(s => s.trim()).some(v => v === user);
   const fb = document.getElementById('typingFeedback');
-  if (isOk) { fb.textContent = t('correct'); }
-  else { fb.innerHTML = t('notQuite') + '<span onclick="searchInContext()" style="cursor:pointer;text-decoration:underline">' + answer.replace(/</g,'&lt;') + '</span>'; }
+  fb.textContent = isOk ? t('correct') : t('notQuite') + answer;
   fb.className   = 'typing-feedback ' + (isOk ? 'correct' : 'wrong');
   document.getElementById('typingInput').disabled       = true;
   document.getElementById('typingSubmit').style.display = 'none';
@@ -1008,14 +1007,6 @@ function showHint() {
   if (hintRevealed >= letters.length) {
     document.getElementById('hintBtn').disabled = true;
   }
-}
-
-// ── Context search ────────────────────────────────────────────────────────────
-function searchInContext() {
-  if (currentIndex >= deck.length) return;
-  const word = deck[currentIndex].c;
-  const clean = word.replace(/\(.*?\)/g, '').trim();
-  window.open('https://www.google.com/search?q=' + encodeURIComponent(clean) + '&lr=lang_cy', '_blank');
 }
 
 // ── Keyboard ───────────────────────────────────────────────────────────────────
