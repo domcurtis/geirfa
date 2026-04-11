@@ -172,6 +172,15 @@
   .complete-banner .btn-review:hover { background: rgba(255,255,255,.3); }
   .complete-banner .btn-review:disabled { opacity: 0.35; cursor: default; }
   .complete-banner .banner-actions { display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; }
+  .cat-sub-bar { display: flex; flex-wrap: wrap; gap: 5px; justify-content: center; margin-top: 8px; padding: 0 4px; }
+  .cat-sub-pill { flex-shrink: 0; font-family: 'Source Sans 3', sans-serif; font-size: 0.72rem; font-weight: 600; letter-spacing: 0.04em; padding: 3px 11px; border-radius: 16px; border: 1.5px solid var(--light); background: white; color: var(--mid); cursor: pointer; transition: all .18s; white-space: nowrap; }
+  .cat-sub-pill:hover { opacity: 0.85; }
+  .cat-sub-pill.active-all { background: var(--dark); border-color: var(--dark); color: white; }
+  .cat-sub-pill.active-fem { background: var(--col-fem); border-color: var(--col-fem); color: white; }
+  .cat-sub-pill.active-masc { background: var(--col-masc); border-color: var(--col-masc); color: white; }
+  .cat-sub-pill.active-verb { background: var(--col-verb); border-color: var(--col-verb); color: white; }
+  .cat-sub-pill.active-adj { background: var(--col-adj); border-color: var(--col-adj); color: white; }
+  .cat-sub-pill.active-other { background: var(--col-other); border-color: var(--col-other); color: white; }
 </style>
 </head>
 <body>
@@ -188,6 +197,7 @@
 
 <div class="toolbar">
   <div class="unit-bar-wrap"><div class="unit-bar" id="unitBar"></div></div>
+  <div class="cat-sub-bar" id="catSubBar"></div>
 </div>
 
 <div class="settings-panel" id="settingsPanel" style="display:none">
@@ -365,6 +375,54 @@ function getUnits() {
 
 function matchUnit(item) { return item.u === activeUnit; }
 
+// ── Category filter ──────────────────────────────────────────────────────────
+let activeFilter = 'all';
+
+const CAT_META = [
+  { key: 'feminine noun',  cls: 'active-fem',   i18n: 'catFem'   },
+  { key: 'masculine noun', cls: 'active-masc',  i18n: 'catMasc'  },
+  { key: 'verb',           cls: 'active-verb',  i18n: 'catVerb'  },
+  { key: 'adjective',      cls: 'active-adj',   i18n: 'catAdj'   },
+  { key: 'other',          cls: 'active-other', i18n: 'catOther' },
+];
+
+function matchCat(item) { return activeFilter === 'all' || item.g === activeFilter; }
+
+function buildCatSubBar() {
+  const bar = document.getElementById('catSubBar');
+  bar.innerHTML = '';
+  if (activeUnit === null) return;
+  const unitWords = ALL_VOCAB.filter(v => v.u === activeUnit);
+  const totalCount = unitWords.length;
+
+  // "All" pill
+  const allBtn = document.createElement('button');
+  allBtn.className = 'cat-sub-pill' + (activeFilter === 'all' ? ' active-all' : '');
+  allBtn.textContent = t('catAll') + ' ' + totalCount;
+  allBtn.onclick = () => setCatFilter('all');
+  bar.appendChild(allBtn);
+
+  CAT_META.forEach(cat => {
+    const count = unitWords.filter(v => v.g === cat.key).length;
+    if (count === 0) return;
+    const btn = document.createElement('button');
+    btn.className = 'cat-sub-pill' + (activeFilter === cat.key ? ' ' + cat.cls : '');
+    btn.textContent = t(cat.i18n) + ' ' + count;
+    btn.onclick = () => setCatFilter(cat.key);
+    bar.appendChild(btn);
+  });
+}
+
+function setCatFilter(filter) {
+  activeFilter = filter;
+  buildCatSubBar();
+  rebuildDeck();
+  renderSRStats();
+  showRatingButtons(false);
+  if (typingMode) renderTypingCard(); else updateCard();
+  saveState();
+}
+
 // ── Persistence helpers ───────────────────────────────────────────────────────
 // These thin wrappers keep domain logic separate from storage mechanics.
 // If storage.get/set ever become async, only these four functions need updating.
@@ -378,7 +436,8 @@ function saveState() {
     unit:        activeUnit,
     direction,
     currentIndex,
-    deckIndices: deck.map(c => c._idx)
+    deckIndices: deck.map(c => c._idx),
+    catFilter:   activeFilter
   });
 }
 
@@ -403,10 +462,12 @@ function clearAllData() {
   srPiles       = {};
   reviewMode    = false; syncReviewBg();
   activeUnit = getUnits()[0] || null;
+  activeFilter = 'all';
   direction  = 'en-cy';
   rebuildDeck();
   updateDirectionUI();
   buildUnitBar();
+  buildCatSubBar();
   updateCard();
   renderSRStats();
 }
@@ -456,7 +517,7 @@ function rebuildDeck() {
   const now  = Date.now();
   const base = ALL_VOCAB
     .map((v, i) => ({ ...v, _idx: i }))
-    .filter(v => matchUnit(v));
+    .filter(v => matchUnit(v) && matchCat(v));
   const piles = [[], [], []];
   const notDue = [];
   base.forEach(card => {
@@ -584,7 +645,7 @@ function rateCard(pile) {
 function renderSRStats() {
   const base  = activeUnit === null
     ? deck.map((v, i) => ({ ...v, _idx: v._idx }))
-    : ALL_VOCAB.map((v, i) => ({ ...v, _idx: i })).filter(v => matchUnit(v));
+    : ALL_VOCAB.map((v, i) => ({ ...v, _idx: i })).filter(v => matchUnit(v) && matchCat(v));
   const hard  = base.filter(c => srPiles[cardKey(c)] === 0).length;
   const okay  = base.filter(c => srPiles[cardKey(c)] === 1).length;
   const known = base.filter(c => srPiles[cardKey(c)] === 2).length;
@@ -736,6 +797,7 @@ function updateWordCount() {
 function setUnit(unit, btn) {
   restoreReviewSnapshot(); // abandon any in-progress review session cleanly
   activeUnit = unit;
+  activeFilter = 'all';
   reviewMode = false; syncReviewBg();
   document.querySelectorAll('.unit-btn').forEach(b => b.classList.remove('active'));
   btn.classList.add('active');
@@ -743,6 +805,7 @@ function setUnit(unit, btn) {
   rebuildDeck();
   renderSRStats();
   updateWordCount();
+  buildCatSubBar();
   if (typingMode) renderTypingCard(); else updateCard();
   saveState();
 }
@@ -920,7 +983,7 @@ function reviewByPile(pile) {
   reviewMode = false; syncReviewBg();
   const base = ALL_VOCAB
     .map((v, i) => ({ ...v, _idx: i }))
-    .filter(v => matchUnit(v) && (srPiles[cardKey(v)] ?? 0) === pile);
+    .filter(v => matchUnit(v) && matchCat(v) && (srPiles[cardKey(v)] ?? 0) === pile);
   if (base.length === 0) return;
   shuffleArray(base);
   deck         = base;
@@ -944,6 +1007,8 @@ function getDueCards() {
 function reviewOldWords() {
   restoreReviewSnapshot(); // undo any prior interrupted session before starting a new one
   reviewMode = true; syncReviewBg();
+  activeFilter = 'all';
+  document.getElementById('catSubBar').innerHTML = '';
   reviewSessionGreen = new Set();
   const now = Date.now();
   // All due "Got it" cards across ALL units, prioritised by overdue ratio
@@ -1034,9 +1099,11 @@ function init() {
   const saved = loadState();
   activeUnit = saved.unit || getUnits()[0] || null;
   if (saved.direction) direction = saved.direction;
+  if (saved.catFilter) activeFilter = saved.catFilter;
 
   rebuildDeck();
   buildUnitBar();
+  buildCatSubBar();
   renderSRStats();
   updateDirectionUI();
   updateWordCount();
@@ -1082,6 +1149,7 @@ const TRANSLATIONS = {
     masteryTitle: "Wedi'i feistroli!",
     masteryBody: "You've marked every word in this set as <strong>Got it</strong>. Da iawn ti — you've mastered it for now!",
     masteryClose: 'Ardderchog! ✓', errorLoad: 'Failed to load vocabulary.json', loading: 'Loading…',
+    catAll: 'All', catFem: 'Fem', catMasc: 'Masc', catVerb: 'Verb', catAdj: 'Adj', catOther: 'Other',
   },
   cy: {
     title: 'Geirfa', subtitle: '908 gair · Cliciwch i droi',
@@ -1104,6 +1172,7 @@ const TRANSLATIONS = {
     masteryTitle: "Wedi'i feistroli!",
     masteryBody: "Rydych chi wedi marcio pob gair yn y set hon fel <strong>Wedi dysgu</strong>. Da iawn ti!",
     masteryClose: 'Ardderchog! ✓', errorLoad: 'Methwyd â llwytho vocabulary.json', loading: 'Yn llwytho…',
+    catAll: 'Pob', catFem: 'Ben', catMasc: 'Gwr', catVerb: 'Berf', catAdj: 'Ans', catOther: 'Arall',
   }
 };
 
