@@ -171,6 +171,14 @@
   .complete-banner .btn-review { background: rgba(255,255,255,.18); color: white; border: 1.5px solid rgba(255,255,255,.45); font-family: 'Source Sans 3', sans-serif; font-size: 0.84rem; font-weight: 600; padding: 9px 22px; border-radius: 8px; cursor: pointer; transition: all .18s; }
   .complete-banner .btn-review:hover { background: rgba(255,255,255,.3); }
   .complete-banner .btn-review:disabled { opacity: 0.35; cursor: default; }
+  .speak-btn { position: absolute; bottom: 12px; right: 14px; width: 38px; height: 38px; border-radius: 50%; border: 1.5px solid rgba(255,255,255,0.4); background: rgba(255,255,255,0.15); color: white; font-size: 1.05rem; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: all .18s; -webkit-tap-highlight-color: transparent; padding: 0; line-height: 1; }
+  .speak-btn:hover { background: rgba(255,255,255,0.3); transform: scale(1.06); }
+  .speak-btn:active { transform: scale(0.94); }
+  .speak-btn.on-light { border-color: var(--light); background: white; color: var(--mid); }
+  .speak-btn.on-light:hover { border-color: var(--hgreen); color: var(--hgreen); background: #f0f8f4; }
+  .speak-btn.hidden { display: none; }
+  .speak-btn.playing { animation: speakPulse 1s ease-in-out infinite; }
+  @keyframes speakPulse { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.1); } }
   .complete-banner .banner-actions { display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; }
 </style>
 </head>
@@ -224,11 +232,13 @@
         <div class="card-word" id="frontWord">Loading&hellip;</div>
         <div class="flip-cue" data-i18n="flipCue">tap to flip</div>
         <div class="hint-text" id="hintText"></div>
+        <button class="speak-btn on-light hidden" id="frontSpeakBtn" onclick="event.stopPropagation(); speakCurrentWelsh(this)" aria-label="Listen to Welsh pronunciation">&#128266;</button>
       </div>
       <div class="card-face card-back" id="cardBack">
         <div class="card-hint" id="backHint">Welsh</div>
         <div class="card-word" id="backWord" onclick="event.stopPropagation(); searchInContext()"></div>
         <div class="card-category" id="backCategory"></div>
+        <button class="speak-btn" id="backSpeakBtn" onclick="event.stopPropagation(); speakCurrentWelsh(this)" aria-label="Listen to Welsh pronunciation">&#128266;</button>
       </div>
     </div>
   </div>
@@ -241,6 +251,7 @@
   <input type="text" class="typing-input" id="typingInput" data-i18n-placeholder="typingPlaceholder" placeholder="Type your answer&hellip;" onkeydown="if(event.key==='Enter')checkTyping()">
   <div class="typing-actions">
     <button class="btn btn-next" id="typingSubmit" onclick="checkTyping()" data-i18n="check">Check</button>
+    <button class="speak-btn on-light hidden" id="typingSpeakBtn" onclick="speakCurrentWelsh(this)" aria-label="Listen to Welsh pronunciation" style="position: static;">&#128266;</button>
   </div>
   <div class="typing-feedback" id="typingFeedback"></div>
 </div>
@@ -302,6 +313,77 @@ const storage = {
     catch (e) { console.warn('storage.remove failed:', key, e); }
   }
 };
+
+// ── Welsh Text-to-Speech (techiaith Orpheus-TTS) ─────────────────────────────
+// Uses techiaith's fine-tuned Canopy AI Orpheus-TTS model for authentic,
+// natural-sounding Welsh with native intonation. See:
+//   https://techiaith.cymru/cloud/api/text-to-speech/
+// Endpoint is api.techiaith.cymru/speak/v3/ (no API key required — this
+// endpoint is free and keyless). Text is POSTed as JSON. The response is
+// an audio stream we play via an <audio> element.
+const TTS_ENDPOINT   = 'https://api.techiaith.cymru/speak/v3/';
+const TTS_MODEL      = 'cy';             // 'cy' = Welsh monolingual, 'cy_en' = bilingual
+const TTS_SPEAKER_ID = 'benyw_south';    // Swansea-area → south Welsh female voice (benyw = female, gwryw = male)
+const ttsBlobCache   = new Map();        // cleaned text → object URL of cached audio blob
+let currentTTSAudio  = null;
+
+async function speakWelsh(text, btn) {
+  if (!text) return;
+  // Strip parenthetical hints; if multiple forms separated by "/", use the first
+  const clean = text.replace(/\(.*?\)/g, '').split('/')[0].trim();
+  if (!clean) return;
+  // Stop anything currently playing
+  if (currentTTSAudio) {
+    try { currentTTSAudio.pause(); } catch {}
+    currentTTSAudio = null;
+  }
+  document.querySelectorAll('.speak-btn.playing').forEach(b => b.classList.remove('playing'));
+  if (btn) btn.classList.add('playing');
+  try {
+    let blobUrl = ttsBlobCache.get(clean);
+    if (!blobUrl) {
+      const res = await fetch(TTS_ENDPOINT, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'Accept': 'audio/*' },
+        body: JSON.stringify({
+          text:       clean,
+          model:      TTS_MODEL,
+          speaker_id: TTS_SPEAKER_ID
+        })
+      });
+      if (!res.ok) throw new Error('TTS HTTP ' + res.status);
+      const ct = res.headers.get('content-type') || '';
+      let blob;
+      if (ct.indexOf('application/json') === 0) {
+        // Fallback: some TTS APIs wrap the audio as base64 in JSON
+        const json = await res.json();
+        const b64  = json.audio || json.audio_base64 || json.data || json.result;
+        if (!b64) throw new Error('TTS JSON response missing audio field');
+        const bin  = atob(b64);
+        const bytes = new Uint8Array(bin.length);
+        for (let i = 0; i < bin.length; i++) bytes[i] = bin.charCodeAt(i);
+        blob = new Blob([bytes], { type: json.format === 'mp3' ? 'audio/mpeg' : 'audio/wav' });
+      } else {
+        blob = await res.blob();
+      }
+      blobUrl = URL.createObjectURL(blob);
+      ttsBlobCache.set(clean, blobUrl);
+    }
+    const audio = new Audio(blobUrl);
+    currentTTSAudio = audio;
+    audio.addEventListener('ended', () => { if (btn) btn.classList.remove('playing'); });
+    audio.addEventListener('error', () => { if (btn) btn.classList.remove('playing'); });
+    await audio.play();
+  } catch (err) {
+    console.warn('TTS failed:', err);
+    if (btn) btn.classList.remove('playing');
+  }
+}
+
+function speakCurrentWelsh(btn) {
+  if (currentIndex >= deck.length) return;
+  speakWelsh(deck[currentIndex].c, btn);
+}
 
 // ── Storage keys ──────────────────────────────────────────────────────────────
 const STATE_KEY           = 'welsh_state';
@@ -632,6 +714,8 @@ function renderTypingCard() {
   document.getElementById('typingFeedback').className    = 'typing-feedback';
   document.getElementById('typingSubmit').style.display  = 'inline-block';
   document.getElementById('typingLang').textContent      = direction === 'en-cy' ? t('cardLangCy') : t('cardLangEn');
+  // Speak button: visible immediately if the prompt itself is Welsh, else only after checking
+  document.getElementById('typingSpeakBtn').classList.toggle('hidden', direction !== 'cy-en');
   const hintEl1 = document.getElementById('hintText');
   hintEl1.textContent = '';
   hintEl1.classList.remove('visible');
@@ -665,6 +749,10 @@ function checkTyping() {
   fb.className   = 'typing-feedback ' + (isOk ? 'correct' : 'wrong');
   document.getElementById('typingInput').disabled       = true;
   document.getElementById('typingSubmit').style.display = 'none';
+  // Reveal & auto-play the Welsh pronunciation now that the answer is shown
+  const speakBtn = document.getElementById('typingSpeakBtn');
+  speakBtn.classList.remove('hidden');
+  speakWelsh(card.c, speakBtn);
   showRatingButtons(true);
   updateProgress();
   saveState();
@@ -804,6 +892,9 @@ function renderCard() {
   }
   document.getElementById('backCategory').textContent = card.g;
   document.getElementById('cardBack').className = 'card-face card-back ' + getCatClass(card.g);
+  // Speak button is only useful on whichever face is currently showing Welsh
+  document.getElementById('frontSpeakBtn').classList.toggle('hidden', direction !== 'cy-en');
+  document.querySelectorAll('.speak-btn.playing').forEach(b => b.classList.remove('playing'));
 }
 
 function updateCard() {
@@ -892,6 +983,10 @@ function flipCard() {
   isFlipped = !isFlipped;
   document.getElementById('cardInner').classList.toggle('flipped', isFlipped);
   showRatingButtons(isFlipped);
+  // Auto-play Welsh pronunciation when revealing the Welsh side (en→cy mode)
+  if (isFlipped && direction === 'en-cy') {
+    speakCurrentWelsh(document.getElementById('backSpeakBtn'));
+  }
 }
 
 function advanceCard() { currentIndex++; showRatingButtons(false); updateCard(); }
