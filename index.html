@@ -1191,7 +1191,14 @@ function showWordList() {
       catWords.forEach(w => {
         const pile = srPiles[String(w._idx)];
         const srCls = pile === 0 ? ' wl-hard' : pile === 1 ? ' wl-okay' : pile === 2 ? ' wl-known' : '';
-        html += '<div class="wordlist-word' + srCls + '"><span class="wordlist-welsh">' + w.c.replace(/</g, '&lt;') + '</span><span class="wordlist-english">' + w.e.replace(/</g, '&lt;') + '</span></div>';
+        let srStyle = '';
+        if (pile === 2) {
+          const cd = srCards[String(w._idx)];
+          const box = cd ? cd.box : 0;
+          const greens = ['#d1e7dd','#b6d9c8','#9bcbb3','#80bd9e','#65af89','#4aa174','#3a935f','#2a854a','#1a7735'];
+          srStyle = ' style="border-left-color:' + greens[Math.min(box, 8)] + '"';
+        }
+        html += '<div class="wordlist-word' + srCls + '"' + srStyle + '><span class="wordlist-welsh">' + w.c.replace(/</g, '&lt;') + '</span><span class="wordlist-english">' + w.e.replace(/</g, '&lt;') + '</span></div>';
       });
     });
   });
