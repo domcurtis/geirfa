@@ -604,6 +604,7 @@ function renderSRStats() {
       ? (lang === 'cy' ? `Adolygu ${counts[i]} gair ${pileLabels[i].toLowerCase()}` : `Review ${counts[i]} ${pileLabels[i].toLowerCase()} word${counts[i] !== 1 ? 's' : ''}`)
       : '';
   });
+  updateWordCount();
 }
 
 function showRatingButtons(show) {
@@ -725,12 +726,17 @@ function refreshUnitBar() {
 }
 
 // ── Word count in subtitle ────────────────────────────────────────────────────
-// Shows total words across ALL units in the current level (not just the active unit).
-// Currently there is only one level (Canolradd), so this is always 908.
+// Shows total words and global "Known" (green) count across ALL units.
 function updateWordCount() {
-  const count = ALL_VOCAB.length;
+  const total = ALL_VOCAB.length;
+  const green = ALL_VOCAB.filter((_, i) => srPiles[String(i)] === 2).length;
   const el = document.getElementById('wordCountLabel');
-  if (el) el.textContent = count + (lang === 'cy' ? ' gair' : ' words');
+  if (!el) return;
+  if (green > 0) {
+    el.textContent = green + ' / ' + total + (lang === 'cy' ? ' wedi dysgu' : ' known');
+  } else {
+    el.textContent = total + (lang === 'cy' ? ' gair' : ' words');
+  }
 }
 
 function setUnit(unit, btn) {
