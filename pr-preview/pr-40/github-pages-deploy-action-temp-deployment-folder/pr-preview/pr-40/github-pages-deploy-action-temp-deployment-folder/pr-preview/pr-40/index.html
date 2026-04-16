@@ -188,11 +188,8 @@
   .wordlist-cat-adjective { background: #d5f0de; color: var(--col-adj); }
   .wordlist-cat-verb      { background: #e8e8e8; color: var(--col-verb); }
   .wordlist-cat-other     { background: #e8dff2; color: var(--col-other); }
-  .wordlist-word { display: flex; justify-content: space-between; gap: 12px; padding: 4px 0; padding-left: 6px; font-size: 0.88rem; line-height: 1.4; border-bottom: 1px solid #f2efea; border-left: 3px solid transparent; }
+  .wordlist-word { display: flex; justify-content: space-between; gap: 12px; padding: 4px 0; font-size: 0.88rem; line-height: 1.4; border-bottom: 1px solid #f2efea; }
   .wordlist-word:last-child { border-bottom: none; }
-  .wordlist-word.wl-hard  { border-left-color: #f8d7da; }
-  .wordlist-word.wl-okay  { border-left-color: #fff3cd; }
-  .wordlist-word.wl-known { border-left-color: #d1e7dd; }
   .wordlist-welsh { font-weight: 600; color: var(--dark); flex: 1; }
   .wordlist-english { color: var(--mid); flex: 1; text-align: right; }
   .wordlist-close { display: block; margin: 12px auto 0; background: var(--hgreen); color: white; border: none; border-radius: 10px; padding: 10px 28px; font-family: 'Source Sans 3', sans-serif; font-size: 0.9rem; font-weight: 700; cursor: pointer; transition: background .18s; flex-shrink: 0; }
@@ -1182,16 +1179,14 @@ function showWordList() {
   let html = '';
   units.forEach(unit => {
     const unitLabel = isNaN(parseInt(unit)) ? unit.charAt(0).toUpperCase() + unit.slice(1) : t('unitLabel') + ' ' + unit;
-    const words = ALL_VOCAB.map((v, i) => ({ ...v, _idx: i })).filter(v => v.u === unit);
+    const words = ALL_VOCAB.filter(v => v.u === unit);
     html += '<div class="wordlist-unit-heading">' + unitLabel + ' (' + words.length + ')</div>';
     catOrder.forEach(cat => {
       const catWords = words.filter(v => v.g === cat);
       if (catWords.length === 0) return;
       html += '<div class="wordlist-cat-heading ' + catClass[cat] + '">' + catLabel[cat] + '</div>';
       catWords.forEach(w => {
-        const pile = srPiles[String(w._idx)];
-        const srCls = pile === 0 ? ' wl-hard' : pile === 1 ? ' wl-okay' : pile === 2 ? ' wl-known' : '';
-        html += '<div class="wordlist-word' + srCls + '"><span class="wordlist-welsh">' + w.c.replace(/</g, '&lt;') + '</span><span class="wordlist-english">' + w.e.replace(/</g, '&lt;') + '</span></div>';
+        html += '<div class="wordlist-word"><span class="wordlist-welsh">' + w.c.replace(/</g, '&lt;') + '</span><span class="wordlist-english">' + w.e.replace(/</g, '&lt;') + '</span></div>';
       });
     });
   });

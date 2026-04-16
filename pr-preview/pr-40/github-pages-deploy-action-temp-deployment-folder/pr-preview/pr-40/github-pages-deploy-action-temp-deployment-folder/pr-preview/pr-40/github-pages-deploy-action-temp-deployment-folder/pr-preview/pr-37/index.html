@@ -171,33 +171,15 @@
   .complete-banner .btn-review { background: rgba(255,255,255,.18); color: white; border: 1.5px solid rgba(255,255,255,.45); font-family: 'Source Sans 3', sans-serif; font-size: 0.84rem; font-weight: 600; padding: 9px 22px; border-radius: 8px; cursor: pointer; transition: all .18s; }
   .complete-banner .btn-review:hover { background: rgba(255,255,255,.3); }
   .complete-banner .btn-review:disabled { opacity: 0.35; cursor: default; }
+  .speak-btn { position: absolute; bottom: 12px; right: 14px; width: 38px; height: 38px; border-radius: 50%; border: 1.5px solid rgba(255,255,255,0.4); background: rgba(255,255,255,0.15); color: white; font-size: 1.05rem; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: all .18s; -webkit-tap-highlight-color: transparent; padding: 0; line-height: 1; }
+  .speak-btn:hover { background: rgba(255,255,255,0.3); transform: scale(1.06); }
+  .speak-btn:active { transform: scale(0.94); }
+  .speak-btn.on-light { border-color: var(--light); background: white; color: var(--mid); }
+  .speak-btn.on-light:hover { border-color: var(--hgreen); color: var(--hgreen); background: #f0f8f4; }
+  .speak-btn.hidden { display: none; }
+  .speak-btn.playing { animation: speakPulse 1s ease-in-out infinite; }
+  @keyframes speakPulse { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.1); } }
   .complete-banner .banner-actions { display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; }
-  .subtitle { cursor: pointer; transition: color .18s; }
-  .subtitle:hover { color: var(--hgreen); }
-  .wordlist-overlay { position: fixed; inset: 0; z-index: 999; display: flex; align-items: center; justify-content: center; background: rgba(0,0,0,.45); animation: fadeInOverlay .3s ease; }
-  .wordlist-panel { background: white; border-radius: 20px; padding: 28px 0; max-width: 520px; width: 92%; max-height: 85vh; display: flex; flex-direction: column; box-shadow: 0 24px 64px rgba(0,0,0,.25); animation: popIn .4s cubic-bezier(.2,1.4,.4,1); }
-  .wordlist-header { text-align: center; padding: 0 28px 16px; border-bottom: 1.5px solid var(--light); flex-shrink: 0; }
-  .wordlist-header h2 { font-family: 'Playfair Display', serif; font-size: 1.5rem; color: var(--dark); margin-bottom: 4px; }
-  .wordlist-header p { font-size: 0.82rem; color: var(--mid); letter-spacing: 0.06em; }
-  .wordlist-body { overflow-y: auto; padding: 8px 28px 20px; flex: 1; -webkit-overflow-scrolling: touch; }
-  .wordlist-unit-heading { font-family: 'Source Sans 3', sans-serif; font-size: 0.92rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--mid); margin: 20px 0 6px; padding-bottom: 4px; border-bottom: 1px solid var(--light); }
-  .wordlist-unit-heading:first-child { margin-top: 8px; }
-  .wordlist-cat-heading { font-size: 0.7rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; margin: 12px 0 4px; padding: 2px 10px; border-radius: 20px; display: inline-block; }
-  .wordlist-cat-feminine  { background: #f8d7da; color: var(--col-fem); }
-  .wordlist-cat-masculine { background: #d4e6f1; color: var(--col-masc); }
-  .wordlist-cat-adjective { background: #d5f0de; color: var(--col-adj); }
-  .wordlist-cat-verb      { background: #e8e8e8; color: var(--col-verb); }
-  .wordlist-cat-other     { background: #e8dff2; color: var(--col-other); }
-  .wordlist-word { display: flex; justify-content: space-between; gap: 12px; padding: 4px 0; padding-left: 6px; font-size: 0.88rem; line-height: 1.4; border-bottom: 1px solid #f2efea; border-left: 3px solid transparent; }
-  .wordlist-word:last-child { border-bottom: none; }
-  .wordlist-word.wl-hard  { border-left-color: #f8d7da; }
-  .wordlist-word.wl-okay  { border-left-color: #fff3cd; }
-  .wordlist-word.wl-known { border-left-color: #d1e7dd; }
-  .wordlist-welsh { font-weight: 600; color: var(--dark); flex: 1; }
-  .wordlist-english { color: var(--mid); flex: 1; text-align: right; }
-  .wordlist-close { display: block; margin: 12px auto 0; background: var(--hgreen); color: white; border: none; border-radius: 10px; padding: 10px 28px; font-family: 'Source Sans 3', sans-serif; font-size: 0.9rem; font-weight: 700; cursor: pointer; transition: background .18s; flex-shrink: 0; }
-  .wordlist-close:hover { background: #14552f; }
-  @media (max-width: 480px) { .wordlist-panel { width: 96%; max-height: 90vh; padding: 20px 0; } .wordlist-body { padding: 8px 18px 16px; } .wordlist-header { padding: 0 18px 12px; } }
 </style>
 </head>
 <body>
@@ -205,7 +187,7 @@
 <header>
   <img class="header-dragon" src="favicon.svg" alt="Welsh dragon" aria-hidden="true">
   <h1 data-i18n="title">Geirfa</h1>
-  <p class="subtitle" onclick="showWordList()"><span id="levelLabel">Canolradd</span> &middot; <span id="wordCountLabel">908 words</span></p>
+  <p class="subtitle"><span id="levelLabel">Canolradd</span> &middot; <span id="wordCountLabel">908 words</span></p>
   <div class="header-btns">
     <button class="lang-toggle" id="langToggle" onclick="toggleLang()">Cy</button>
     <button class="settings-toggle" id="settingsToggle" onclick="toggleSettings()" aria-label="Settings">&#9881;</button>
@@ -250,11 +232,13 @@
         <div class="card-word" id="frontWord">Loading&hellip;</div>
         <div class="flip-cue" data-i18n="flipCue">tap to flip</div>
         <div class="hint-text" id="hintText"></div>
+        <button class="speak-btn on-light hidden" id="frontSpeakBtn" onclick="event.stopPropagation(); speakCurrentWelsh(this)" aria-label="Listen to Welsh pronunciation">&#128266;</button>
       </div>
       <div class="card-face card-back" id="cardBack">
         <div class="card-hint" id="backHint">Welsh</div>
         <div class="card-word" id="backWord" onclick="event.stopPropagation(); searchInContext()"></div>
         <div class="card-category" id="backCategory"></div>
+        <button class="speak-btn" id="backSpeakBtn" onclick="event.stopPropagation(); speakCurrentWelsh(this)" aria-label="Listen to Welsh pronunciation">&#128266;</button>
       </div>
     </div>
   </div>
@@ -267,6 +251,7 @@
   <input type="text" class="typing-input" id="typingInput" data-i18n-placeholder="typingPlaceholder" placeholder="Type your answer&hellip;" onkeydown="if(event.key==='Enter')checkTyping()">
   <div class="typing-actions">
     <button class="btn btn-next" id="typingSubmit" onclick="checkTyping()" data-i18n="check">Check</button>
+    <button class="speak-btn on-light hidden" id="typingSpeakBtn" onclick="speakCurrentWelsh(this)" aria-label="Listen to Welsh pronunciation" style="position: static;">&#128266;</button>
   </div>
   <div class="typing-feedback" id="typingFeedback"></div>
 </div>
@@ -328,6 +313,77 @@ const storage = {
     catch (e) { console.warn('storage.remove failed:', key, e); }
   }
 };
+
+// ── Welsh Text-to-Speech (techiaith Orpheus-TTS) ─────────────────────────────
+// Uses techiaith's fine-tuned Canopy AI Orpheus-TTS model for authentic,
+// natural-sounding Welsh with native intonation. See:
+//   https://techiaith.cymru/cloud/api/text-to-speech/
+// Endpoint is api.techiaith.cymru/speak/v3/ (no API key required — this
+// endpoint is free and keyless). Text is POSTed as JSON. The response is
+// an audio stream we play via an <audio> element.
+const TTS_ENDPOINT   = 'https://api.techiaith.cymru/speak/v3/';
+const TTS_MODEL      = 'cy';             // 'cy' = Welsh monolingual, 'cy_en' = bilingual
+const TTS_SPEAKER_ID = 'benyw_south';    // Swansea-area → south Welsh female voice (benyw = female, gwryw = male)
+const ttsBlobCache   = new Map();        // cleaned text → object URL of cached audio blob
+let currentTTSAudio  = null;
+
+async function speakWelsh(text, btn) {
+  if (!text) return;
+  // Strip parenthetical hints; if multiple forms separated by "/", use the first
+  const clean = text.replace(/\(.*?\)/g, '').split('/')[0].trim();
+  if (!clean) return;
+  // Stop anything currently playing
+  if (currentTTSAudio) {
+    try { currentTTSAudio.pause(); } catch {}
+    currentTTSAudio = null;
+  }
+  document.querySelectorAll('.speak-btn.playing').forEach(b => b.classList.remove('playing'));
+  if (btn) btn.classList.add('playing');
+  try {
+    let blobUrl = ttsBlobCache.get(clean);
+    if (!blobUrl) {
+      const res = await fetch(TTS_ENDPOINT, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'Accept': 'audio/*' },
+        body: JSON.stringify({
+          text:       clean,
+          model:      TTS_MODEL,
+          speaker_id: TTS_SPEAKER_ID
+        })
+      });
+      if (!res.ok) throw new Error('TTS HTTP ' + res.status);
+      const ct = res.headers.get('content-type') || '';
+      let blob;
+      if (ct.indexOf('application/json') === 0) {
+        // Fallback: some TTS APIs wrap the audio as base64 in JSON
+        const json = await res.json();
+        const b64  = json.audio || json.audio_base64 || json.data || json.result;
+        if (!b64) throw new Error('TTS JSON response missing audio field');
+        const bin  = atob(b64);
+        const bytes = new Uint8Array(bin.length);
+        for (let i = 0; i < bin.length; i++) bytes[i] = bin.charCodeAt(i);
+        blob = new Blob([bytes], { type: json.format === 'mp3' ? 'audio/mpeg' : 'audio/wav' });
+      } else {
+        blob = await res.blob();
+      }
+      blobUrl = URL.createObjectURL(blob);
+      ttsBlobCache.set(clean, blobUrl);
+    }
+    const audio = new Audio(blobUrl);
+    currentTTSAudio = audio;
+    audio.addEventListener('ended', () => { if (btn) btn.classList.remove('playing'); });
+    audio.addEventListener('error', () => { if (btn) btn.classList.remove('playing'); });
+    await audio.play();
+  } catch (err) {
+    console.warn('TTS failed:', err);
+    if (btn) btn.classList.remove('playing');
+  }
+}
+
+function speakCurrentWelsh(btn) {
+  if (currentIndex >= deck.length) return;
+  speakWelsh(deck[currentIndex].c, btn);
+}
 
 // ── Storage keys ──────────────────────────────────────────────────────────────
 const STATE_KEY           = 'welsh_state';
@@ -630,7 +686,6 @@ function renderSRStats() {
       ? (lang === 'cy' ? `Adolygu ${counts[i]} gair ${pileLabels[i].toLowerCase()}` : `Review ${counts[i]} ${pileLabels[i].toLowerCase()} word${counts[i] !== 1 ? 's' : ''}`)
       : '';
   });
-  updateWordCount();
 }
 
 function showRatingButtons(show) {
@@ -659,6 +714,8 @@ function renderTypingCard() {
   document.getElementById('typingFeedback').className    = 'typing-feedback';
   document.getElementById('typingSubmit').style.display  = 'inline-block';
   document.getElementById('typingLang').textContent      = direction === 'en-cy' ? t('cardLangCy') : t('cardLangEn');
+  // Speak button: visible immediately if the prompt itself is Welsh, else only after checking
+  document.getElementById('typingSpeakBtn').classList.toggle('hidden', direction !== 'cy-en');
   const hintEl1 = document.getElementById('hintText');
   hintEl1.textContent = '';
   hintEl1.classList.remove('visible');
@@ -692,6 +749,10 @@ function checkTyping() {
   fb.className   = 'typing-feedback ' + (isOk ? 'correct' : 'wrong');
   document.getElementById('typingInput').disabled       = true;
   document.getElementById('typingSubmit').style.display = 'none';
+  // Reveal & auto-play the Welsh pronunciation now that the answer is shown
+  const speakBtn = document.getElementById('typingSpeakBtn');
+  speakBtn.classList.remove('hidden');
+  speakWelsh(card.c, speakBtn);
   showRatingButtons(true);
   updateProgress();
   saveState();
@@ -752,17 +813,12 @@ function refreshUnitBar() {
 }
 
 // ── Word count in subtitle ────────────────────────────────────────────────────
-// Shows total words and global "Known" (green) count across ALL units.
+// Shows total words across ALL units in the current level (not just the active unit).
+// Currently there is only one level (Canolradd), so this is always 908.
 function updateWordCount() {
-  const total = ALL_VOCAB.length;
-  const green = ALL_VOCAB.filter((_, i) => srPiles[String(i)] === 2).length;
+  const count = ALL_VOCAB.length;
   const el = document.getElementById('wordCountLabel');
-  if (!el) return;
-  if (green > 0) {
-    el.textContent = green + ' / ' + total + (lang === 'cy' ? ' wedi dysgu' : ' known');
-  } else {
-    el.textContent = total + (lang === 'cy' ? ' gair' : ' words');
-  }
+  if (el) el.textContent = count + (lang === 'cy' ? ' gair' : ' words');
 }
 
 function setUnit(unit, btn) {
@@ -836,6 +892,9 @@ function renderCard() {
   }
   document.getElementById('backCategory').textContent = card.g;
   document.getElementById('cardBack').className = 'card-face card-back ' + getCatClass(card.g);
+  // Speak button is only useful on whichever face is currently showing Welsh
+  document.getElementById('frontSpeakBtn').classList.toggle('hidden', direction !== 'cy-en');
+  document.querySelectorAll('.speak-btn.playing').forEach(b => b.classList.remove('playing'));
 }
 
 function updateCard() {
@@ -924,6 +983,10 @@ function flipCard() {
   isFlipped = !isFlipped;
   document.getElementById('cardInner').classList.toggle('flipped', isFlipped);
   showRatingButtons(isFlipped);
+  // Auto-play Welsh pronunciation when revealing the Welsh side (en→cy mode)
+  if (isFlipped && direction === 'en-cy') {
+    speakCurrentWelsh(document.getElementById('backSpeakBtn'));
+  }
 }
 
 function advanceCard() { currentIndex++; showRatingButtons(false); updateCard(); }
@@ -1171,42 +1234,6 @@ function toggleSettings() {
 }
 
 function toggleLang() { lang = lang === 'en' ? 'cy' : 'en'; applyLang(); }
-
-// ── Word list overlay ─────────────────────────────────────────────────────────
-function showWordList() {
-  const catOrder = ['feminine noun', 'masculine noun', 'adjective', 'verb', 'other'];
-  const catLabel = { 'feminine noun': lang === 'cy' ? 'Enw benywaidd' : 'Feminine noun', 'masculine noun': lang === 'cy' ? 'Enw gwrywaidd' : 'Masculine noun', adjective: lang === 'cy' ? 'Ansoddair' : 'Adjective', verb: lang === 'cy' ? 'Berf' : 'Verb', other: lang === 'cy' ? 'Arall' : 'Other' };
-  const catClass = { 'feminine noun': 'wordlist-cat-feminine', 'masculine noun': 'wordlist-cat-masculine', adjective: 'wordlist-cat-adjective', verb: 'wordlist-cat-verb', other: 'wordlist-cat-other' };
-
-  const units = getUnits();
-  let html = '';
-  units.forEach(unit => {
-    const unitLabel = isNaN(parseInt(unit)) ? unit.charAt(0).toUpperCase() + unit.slice(1) : t('unitLabel') + ' ' + unit;
-    const words = ALL_VOCAB.map((v, i) => ({ ...v, _idx: i })).filter(v => v.u === unit);
-    html += '<div class="wordlist-unit-heading">' + unitLabel + ' (' + words.length + ')</div>';
-    catOrder.forEach(cat => {
-      const catWords = words.filter(v => v.g === cat);
-      if (catWords.length === 0) return;
-      html += '<div class="wordlist-cat-heading ' + catClass[cat] + '">' + catLabel[cat] + '</div>';
-      catWords.forEach(w => {
-        const pile = srPiles[String(w._idx)];
-        const srCls = pile === 0 ? ' wl-hard' : pile === 1 ? ' wl-okay' : pile === 2 ? ' wl-known' : '';
-        html += '<div class="wordlist-word' + srCls + '"><span class="wordlist-welsh">' + w.c.replace(/</g, '&lt;') + '</span><span class="wordlist-english">' + w.e.replace(/</g, '&lt;') + '</span></div>';
-      });
-    });
-  });
-
-  const total = ALL_VOCAB.length;
-  const overlay = document.createElement('div');
-  overlay.className = 'wordlist-overlay';
-  overlay.innerHTML = '<div class="wordlist-panel">' +
-    '<div class="wordlist-header"><h2>Canolradd</h2><p>' + total + (lang === 'cy' ? ' gair' : ' words') + '</p></div>' +
-    '<div class="wordlist-body">' + html + '</div>' +
-    '<button class="wordlist-close" onclick="this.closest(\'.wordlist-overlay\').remove()">✓</button>' +
-    '</div>';
-  document.body.appendChild(overlay);
-  overlay.addEventListener('click', e => { if (e.target === overlay) overlay.remove(); });
-}
 
 loadVocab();
 
