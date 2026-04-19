@@ -49,6 +49,14 @@
   .unit-btn { flex-shrink: 0; border: 1.5px solid var(--light); background: white; color: var(--mid); font-family: 'Source Sans 3', sans-serif; font-size: 0.78rem; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; padding: 5px 13px; border-radius: 20px; cursor: pointer; transition: all .18s; white-space: nowrap; }
   .unit-btn:hover { border-color: var(--hgreen); color: var(--hgreen); }
   .unit-btn.active { background: var(--dark); border-color: var(--dark); color: white; }
+  .chunk-bar { display: flex; gap: 5px; justify-content: center; padding: 4px 0; flex-wrap: wrap; margin-top: 6px; }
+  .chunk-btn { flex-shrink: 0; border: 1.5px solid var(--light); background: white; color: var(--mid); font-family: 'Source Sans 3', sans-serif; font-size: 0.72rem; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; padding: 4px 11px; border-radius: 16px; cursor: pointer; transition: all .18s; white-space: nowrap; }
+  .chunk-btn:hover { border-color: var(--hgreen); color: var(--hgreen); }
+  .chunk-btn.active { background: var(--dark); border-color: var(--dark); color: white; }
+  .chunk-btn-partial  { border-color: #e6a817 !important; color: #7a4f00 !important; background: #fff8e6 !important; }
+  .chunk-btn-partial.active { background: #e6a817 !important; border-color: #e6a817 !important; color: white !important; }
+  .chunk-btn-mastered { border-color: var(--hgreen) !important; color: var(--hgreen) !important; background: #eaf7ee !important; }
+  .chunk-btn-mastered.active { background: var(--hgreen) !important; border-color: var(--hgreen) !important; color: white !important; }
   .direction-row { display: flex; justify-content: center; }
   .dir-btn { font-family: 'Source Sans 3', sans-serif; font-size: 0.8rem; font-weight: 600; letter-spacing: 0.04em; padding: 7px 18px; border: 1.5px solid var(--light); background: white; color: var(--mid); cursor: pointer; transition: all .18s; }
   .dir-btn:first-child { border-radius: 20px 0 0 20px; border-right: none; }
@@ -214,6 +222,7 @@
 
 <div class="toolbar">
   <div class="unit-bar-wrap"><div class="unit-bar" id="unitBar"></div></div>
+  <div id="chunkBarWrap" style="display:none"><div class="chunk-bar" id="chunkBar"></div></div>
 </div>
 
 <div class="settings-panel" id="settingsPanel" style="display:none">
@@ -391,6 +400,67 @@ function getUnits() {
 
 function matchUnit(item) { return item.u === activeUnit; }
 
+// ── Chunk helpers ────────────────────────────────────────────────────────────
+let _chunkIdxSet = null;
+
+function getUnitWordIndices(unit) {
+  const indices = [];
+  ALL_VOCAB.forEach((v, i) => { if (v.u === unit) indices.push(i); });
+  return indices;
+}
+
+function getChunkCount(unit) {
+  const n = ALL_VOCAB.filter(v => v.u === unit).length;
+  if (n <= 20) return 1;
+  return Math.ceil(n / 20);
+}
+
+function getChunkRange(unit, chunkIndex) {
+  const indices = getUnitWordIndices(unit);
+  const n = indices.length;
+  const total = getChunkCount(unit);
+  const base = Math.floor(n / total);
+  const rem  = n % total;
+  const start = chunkIndex * base + Math.min(chunkIndex, rem);
+  const end   = start + base + (chunkIndex < rem ? 1 : 0);
+  return { start, end };
+}
+
+function getChunkIndices(unit, chunkIndex) {
+  const indices = getUnitWordIndices(unit);
+  const r = getChunkRange(unit, chunkIndex);
+  return indices.slice(r.start, r.end);
+}
+
+function rebuildChunkIdxSet() {
+  if (activeChunk === null || !activeUnit) { _chunkIdxSet = null; return; }
+  _chunkIdxSet = new Set(getChunkIndices(activeUnit, activeChunk));
+}
+
+function matchUnitAndChunk(item) {
+  if (item.u !== activeUnit) return false;
+  if (activeChunk === null) return true;
+  return _chunkIdxSet && _chunkIdxSet.has(item._idx);
+}
+
+function getChunkMasteryState(indices) {
+  if (indices.length === 0) return 'none';
+  const known = indices.filter(idx => (srPiles[String(idx)] ?? 0) === 2).length;
+  const rated = indices.filter(idx => srPiles[String(idx)] !== undefined).length;
+  if (known === indices.length) return 'mastered';
+  if (rated > 0) return 'partial';
+  return 'none';
+}
+
+function firstUnmasteredChunk(unit) {
+  const total = getChunkCount(unit);
+  if (total <= 1) return null;
+  for (let i = 0; i < total; i++) {
+    if (getChunkMasteryState(getChunkIndices(unit, i)) !== 'mastered') return i;
+  }
+  return 0;
+}
+
 // ── Persistence helpers ───────────────────────────────────────────────────────
 // These thin wrappers keep domain logic separate from storage mechanics.
 // If storage.get/set ever become async, only these four functions need updating.
@@ -402,6 +472,7 @@ function saveMastered(s){ storage.set(MASTERY_KEY, [...s]); }
 function saveState() {
   storage.set(STATE_KEY, {
     unit:        activeUnit,
+    chunk:       activeChunk,
     direction,
     currentIndex,
     deckIndices: deck.map(c => c._idx)
@@ -429,10 +500,12 @@ function clearAllData() {
   srPiles       = {};
   reviewMode    = false; syncReviewBg();
   activeUnit = getUnits()[0] || null;
+  activeChunk = null; rebuildChunkIdxSet();
   direction  = 'en-cy';
   rebuildDeck();
   updateDirectionUI();
   buildUnitBar();
+  buildChunkBar();
   updateCard();
   renderSRStats();
 }
@@ -447,6 +520,7 @@ let currentIndex = 0;
 let isFlipped    = false;
 let direction    = 'en-cy';
 let typingMode        = false;
+let activeChunk       = null;   // null = all words, 0-based chunk index otherwise
 let reviewMode        = false;  // true only when the "Review" pill session is active
 let reviewSessionGreen = new Set(); // cards confirmed "Got it" in the current review round
 function syncReviewBg() {
@@ -482,7 +556,7 @@ function rebuildDeck() {
   const now  = Date.now();
   const base = ALL_VOCAB
     .map((v, i) => ({ ...v, _idx: i }))
-    .filter(v => matchUnit(v));
+    .filter(v => matchUnitAndChunk(v));
   const piles = [[], [], []];
   const notDue = [];
   base.forEach(card => {
@@ -583,6 +657,7 @@ function rateCard(pile) {
   saveCards();
   renderSRStats();
   refreshUnitBar();
+  refreshChunkBar();
   if (pile === 2 && activeUnit !== null) {
     const state = getUnitMasteryState(activeUnit);
     if (state === 'mastered') {
@@ -751,6 +826,63 @@ function refreshUnitBar() {
   });
 }
 
+// ── Chunk bar ────────────────────────────────────────────────────────────────
+function buildChunkBar() {
+  const wrap = document.getElementById('chunkBarWrap');
+  const bar  = document.getElementById('chunkBar');
+  bar.innerHTML = '';
+
+  if (!activeUnit || reviewMode) { wrap.style.display = 'none'; return; }
+
+  const total = getChunkCount(activeUnit);
+  if (total <= 1) { wrap.style.display = 'none'; activeChunk = null; rebuildChunkIdxSet(); return; }
+
+  wrap.style.display = '';
+
+  const allBtn = document.createElement('button');
+  allBtn.className = 'chunk-btn' + (activeChunk === null ? ' active' : '');
+  allBtn.textContent = t('chunkAll');
+  allBtn.onclick = () => setChunk(null);
+  bar.appendChild(allBtn);
+
+  for (let i = 0; i < total; i++) {
+    const indices = getChunkIndices(activeUnit, i);
+    const state = getChunkMasteryState(indices);
+    const btn = document.createElement('button');
+    let cls = 'chunk-btn';
+    if (state === 'mastered') cls += ' chunk-btn-mastered';
+    else if (state === 'partial') cls += ' chunk-btn-partial';
+    if (activeChunk === i) cls += ' active';
+    btn.className = cls;
+    btn.textContent = (i + 1) + ' (' + indices.length + ')';
+    btn.onclick = () => setChunk(i);
+    bar.appendChild(btn);
+  }
+}
+
+function refreshChunkBar() {
+  const bar = document.getElementById('chunkBar');
+  if (!bar || bar.children.length <= 1) return;
+  for (let i = 1; i < bar.children.length; i++) {
+    const btn = bar.children[i];
+    const indices = getChunkIndices(activeUnit, i - 1);
+    const state = getChunkMasteryState(indices);
+    btn.classList.remove('chunk-btn-mastered', 'chunk-btn-partial');
+    if (state === 'mastered') btn.classList.add('chunk-btn-mastered');
+    else if (state === 'partial') btn.classList.add('chunk-btn-partial');
+  }
+}
+
+function setChunk(chunkIndex) {
+  activeChunk = chunkIndex;
+  rebuildChunkIdxSet();
+  rebuildDeck();
+  buildChunkBar();
+  renderSRStats();
+  if (typingMode) renderTypingCard(); else updateCard();
+  saveState();
+}
+
 // ── Word count in subtitle ────────────────────────────────────────────────────
 // Shows total words and global "Known" (green) count across ALL units.
 function updateWordCount() {
@@ -768,11 +900,14 @@ function updateWordCount() {
 function setUnit(unit, btn) {
   restoreReviewSnapshot(); // abandon any in-progress review session cleanly
   activeUnit = unit;
+  activeChunk = firstUnmasteredChunk(unit);
+  rebuildChunkIdxSet();
   reviewMode = false; syncReviewBg();
   document.querySelectorAll('.unit-btn').forEach(b => b.classList.remove('active'));
   btn.classList.add('active');
   btn.scrollIntoView({ block: 'nearest', inline: 'center', behavior: 'smooth' });
   rebuildDeck();
+  buildChunkBar();
   renderSRStats();
   updateWordCount();
   if (typingMode) renderTypingCard(); else updateCard();
@@ -1001,7 +1136,9 @@ function reviewOldWords() {
   });
   storage.set(REVIEW_SNAPSHOT_KEY, snapshot);
   activeUnit   = null;
+  activeChunk  = null; rebuildChunkIdxSet();
   document.querySelectorAll('.unit-btn').forEach(b => b.classList.remove('active'));
+  buildChunkBar();
   showRatingButtons(false);
   renderSRStats();
   updateCard();
@@ -1065,10 +1202,14 @@ function init() {
   restoreReviewSnapshot(); // undo any review session interrupted by a page reload
   const saved = loadState();
   activeUnit = saved.unit || getUnits()[0] || null;
+  activeChunk = saved.chunk !== undefined ? saved.chunk : null;
+  if (activeChunk !== null && activeUnit && activeChunk >= getChunkCount(activeUnit)) activeChunk = null;
+  rebuildChunkIdxSet();
   if (saved.direction) direction = saved.direction;
 
   rebuildDeck();
   buildUnitBar();
+  buildChunkBar();
   renderSRStats();
   updateDirectionUI();
   updateWordCount();
@@ -1110,7 +1251,7 @@ const TRANSLATIONS = {
     cardLangEn: 'English', cardLangCy: 'Welsh', startsWith: 'Starts with: ',
     correct: 'Correct!', notQuite: 'Not quite — the answer is: ',
     confirmClear: 'Clear all progress and ratings? This cannot be undone.',
-    unitLabel: 'Unit', pileHard: 'Hard', pileOkay: 'Okay', pileKnown: 'Known', masteryUnit: '',
+    unitLabel: 'Unit', chunkAll: 'All', pileHard: 'Hard', pileOkay: 'Okay', pileKnown: 'Known', masteryUnit: '',
     masteryTitle: "Wedi'i feistroli!",
     masteryBody: "You've marked every word in this set as <strong>Got it</strong>. Da iawn ti — you've mastered it for now!",
     masteryClose: 'Ardderchog! ✓', errorLoad: 'Failed to load vocabulary.json', loading: 'Loading…',
@@ -1132,7 +1273,7 @@ const TRANSLATIONS = {
     cardLangEn: 'Saesneg', cardLangCy: 'Cymraeg', startsWith: 'Yn dechrau â: ',
     correct: 'Cywir!', notQuite: 'Nid yn iawn — yr ateb yw: ',
     confirmClear: 'Dileu pob cynnydd a sgôr? Ni ellir dadwneud hyn.',
-    unitLabel: 'Uned', pileHard: 'Anodd', pileOkay: 'Iawn', pileKnown: 'Wedi dysgu', masteryUnit: '',
+    unitLabel: 'Uned', chunkAll: 'Popeth', pileHard: 'Anodd', pileOkay: 'Iawn', pileKnown: 'Wedi dysgu', masteryUnit: '',
     masteryTitle: "Wedi'i feistroli!",
     masteryBody: "Rydych chi wedi marcio pob gair yn y set hon fel <strong>Wedi dysgu</strong>. Da iawn ti!",
     masteryClose: 'Ardderchog! ✓', errorLoad: 'Methwyd â llwytho vocabulary.json', loading: 'Yn llwytho…',
@@ -1152,7 +1293,7 @@ function applyLang() {
   updateCardLangLabels();
   updateWordCount();
   syncReviewBg();
-  if (ALL_VOCAB.length > 0) refreshUnitBar();
+  if (ALL_VOCAB.length > 0) { refreshUnitBar(); buildChunkBar(); }
 }
 
 function updateCardLangLabels() {
