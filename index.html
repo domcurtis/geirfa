@@ -307,6 +307,9 @@
   <div class="sr-stat sr-hard"  id="srStatHard"  data-count="0" onclick="reviewByPile(0)" title=""><span id="srHard">0</span> <span data-i18n="hard">Hard</span></div>
   <div class="sr-stat sr-okay"  id="srStatOkay"  data-count="0" onclick="reviewByPile(1)" title=""><span id="srOkay">0</span> <span data-i18n="okay">Okay</span></div>
   <div class="sr-stat sr-known" id="srStatKnown" data-count="0" onclick="reviewByPile(2)" title=""><span id="srKnown">0</span> <span data-i18n="gotIt">Known</span></div>
+  <button class="btn-clear-data" onclick="exportProgress()" data-i18n="exportProgress">Export backup</button>
+  <input type="file" id="importFileInput" accept=".json" style="display:none" onchange="importProgress(event)">
+  <button class="btn-clear-data" onclick="document.getElementById('importFileInput').click()" data-i18n="importProgress">Import backup</button>
   <button class="btn-clear-data" onclick="clearAllData()" data-i18n="clearProgress">Clear all progress</button>
 </div>
 
@@ -508,6 +511,42 @@ function clearAllData() {
   buildChunkBar();
   updateCard();
   renderSRStats();
+}
+
+function exportProgress() {
+  const data = {
+    version: 1,
+    exportedAt: new Date().toISOString(),
+    [STATE_KEY]:   storage.get(STATE_KEY, null),
+    [CARDS_KEY]:   storage.get(CARDS_KEY, {}),
+    [MASTERY_KEY]: storage.get(MASTERY_KEY, []),
+  };
+  const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = `geirfa-backup-${new Date().toISOString().slice(0, 10)}.json`;
+  a.click();
+  URL.revokeObjectURL(url);
+}
+
+function importProgress(event) {
+  const file = event.target.files[0];
+  if (!file) return;
+  const reader = new FileReader();
+  reader.onload = e => {
+    try {
+      const data = JSON.parse(e.target.result);
+      if (!data.version || !data[CARDS_KEY]) { alert(t('importInvalid')); return; }
+      if (!confirm(t('confirmImport'))) return;
+      if (data[STATE_KEY])   storage.set(STATE_KEY,   data[STATE_KEY]);
+      if (data[CARDS_KEY])   storage.set(CARDS_KEY,   data[CARDS_KEY]);
+      if (data[MASTERY_KEY]) storage.set(MASTERY_KEY, data[MASTERY_KEY]);
+      location.reload();
+    } catch { alert(t('importInvalid')); }
+  };
+  reader.readAsText(file);
+  event.target.value = '';
 }
 
 // ── Core state ────────────────────────────────────────────────────────────────
@@ -1247,6 +1286,9 @@ const TRANSLATIONS = {
     completedSet: "You've been through all the cards in this set.",
     reviewWeak: 'Retry difficult words', startAgain: 'Start again',
     allKnown: 'All cards marked as Got it!',
+    exportProgress: 'Export backup', importProgress: 'Import backup',
+    confirmImport: 'This will overwrite your current progress with the backup. Continue?',
+    importInvalid: 'Invalid backup file.',
     clearProgress: 'Clear all progress', kbFlip: 'flip',
     cardLangEn: 'English', cardLangCy: 'Welsh', startsWith: 'Starts with: ',
     correct: 'Correct!', notQuite: 'Not quite — the answer is: ',
@@ -1269,6 +1311,9 @@ const TRANSLATIONS = {
     completedSet: 'Rydych chi wedi gweld pob carden yn y set hon.',
     reviewWeak: 'Ailgynnig geiriau anodd', startAgain: 'Dechrau eto',
     allKnown: "Pob carden wedi'i marcio fel Wedi dysgu!",
+    exportProgress: 'Allforio copi', importProgress: 'Mewnforio copi',
+    confirmImport: 'Bydd hyn yn trosysgrifu eich cynnydd presennol. Parhau?',
+    importInvalid: 'Ffeil gopi annilys.',
     clearProgress: 'Dileu pob cynnydd', kbFlip: 'troi',
     cardLangEn: 'Saesneg', cardLangCy: 'Cymraeg', startsWith: 'Yn dechrau â: ',
     correct: 'Cywir!', notQuite: 'Nid yn iawn — yr ateb yw: ',
