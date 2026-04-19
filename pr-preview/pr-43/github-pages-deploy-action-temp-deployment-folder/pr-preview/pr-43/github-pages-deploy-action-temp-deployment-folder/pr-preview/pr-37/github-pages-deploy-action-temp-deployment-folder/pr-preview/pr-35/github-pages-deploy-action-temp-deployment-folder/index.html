@@ -49,14 +49,6 @@
   .unit-btn { flex-shrink: 0; border: 1.5px solid var(--light); background: white; color: var(--mid); font-family: 'Source Sans 3', sans-serif; font-size: 0.78rem; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; padding: 5px 13px; border-radius: 20px; cursor: pointer; transition: all .18s; white-space: nowrap; }
   .unit-btn:hover { border-color: var(--hgreen); color: var(--hgreen); }
   .unit-btn.active { background: var(--dark); border-color: var(--dark); color: white; }
-  .chunk-bar { display: flex; gap: 5px; justify-content: center; padding: 4px 0; flex-wrap: wrap; margin-top: 6px; }
-  .chunk-btn { flex-shrink: 0; border: 1.5px solid var(--light); background: white; color: var(--mid); font-family: 'Source Sans 3', sans-serif; font-size: 0.72rem; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; padding: 4px 11px; border-radius: 16px; cursor: pointer; transition: all .18s; white-space: nowrap; }
-  .chunk-btn:hover { border-color: var(--hgreen); color: var(--hgreen); }
-  .chunk-btn.active { background: var(--dark); border-color: var(--dark); color: white; }
-  .chunk-btn-partial  { border-color: #e6a817 !important; color: #7a4f00 !important; background: #fff8e6 !important; }
-  .chunk-btn-partial.active { background: #e6a817 !important; border-color: #e6a817 !important; color: white !important; }
-  .chunk-btn-mastered { border-color: var(--hgreen) !important; color: var(--hgreen) !important; background: #eaf7ee !important; }
-  .chunk-btn-mastered.active { background: var(--hgreen) !important; border-color: var(--hgreen) !important; color: white !important; }
   .direction-row { display: flex; justify-content: center; }
   .dir-btn { font-family: 'Source Sans 3', sans-serif; font-size: 0.8rem; font-weight: 600; letter-spacing: 0.04em; padding: 7px 18px; border: 1.5px solid var(--light); background: white; color: var(--mid); cursor: pointer; transition: all .18s; }
   .dir-btn:first-child { border-radius: 20px 0 0 20px; border-right: none; }
@@ -180,32 +172,6 @@
   .complete-banner .btn-review:hover { background: rgba(255,255,255,.3); }
   .complete-banner .btn-review:disabled { opacity: 0.35; cursor: default; }
   .complete-banner .banner-actions { display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; }
-  .subtitle { cursor: pointer; transition: color .18s; }
-  .subtitle:hover { color: var(--hgreen); }
-  .wordlist-overlay { position: fixed; inset: 0; z-index: 999; display: flex; align-items: center; justify-content: center; background: rgba(0,0,0,.45); animation: fadeInOverlay .3s ease; }
-  .wordlist-panel { background: white; border-radius: 20px; padding: 28px 0; max-width: 520px; width: 92%; max-height: 85vh; display: flex; flex-direction: column; box-shadow: 0 24px 64px rgba(0,0,0,.25); animation: popIn .4s cubic-bezier(.2,1.4,.4,1); }
-  .wordlist-header { text-align: center; padding: 0 28px 16px; border-bottom: 1.5px solid var(--light); flex-shrink: 0; }
-  .wordlist-header h2 { font-family: 'Playfair Display', serif; font-size: 1.5rem; color: var(--dark); margin-bottom: 4px; }
-  .wordlist-header p { font-size: 0.82rem; color: var(--mid); letter-spacing: 0.06em; }
-  .wordlist-body { overflow-y: auto; padding: 8px 28px 20px; flex: 1; -webkit-overflow-scrolling: touch; }
-  .wordlist-unit-heading { font-family: 'Source Sans 3', sans-serif; font-size: 0.92rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--mid); margin: 20px 0 6px; padding-bottom: 4px; border-bottom: 1px solid var(--light); }
-  .wordlist-unit-heading:first-child { margin-top: 8px; }
-  .wordlist-cat-heading { font-size: 0.7rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; margin: 12px 0 4px; padding: 2px 10px; border-radius: 20px; display: inline-block; }
-  .wordlist-cat-feminine  { background: #f8d7da; color: var(--col-fem); }
-  .wordlist-cat-masculine { background: #d4e6f1; color: var(--col-masc); }
-  .wordlist-cat-adjective { background: #d5f0de; color: var(--col-adj); }
-  .wordlist-cat-verb      { background: #e8e8e8; color: var(--col-verb); }
-  .wordlist-cat-other     { background: #e8dff2; color: var(--col-other); }
-  .wordlist-word { display: flex; justify-content: space-between; gap: 12px; padding: 4px 0; padding-left: 6px; font-size: 0.88rem; line-height: 1.4; border-bottom: 1px solid #f2efea; border-left: 3px solid transparent; }
-  .wordlist-word:last-child { border-bottom: none; }
-  .wordlist-word.wl-hard  { border-left-color: #f8d7da; }
-  .wordlist-word.wl-okay  { border-left-color: #fff3cd; }
-  .wordlist-word.wl-known { border-left-color: #d1e7dd; }
-  .wordlist-welsh { font-weight: 600; color: var(--dark); flex: 1; }
-  .wordlist-english { color: var(--mid); flex: 1; text-align: right; }
-  .wordlist-close { display: block; margin: 12px auto 0; background: var(--hgreen); color: white; border: none; border-radius: 10px; padding: 10px 28px; font-family: 'Source Sans 3', sans-serif; font-size: 0.9rem; font-weight: 700; cursor: pointer; transition: background .18s; flex-shrink: 0; }
-  .wordlist-close:hover { background: #14552f; }
-  @media (max-width: 480px) { .wordlist-panel { width: 96%; max-height: 90vh; padding: 20px 0; } .wordlist-body { padding: 8px 18px 16px; } .wordlist-header { padding: 0 18px 12px; } }
 </style>
 </head>
 <body>
@@ -213,7 +179,7 @@
 <header>
   <img class="header-dragon" src="favicon.svg" alt="Welsh dragon" aria-hidden="true">
   <h1 data-i18n="title">Geirfa</h1>
-  <p class="subtitle" onclick="showWordList()"><span id="levelLabel">Canolradd</span> &middot; <span id="wordCountLabel">908 words</span></p>
+  <p class="subtitle"><span id="levelLabel">Canolradd</span> &middot; <span id="wordCountLabel">908 words</span></p>
   <div class="header-btns">
     <button class="lang-toggle" id="langToggle" onclick="toggleLang()">Cy</button>
     <button class="settings-toggle" id="settingsToggle" onclick="toggleSettings()" aria-label="Settings">&#9881;</button>
@@ -222,7 +188,6 @@
 
 <div class="toolbar">
   <div class="unit-bar-wrap"><div class="unit-bar" id="unitBar"></div></div>
-  <div id="chunkBarWrap" style="display:none"><div class="chunk-bar" id="chunkBar"></div></div>
 </div>
 
 <div class="settings-panel" id="settingsPanel" style="display:none">
@@ -240,13 +205,6 @@
         <button class="mode-btn active" id="modeFlip" onclick="setTypingMode(false)" data-i18n="modeFlip">Flip cards</button>
         <button class="mode-btn"        id="modeType" onclick="setTypingMode(true)"  data-i18n="modeType">Typing</button>
       </div>
-    </div>
-    <div class="settings-group">
-      <span class="settings-label" data-i18n="dataLabel">Data</span>
-      <input type="file" id="importFileInput" accept=".json" style="display:none" onchange="importProgress(event)">
-      <button class="btn-clear-data" onclick="exportProgress()" data-i18n="exportProgress">Export backup</button>
-      <button class="btn-clear-data" onclick="document.getElementById('importFileInput').click()" data-i18n="importProgress">Import backup</button>
-      <button class="btn-clear-data" onclick="clearAllData()" data-i18n="clearProgress">Clear all progress</button>
     </div>
   </div>
 </div>
@@ -314,6 +272,7 @@
   <div class="sr-stat sr-hard"  id="srStatHard"  data-count="0" onclick="reviewByPile(0)" title=""><span id="srHard">0</span> <span data-i18n="hard">Hard</span></div>
   <div class="sr-stat sr-okay"  id="srStatOkay"  data-count="0" onclick="reviewByPile(1)" title=""><span id="srOkay">0</span> <span data-i18n="okay">Okay</span></div>
   <div class="sr-stat sr-known" id="srStatKnown" data-count="0" onclick="reviewByPile(2)" title=""><span id="srKnown">0</span> <span data-i18n="gotIt">Known</span></div>
+  <button class="btn-clear-data" onclick="clearAllData()" data-i18n="clearProgress">Clear all progress</button>
 </div>
 
 <div class="key-hint"><kbd>Space</kbd> <span data-i18n="kbFlip">flip</span> &nbsp;&middot;&nbsp; <kbd>1</kbd> <span data-i18n="hard">Hard</span> &nbsp;&middot;&nbsp; <kbd>2</kbd> <span data-i18n="okay">Okay</span> &nbsp;&middot;&nbsp; <kbd>3</kbd> <span data-i18n="gotIt">Got it</span></div>
@@ -406,67 +365,6 @@ function getUnits() {
 
 function matchUnit(item) { return item.u === activeUnit; }
 
-// ── Chunk helpers ────────────────────────────────────────────────────────────
-let _chunkIdxSet = null;
-
-function getUnitWordIndices(unit) {
-  const indices = [];
-  ALL_VOCAB.forEach((v, i) => { if (v.u === unit) indices.push(i); });
-  return indices;
-}
-
-function getChunkCount(unit) {
-  const n = ALL_VOCAB.filter(v => v.u === unit).length;
-  if (n <= 20) return 1;
-  return Math.ceil(n / 20);
-}
-
-function getChunkRange(unit, chunkIndex) {
-  const indices = getUnitWordIndices(unit);
-  const n = indices.length;
-  const total = getChunkCount(unit);
-  const base = Math.floor(n / total);
-  const rem  = n % total;
-  const start = chunkIndex * base + Math.min(chunkIndex, rem);
-  const end   = start + base + (chunkIndex < rem ? 1 : 0);
-  return { start, end };
-}
-
-function getChunkIndices(unit, chunkIndex) {
-  const indices = getUnitWordIndices(unit);
-  const r = getChunkRange(unit, chunkIndex);
-  return indices.slice(r.start, r.end);
-}
-
-function rebuildChunkIdxSet() {
-  if (activeChunk === null || !activeUnit) { _chunkIdxSet = null; return; }
-  _chunkIdxSet = new Set(getChunkIndices(activeUnit, activeChunk));
-}
-
-function matchUnitAndChunk(item) {
-  if (item.u !== activeUnit) return false;
-  if (activeChunk === null) return true;
-  return _chunkIdxSet && _chunkIdxSet.has(item._idx);
-}
-
-function getChunkMasteryState(indices) {
-  if (indices.length === 0) return 'none';
-  const known = indices.filter(idx => (srPiles[String(idx)] ?? 0) === 2).length;
-  const rated = indices.filter(idx => srPiles[String(idx)] !== undefined).length;
-  if (known === indices.length) return 'mastered';
-  if (rated > 0) return 'partial';
-  return 'none';
-}
-
-function firstUnmasteredChunk(unit) {
-  const total = getChunkCount(unit);
-  if (total <= 1) return null;
-  for (let i = 0; i < total; i++) {
-    if (getChunkMasteryState(getChunkIndices(unit, i)) !== 'mastered') return i;
-  }
-  return 0;
-}
-
 // ── Persistence helpers ───────────────────────────────────────────────────────
 // These thin wrappers keep domain logic separate from storage mechanics.
 // If storage.get/set ever become async, only these four functions need updating.
@@ -478,7 +376,6 @@ function saveMastered(s){ storage.set(MASTERY_KEY, [...s]); }
 function saveState() {
   storage.set(STATE_KEY, {
     unit:        activeUnit,
-    chunk:       activeChunk,
     direction,
     currentIndex,
     deckIndices: deck.map(c => c._idx)
@@ -506,50 +403,12 @@ function clearAllData() {
   srPiles       = {};
   reviewMode    = false; syncReviewBg();
   activeUnit = getUnits()[0] || null;
-  activeChunk = null; rebuildChunkIdxSet();
   direction  = 'en-cy';
   rebuildDeck();
   updateDirectionUI();
   buildUnitBar();
-  buildChunkBar();
   updateCard();
   renderSRStats();
-}
-
-function exportProgress() {
-  const data = {
-    version: 1,
-    exportedAt: new Date().toISOString(),
-    [STATE_KEY]:   storage.get(STATE_KEY, null),
-    [CARDS_KEY]:   storage.get(CARDS_KEY, {}),
-    [MASTERY_KEY]: storage.get(MASTERY_KEY, []),
-  };
-  const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
-  const url = URL.createObjectURL(blob);
-  const a = document.createElement('a');
-  a.href = url;
-  a.download = `geirfa-backup-${new Date().toISOString().slice(0, 10)}.json`;
-  a.click();
-  URL.revokeObjectURL(url);
-}
-
-function importProgress(event) {
-  const file = event.target.files[0];
-  if (!file) return;
-  const reader = new FileReader();
-  reader.onload = e => {
-    try {
-      const data = JSON.parse(e.target.result);
-      if (!data.version || !data[CARDS_KEY]) { alert(t('importInvalid')); return; }
-      if (!confirm(t('confirmImport'))) return;
-      if (data[STATE_KEY])   storage.set(STATE_KEY,   data[STATE_KEY]);
-      if (data[CARDS_KEY])   storage.set(CARDS_KEY,   data[CARDS_KEY]);
-      if (data[MASTERY_KEY]) storage.set(MASTERY_KEY, data[MASTERY_KEY]);
-      location.reload();
-    } catch { alert(t('importInvalid')); }
-  };
-  reader.readAsText(file);
-  event.target.value = '';
 }
 
 // ── Core state ────────────────────────────────────────────────────────────────
@@ -562,7 +421,6 @@ let currentIndex = 0;
 let isFlipped    = false;
 let direction    = 'en-cy';
 let typingMode        = false;
-let activeChunk       = null;   // null = all words, 0-based chunk index otherwise
 let reviewMode        = false;  // true only when the "Review" pill session is active
 let reviewSessionGreen = new Set(); // cards confirmed "Got it" in the current review round
 function syncReviewBg() {
@@ -598,7 +456,7 @@ function rebuildDeck() {
   const now  = Date.now();
   const base = ALL_VOCAB
     .map((v, i) => ({ ...v, _idx: i }))
-    .filter(v => matchUnitAndChunk(v));
+    .filter(v => matchUnit(v));
   const piles = [[], [], []];
   const notDue = [];
   base.forEach(card => {
@@ -699,7 +557,6 @@ function rateCard(pile) {
   saveCards();
   renderSRStats();
   refreshUnitBar();
-  refreshChunkBar();
   if (pile === 2 && activeUnit !== null) {
     const state = getUnitMasteryState(activeUnit);
     if (state === 'mastered') {
@@ -747,7 +604,6 @@ function renderSRStats() {
       ? (lang === 'cy' ? `Adolygu ${counts[i]} gair ${pileLabels[i].toLowerCase()}` : `Review ${counts[i]} ${pileLabels[i].toLowerCase()} word${counts[i] !== 1 ? 's' : ''}`)
       : '';
   });
-  updateWordCount();
 }
 
 function showRatingButtons(show) {
@@ -868,88 +724,23 @@ function refreshUnitBar() {
   });
 }
 
-// ── Chunk bar ────────────────────────────────────────────────────────────────
-function buildChunkBar() {
-  const wrap = document.getElementById('chunkBarWrap');
-  const bar  = document.getElementById('chunkBar');
-  bar.innerHTML = '';
-
-  if (!activeUnit || reviewMode) { wrap.style.display = 'none'; return; }
-
-  const total = getChunkCount(activeUnit);
-  if (total <= 1) { wrap.style.display = 'none'; activeChunk = null; rebuildChunkIdxSet(); return; }
-
-  wrap.style.display = '';
-
-  const allBtn = document.createElement('button');
-  allBtn.className = 'chunk-btn' + (activeChunk === null ? ' active' : '');
-  allBtn.textContent = t('chunkAll');
-  allBtn.onclick = () => setChunk(null);
-  bar.appendChild(allBtn);
-
-  for (let i = 0; i < total; i++) {
-    const indices = getChunkIndices(activeUnit, i);
-    const state = getChunkMasteryState(indices);
-    const btn = document.createElement('button');
-    let cls = 'chunk-btn';
-    if (state === 'mastered') cls += ' chunk-btn-mastered';
-    else if (state === 'partial') cls += ' chunk-btn-partial';
-    if (activeChunk === i) cls += ' active';
-    btn.className = cls;
-    btn.textContent = (i + 1) + ' (' + indices.length + ')';
-    btn.onclick = () => setChunk(i);
-    bar.appendChild(btn);
-  }
-}
-
-function refreshChunkBar() {
-  const bar = document.getElementById('chunkBar');
-  if (!bar || bar.children.length <= 1) return;
-  for (let i = 1; i < bar.children.length; i++) {
-    const btn = bar.children[i];
-    const indices = getChunkIndices(activeUnit, i - 1);
-    const state = getChunkMasteryState(indices);
-    btn.classList.remove('chunk-btn-mastered', 'chunk-btn-partial');
-    if (state === 'mastered') btn.classList.add('chunk-btn-mastered');
-    else if (state === 'partial') btn.classList.add('chunk-btn-partial');
-  }
-}
-
-function setChunk(chunkIndex) {
-  activeChunk = chunkIndex;
-  rebuildChunkIdxSet();
-  rebuildDeck();
-  buildChunkBar();
-  renderSRStats();
-  if (typingMode) renderTypingCard(); else updateCard();
-  saveState();
-}
-
 // ── Word count in subtitle ────────────────────────────────────────────────────
-// Shows total words and global "Known" (green) count across ALL units.
+// Shows total words across ALL units in the current level (not just the active unit).
+// Currently there is only one level (Canolradd), so this is always 908.
 function updateWordCount() {
-  const total = ALL_VOCAB.length;
-  const green = ALL_VOCAB.filter((_, i) => srPiles[String(i)] === 2).length;
+  const count = ALL_VOCAB.length;
   const el = document.getElementById('wordCountLabel');
-  if (!el) return;
-  if (green > 0) {
-    el.textContent = green + ' / ' + total + (lang === 'cy' ? ' wedi dysgu' : ' known');
-  } else {
-    el.textContent = total + (lang === 'cy' ? ' gair' : ' words');
-  }
+  if (el) el.textContent = count + (lang === 'cy' ? ' gair' : ' words');
 }
 
 function setUnit(unit, btn) {
   restoreReviewSnapshot(); // abandon any in-progress review session cleanly
   activeUnit = unit;
-  activeChunk = firstUnmasteredChunk(unit);
-  rebuildChunkIdxSet();
   reviewMode = false; syncReviewBg();
   document.querySelectorAll('.unit-btn').forEach(b => b.classList.remove('active'));
   btn.classList.add('active');
   btn.scrollIntoView({ block: 'nearest', inline: 'center', behavior: 'smooth' });
   rebuildDeck();
-  buildChunkBar();
   renderSRStats();
   updateWordCount();
   if (typingMode) renderTypingCard(); else updateCard();
@@ -1178,9 +969,7 @@ function reviewOldWords() {
   });
   storage.set(REVIEW_SNAPSHOT_KEY, snapshot);
   activeUnit   = null;
-  activeChunk  = null; rebuildChunkIdxSet();
   document.querySelectorAll('.unit-btn').forEach(b => b.classList.remove('active'));
-  buildChunkBar();
   showRatingButtons(false);
   renderSRStats();
   updateCard();
@@ -1244,14 +1033,10 @@ function init() {
   restoreReviewSnapshot(); // undo any review session interrupted by a page reload
   const saved = loadState();
   activeUnit = saved.unit || getUnits()[0] || null;
-  activeChunk = saved.chunk !== undefined ? saved.chunk : null;
-  if (activeChunk !== null && activeUnit && activeChunk >= getChunkCount(activeUnit)) activeChunk = null;
-  rebuildChunkIdxSet();
   if (saved.direction) direction = saved.direction;
 
   rebuildDeck();
   buildUnitBar();
-  buildChunkBar();
   renderSRStats();
   updateDirectionUI();
   updateWordCount();
@@ -1289,15 +1074,11 @@ const TRANSLATIONS = {
     completedSet: "You've been through all the cards in this set.",
     reviewWeak: 'Retry difficult words', startAgain: 'Start again',
     allKnown: 'All cards marked as Got it!',
-    dataLabel: 'Data',
-    exportProgress: 'Export backup', importProgress: 'Import backup',
-    confirmImport: 'This will overwrite your current progress with the backup. Continue?',
-    importInvalid: 'Invalid backup file.',
     clearProgress: 'Clear all progress', kbFlip: 'flip',
     cardLangEn: 'English', cardLangCy: 'Welsh', startsWith: 'Starts with: ',
     correct: 'Correct!', notQuite: 'Not quite — the answer is: ',
     confirmClear: 'Clear all progress and ratings? This cannot be undone.',
-    unitLabel: 'Unit', chunkAll: 'All', pileHard: 'Hard', pileOkay: 'Okay', pileKnown: 'Known', masteryUnit: '',
+    unitLabel: 'Unit', pileHard: 'Hard', pileOkay: 'Okay', pileKnown: 'Known', masteryUnit: '',
     masteryTitle: "Wedi'i feistroli!",
     masteryBody: "You've marked every word in this set as <strong>Got it</strong>. Da iawn ti — you've mastered it for now!",
     masteryClose: 'Ardderchog! ✓', errorLoad: 'Failed to load vocabulary.json', loading: 'Loading…',
@@ -1315,15 +1096,11 @@ const TRANSLATIONS = {
     completedSet: 'Rydych chi wedi gweld pob carden yn y set hon.',
     reviewWeak: 'Ailgynnig geiriau anodd', startAgain: 'Dechrau eto',
     allKnown: "Pob carden wedi'i marcio fel Wedi dysgu!",
-    dataLabel: 'Data',
-    exportProgress: 'Allforio copi', importProgress: 'Mewnforio copi',
-    confirmImport: 'Bydd hyn yn trosysgrifu eich cynnydd presennol. Parhau?',
-    importInvalid: 'Ffeil gopi annilys.',
     clearProgress: 'Dileu pob cynnydd', kbFlip: 'troi',
     cardLangEn: 'Saesneg', cardLangCy: 'Cymraeg', startsWith: 'Yn dechrau â: ',
     correct: 'Cywir!', notQuite: 'Nid yn iawn — yr ateb yw: ',
     confirmClear: 'Dileu pob cynnydd a sgôr? Ni ellir dadwneud hyn.',
-    unitLabel: 'Uned', chunkAll: 'Popeth', pileHard: 'Anodd', pileOkay: 'Iawn', pileKnown: 'Wedi dysgu', masteryUnit: '',
+    unitLabel: 'Uned', pileHard: 'Anodd', pileOkay: 'Iawn', pileKnown: 'Wedi dysgu', masteryUnit: '',
     masteryTitle: "Wedi'i feistroli!",
     masteryBody: "Rydych chi wedi marcio pob gair yn y set hon fel <strong>Wedi dysgu</strong>. Da iawn ti!",
     masteryClose: 'Ardderchog! ✓', errorLoad: 'Methwyd â llwytho vocabulary.json', loading: 'Yn llwytho…',
@@ -1343,7 +1120,7 @@ function applyLang() {
   updateCardLangLabels();
   updateWordCount();
   syncReviewBg();
-  if (ALL_VOCAB.length > 0) { refreshUnitBar(); buildChunkBar(); }
+  if (ALL_VOCAB.length > 0) refreshUnitBar();
 }
 
 function updateCardLangLabels() {
@@ -1362,49 +1139,6 @@ function toggleSettings() {
 }
 
 function toggleLang() { lang = lang === 'en' ? 'cy' : 'en'; applyLang(); }
-
-// ── Word list overlay ─────────────────────────────────────────────────────────
-function showWordList() {
-  const catOrder = ['feminine noun', 'masculine noun', 'adjective', 'verb', 'other'];
-  const catLabel = { 'feminine noun': lang === 'cy' ? 'Enw benywaidd' : 'Feminine noun', 'masculine noun': lang === 'cy' ? 'Enw gwrywaidd' : 'Masculine noun', adjective: lang === 'cy' ? 'Ansoddair' : 'Adjective', verb: lang === 'cy' ? 'Berf' : 'Verb', other: lang === 'cy' ? 'Arall' : 'Other' };
-  const catClass = { 'feminine noun': 'wordlist-cat-feminine', 'masculine noun': 'wordlist-cat-masculine', adjective: 'wordlist-cat-adjective', verb: 'wordlist-cat-verb', other: 'wordlist-cat-other' };
-
-  const units = getUnits();
-  let html = '';
-  units.forEach(unit => {
-    const unitLabel = isNaN(parseInt(unit)) ? unit.charAt(0).toUpperCase() + unit.slice(1) : t('unitLabel') + ' ' + unit;
-    const words = ALL_VOCAB.map((v, i) => ({ ...v, _idx: i })).filter(v => v.u === unit);
-    html += '<div class="wordlist-unit-heading">' + unitLabel + ' (' + words.length + ')</div>';
-    catOrder.forEach(cat => {
-      const catWords = words.filter(v => v.g === cat);
-      if (catWords.length === 0) return;
-      html += '<div class="wordlist-cat-heading ' + catClass[cat] + '">' + catLabel[cat] + '</div>';
-      catWords.forEach(w => {
-        const pile = srPiles[String(w._idx)];
-        const srCls = pile === 0 ? ' wl-hard' : pile === 1 ? ' wl-okay' : pile === 2 ? ' wl-known' : '';
-        let srStyle = '';
-        if (pile === 2) {
-          const cd = srCards[String(w._idx)];
-          const box = cd ? cd.box : 0;
-          const greens = ['#d1e7dd','#b6d9c8','#9bcbb3','#80bd9e','#65af89','#4aa174','#3a935f','#2a854a','#1a7735'];
-          srStyle = ' style="border-left-color:' + greens[Math.min(box, 8)] + '"';
-        }
-        html += '<div class="wordlist-word' + srCls + '"' + srStyle + '><span class="wordlist-welsh">' + w.c.replace(/</g, '&lt;') + '</span><span class="wordlist-english">' + w.e.replace(/</g, '&lt;') + '</span></div>';
-      });
-    });
-  });
-
-  const total = ALL_VOCAB.length;
-  const overlay = document.createElement('div');
-  overlay.className = 'wordlist-overlay';
-  overlay.innerHTML = '<div class="wordlist-panel">' +
-    '<div class="wordlist-header"><h2>Canolradd</h2><p>' + total + (lang === 'cy' ? ' gair' : ' words') + '</p></div>' +
-    '<div class="wordlist-body">' + html + '</div>' +
-    '<button class="wordlist-close" onclick="this.closest(\'.wordlist-overlay\').remove()">✓</button>' +
-    '</div>';
-  document.body.appendChild(overlay);
-  overlay.addEventListener('click', e => { if (e.target === overlay) overlay.remove(); });
-}
 
 loadVocab();
 

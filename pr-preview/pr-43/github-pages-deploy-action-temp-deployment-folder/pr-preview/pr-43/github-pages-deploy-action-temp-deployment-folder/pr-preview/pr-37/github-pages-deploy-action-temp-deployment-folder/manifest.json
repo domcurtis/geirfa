@@ -1,0 +1,16 @@
+{
+  "name": "Welsh Vocabulary Quiz",
+  "short_name": "Geirfa",
+  "description": "Welsh vocabulary flashcards with spaced repetition",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "background_color": "#faf7f2",
+  "theme_color": "#1a6b3c",
+  "icons": [
+    {
+      "src": "./apple-touch-icon.png",
+      "sizes": "180x180",
+      "type": "image/png"
+    }
+  ]
+}
