@@ -241,6 +241,13 @@
         <button class="mode-btn"        id="modeType" onclick="setTypingMode(true)"  data-i18n="modeType">Typing</button>
       </div>
     </div>
+    <div class="settings-group">
+      <span class="settings-label" data-i18n="dataLabel">Data</span>
+      <input type="file" id="importFileInput" accept=".json" style="display:none" onchange="importProgress(event)">
+      <button class="btn-clear-data" onclick="exportProgress()" data-i18n="exportProgress">Export backup</button>
+      <button class="btn-clear-data" onclick="document.getElementById('importFileInput').click()" data-i18n="importProgress">Import backup</button>
+      <button class="btn-clear-data" onclick="clearAllData()" data-i18n="clearProgress">Clear all progress</button>
+    </div>
   </div>
 </div>
 
@@ -307,10 +314,6 @@
   <div class="sr-stat sr-hard"  id="srStatHard"  data-count="0" onclick="reviewByPile(0)" title=""><span id="srHard">0</span> <span data-i18n="hard">Hard</span></div>
   <div class="sr-stat sr-okay"  id="srStatOkay"  data-count="0" onclick="reviewByPile(1)" title=""><span id="srOkay">0</span> <span data-i18n="okay">Okay</span></div>
   <div class="sr-stat sr-known" id="srStatKnown" data-count="0" onclick="reviewByPile(2)" title=""><span id="srKnown">0</span> <span data-i18n="gotIt">Known</span></div>
-  <button class="btn-clear-data" onclick="exportProgress()" data-i18n="exportProgress">Export backup</button>
-  <input type="file" id="importFileInput" accept=".json" style="display:none" onchange="importProgress(event)">
-  <button class="btn-clear-data" onclick="document.getElementById('importFileInput').click()" data-i18n="importProgress">Import backup</button>
-  <button class="btn-clear-data" onclick="clearAllData()" data-i18n="clearProgress">Clear all progress</button>
 </div>
 
 <div class="key-hint"><kbd>Space</kbd> <span data-i18n="kbFlip">flip</span> &nbsp;&middot;&nbsp; <kbd>1</kbd> <span data-i18n="hard">Hard</span> &nbsp;&middot;&nbsp; <kbd>2</kbd> <span data-i18n="okay">Okay</span> &nbsp;&middot;&nbsp; <kbd>3</kbd> <span data-i18n="gotIt">Got it</span></div>
@@ -1286,6 +1289,7 @@ const TRANSLATIONS = {
     completedSet: "You've been through all the cards in this set.",
     reviewWeak: 'Retry difficult words', startAgain: 'Start again',
     allKnown: 'All cards marked as Got it!',
+    dataLabel: 'Data',
     exportProgress: 'Export backup', importProgress: 'Import backup',
     confirmImport: 'This will overwrite your current progress with the backup. Continue?',
     importInvalid: 'Invalid backup file.',
@@ -1311,6 +1315,7 @@ const TRANSLATIONS = {
     completedSet: 'Rydych chi wedi gweld pob carden yn y set hon.',
     reviewWeak: 'Ailgynnig geiriau anodd', startAgain: 'Dechrau eto',
     allKnown: "Pob carden wedi'i marcio fel Wedi dysgu!",
+    dataLabel: 'Data',
     exportProgress: 'Allforio copi', importProgress: 'Mewnforio copi',
     confirmImport: 'Bydd hyn yn trosysgrifu eich cynnydd presennol. Parhau?',
     importInvalid: 'Ffeil gopi annilys.',
