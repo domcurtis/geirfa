@@ -35,6 +35,10 @@
   .settings-group { display: flex; align-items: center; gap: 10px; }
   .settings-label { font-size: 0.7rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--mid); white-space: nowrap; }
   .toolbar { width: 100%; max-width: 720px; margin-bottom: 12px; }
+  .level-bar { display: flex; gap: 7px; justify-content: center; margin-bottom: 8px; }
+  .level-btn { border: 1.5px solid var(--light); background: white; color: var(--mid); font-family: 'Source Sans 3', sans-serif; font-size: 0.78rem; font-weight: 600; letter-spacing: 0.06em; padding: 5px 13px; border-radius: 20px; cursor: pointer; transition: all .18s; }
+  .level-btn:hover { border-color: var(--hgreen); color: var(--hgreen); }
+  .level-btn.active { background: var(--hgreen); border-color: var(--hgreen); color: white; }
   .unit-bar-wrap { position: relative; width: 100%; }
   .unit-bar-wrap::before,
   .unit-bar-wrap::after { content: ''; position: absolute; top: 0; bottom: 0; width: 32px; z-index: 1; pointer-events: none; }
@@ -221,6 +225,7 @@
 </header>
 
 <div class="toolbar">
+  <div class="level-bar" id="levelBar"></div>
   <div class="unit-bar-wrap"><div class="unit-bar" id="unitBar"></div></div>
   <div id="chunkBarWrap" style="display:none"><div class="chunk-bar" id="chunkBar"></div></div>
 </div>
@@ -356,6 +361,7 @@ const BOX_INTERVALS_DAYS = [0, 1, 3, 7, 14, 30, 90, 180, 365];
 const DAY_MS = 86400000;
 
 let ALL_VOCAB = [];
+let activeLevel = 'canolradd';
 
 // ── Card data helpers ─────────────────────────────────────────────────────────
 // Per-card object: { pile, box, streak, reviewAfter, totalReviews, totalCorrect }
@@ -394,7 +400,7 @@ async function loadVocab() {
 let activeUnit = null;
 
 function getUnits() {
-  const units = [...new Set(ALL_VOCAB.map(v => v.u))];
+  const units = [...new Set(ALL_VOCAB.filter(v => v.l === activeLevel).map(v => v.u))];
   return units.sort((a, b) => {
     const na = parseInt(a), nb = parseInt(b);
     if (!isNaN(na) && !isNaN(nb)) return na - nb;
@@ -404,19 +410,20 @@ function getUnits() {
   });
 }
 
-function matchUnit(item) { return item.u === activeUnit; }
+function matchLevel(item) { return item.l === activeLevel; }
+function matchUnit(item) { return matchLevel(item) && item.u === activeUnit; }
 
 // ── Chunk helpers ────────────────────────────────────────────────────────────
 let _chunkIdxSet = null;
 
 function getUnitWordIndices(unit) {
   const indices = [];
-  ALL_VOCAB.forEach((v, i) => { if (v.u === unit) indices.push(i); });
+  ALL_VOCAB.forEach((v, i) => { if (matchLevel(v) && v.u === unit) indices.push(i); });
   return indices;
 }
 
 function getChunkCount(unit) {
-  const n = ALL_VOCAB.filter(v => v.u === unit).length;
+  const n = ALL_VOCAB.filter(v => matchLevel(v) && v.u === unit).length;
   if (n <= 20) return 1;
   return Math.ceil(n / 20);
 }
@@ -477,6 +484,7 @@ function saveMastered(s){ storage.set(MASTERY_KEY, [...s]); }
 
 function saveState() {
   storage.set(STATE_KEY, {
+    level:       activeLevel,
     unit:        activeUnit,
     chunk:       activeChunk,
     direction,
@@ -505,12 +513,14 @@ function clearAllData() {
   srCards       = {};
   srPiles       = {};
   reviewMode    = false; syncReviewBg();
+  activeLevel = 'canolradd';
   activeUnit = getUnits()[0] || null;
   activeChunk = null; rebuildChunkIdxSet();
   direction  = 'en-cy';
   rebuildDeck();
   updateDirectionUI();
   buildUnitBar();
+  buildLevelBar();
   buildChunkBar();
   updateCard();
   renderSRStats();
@@ -568,7 +578,7 @@ let reviewSessionGreen = new Set(); // cards confirmed "Got it" in the current r
 function syncReviewBg() {
   document.body.classList.toggle('review-active', reviewMode);
   const el = document.getElementById('levelLabel');
-  if (el) el.textContent = reviewMode ? (lang === 'cy' ? 'Adolygu' : 'Reviewing') : 'Canolradd';
+  if (el) el.textContent = reviewMode ? (lang === 'cy' ? 'Adolygu' : 'Reviewing') : levelLabel(activeLevel);
 }
 
 // ── Helpers ───────────────────────────────────────────────────────────────────
@@ -584,6 +594,11 @@ function getCatClass(cat) {
   return 'cat-other';
 }
 function cardKey(card) { return String(card._idx); }
+function levelLabel(level) {
+  if (level === 'canolradd') return 'Canolradd';
+  if (level === 'uwch') return 'Uwch';
+  return level.charAt(0).toUpperCase() + level.slice(1);
+}
 
 function shuffleArray(arr) {
   for (let i = arr.length - 1; i > 0; i--) {
@@ -619,7 +634,7 @@ function rebuildDeck() {
 
 // ── Mastery ───────────────────────────────────────────────────────────────────
 function getUnitMasteryState(unit) {
-  const words = ALL_VOCAB.map((v, i) => ({ ...v, _idx: i })).filter(v => v.u === unit);
+  const words = ALL_VOCAB.map((v, i) => ({ ...v, _idx: i })).filter(v => matchLevel(v) && v.u === unit);
   if (words.length === 0) return 'none';
   const known = words.filter(c => (srPiles[cardKey(c)] ?? 0) === 2).length;
   const rated = words.filter(c => srPiles[cardKey(c)] !== undefined).length;
@@ -704,8 +719,9 @@ function rateCard(pile) {
     const state = getUnitMasteryState(activeUnit);
     if (state === 'mastered') {
       const celebrated = loadMastered();
-      if (!celebrated.has(activeUnit)) {
-        celebrated.add(activeUnit);
+      const masteryKey = activeLevel + ':' + activeUnit;
+      if (!celebrated.has(masteryKey)) {
+        celebrated.add(masteryKey);
         saveMastered(celebrated);
         setTimeout(() => showMasteryCelebration(activeUnit), 400);
       }
@@ -817,9 +833,39 @@ function checkTyping() {
 // ── Unit bar ──────────────────────────────────────────────────────────────────
 function unitPillLabel(unit, state) {
   const tick  = state === 'mastered' ? ' \u2713' : '';
-  const count = ALL_VOCAB.filter(v => v.u === unit).length;
+  const count = ALL_VOCAB.filter(v => matchLevel(v) && v.u === unit).length;
   const lbl   = isNaN(parseInt(unit)) ? unit.charAt(0).toUpperCase() + unit.slice(1) : t('unitLabel') + ' ' + unit;
   return lbl + ' (' + count + ')' + tick;
+}
+
+function buildLevelBar() {
+  const bar = document.getElementById('levelBar');
+  bar.innerHTML = '';
+  [...new Set(ALL_VOCAB.map(v => v.l))].forEach(level => {
+    const btn = document.createElement('button');
+    btn.className = 'level-btn' + (level === activeLevel ? ' active' : '');
+    btn.textContent = levelLabel(level);
+    btn.onclick = () => setLevel(level);
+    bar.appendChild(btn);
+  });
+}
+
+function setLevel(level) {
+  if (level === activeLevel) return;
+  restoreReviewSnapshot();
+  activeLevel = level;
+  activeUnit = getUnits()[0] || null;
+  activeChunk = firstUnmasteredChunk(activeUnit);
+  reviewMode = false;
+  rebuildChunkIdxSet();
+  syncReviewBg();
+  rebuildDeck();
+  buildLevelBar();
+  buildUnitBar();
+  buildChunkBar();
+  renderSRStats();
+  if (typingMode) renderTypingCard(); else updateCard();
+  saveState();
 }
 
 function updateReviewFab() {
@@ -928,8 +974,9 @@ function setChunk(chunkIndex) {
 // ── Word count in subtitle ────────────────────────────────────────────────────
 // Shows total words and global "Known" (green) count across ALL units.
 function updateWordCount() {
-  const total = ALL_VOCAB.length;
-  const green = ALL_VOCAB.filter((_, i) => srPiles[String(i)] === 2).length;
+  const levelWords = ALL_VOCAB.map((v, i) => ({ ...v, _idx: i })).filter(matchLevel);
+  const total = levelWords.length;
+  const green = levelWords.filter(v => srPiles[String(v._idx)] === 2).length;
   const el = document.getElementById('wordCountLabel');
   if (!el) return;
   if (green > 0) {
@@ -1144,6 +1191,7 @@ function getDueCards() {
   return ALL_VOCAB
     .map((v, i) => ({ ...v, _idx: i }))
     .filter(v => {
+      if (!matchLevel(v)) return false;
       const cd = srCards[cardKey(v)];
       return cd && cd.pile === 2 && cd.reviewAfter <= now;
     })
@@ -1243,13 +1291,17 @@ document.addEventListener('keydown', e => {
 function init() {
   restoreReviewSnapshot(); // undo any review session interrupted by a page reload
   const saved = loadState();
+  const levels = [...new Set(ALL_VOCAB.map(v => v.l))];
+  activeLevel = levels.includes(saved.level) ? saved.level : (levels.includes('canolradd') ? 'canolradd' : levels[0]);
   activeUnit = saved.unit || getUnits()[0] || null;
+  if (!getUnits().includes(activeUnit)) activeUnit = getUnits()[0] || null;
   activeChunk = saved.chunk !== undefined ? saved.chunk : null;
   if (activeChunk !== null && activeUnit && activeChunk >= getChunkCount(activeUnit)) activeChunk = null;
   rebuildChunkIdxSet();
   if (saved.direction) direction = saved.direction;
 
   rebuildDeck();
+  buildLevelBar();
   buildUnitBar();
   buildChunkBar();
   renderSRStats();
@@ -1373,7 +1425,7 @@ function showWordList() {
   let html = '';
   units.forEach(unit => {
     const unitLabel = isNaN(parseInt(unit)) ? unit.charAt(0).toUpperCase() + unit.slice(1) : t('unitLabel') + ' ' + unit;
-    const words = ALL_VOCAB.map((v, i) => ({ ...v, _idx: i })).filter(v => v.u === unit);
+    const words = ALL_VOCAB.map((v, i) => ({ ...v, _idx: i })).filter(v => matchLevel(v) && v.u === unit);
     html += '<div class="wordlist-unit-heading">' + unitLabel + ' (' + words.length + ')</div>';
     catOrder.forEach(cat => {
       const catWords = words.filter(v => v.g === cat);
@@ -1394,11 +1446,11 @@ function showWordList() {
     });
   });
 
-  const total = ALL_VOCAB.length;
+  const total = ALL_VOCAB.filter(matchLevel).length;
   const overlay = document.createElement('div');
   overlay.className = 'wordlist-overlay';
   overlay.innerHTML = '<div class="wordlist-panel">' +
-    '<div class="wordlist-header"><h2>Canolradd</h2><p>' + total + (lang === 'cy' ? ' gair' : ' words') + '</p></div>' +
+    '<div class="wordlist-header"><h2>' + levelLabel(activeLevel) + '</h2><p>' + total + (lang === 'cy' ? ' gair' : ' words') + '</p></div>' +
     '<div class="wordlist-body">' + html + '</div>' +
     '<button class="wordlist-close" onclick="this.closest(\'.wordlist-overlay\').remove()">✓</button>' +
     '</div>';
