@@ -451,7 +451,7 @@ function rebuildChunkIdxSet() {
 }
 
 function matchUnitAndChunk(item) {
-  if (item.u !== activeUnit) return false;
+  if (!matchUnit(item)) return false;
   if (activeChunk === null) return true;
   return _chunkIdxSet && _chunkIdxSet.has(item._idx);
 }
