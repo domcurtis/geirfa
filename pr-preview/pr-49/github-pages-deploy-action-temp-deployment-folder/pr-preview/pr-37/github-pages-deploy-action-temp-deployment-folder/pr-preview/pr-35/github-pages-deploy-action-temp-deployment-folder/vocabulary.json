@@ -1,0 +1,6358 @@
+[
+    {
+        "category": "feminine noun",
+        "level": "canolradd",
+        "unit": "1",
+        "word_english": "society (societies)",
+        "word_welsh": "cymdeithas(au)"
+    },
+    {
+        "category": "feminine noun",
+        "level": "canolradd",
+        "unit": "1",
+        "word_english": "stream(s), creek(s)",
+        "word_welsh": "nant (nentydd)"
+    },
+    {
+        "category": "feminine noun",
+        "level": "canolradd",
+        "unit": "1",
+        "word_english": "relative(s), relations(s)",
+        "word_welsh": "perthynas (perthnasau)"
+    },
+    {
+        "category": "feminine noun",
+        "level": "canolradd",
+        "unit": "1",
+        "word_english": "ward(s)",
+        "word_welsh": "ward(iau)"
+    },
+    {
+        "category": "masculine noun",
+        "level": "canolradd",
+        "unit": "1",
+        "word_english": "opening(s)",
+        "word_welsh": "agoriad(au)"
+    },
+    {
+        "category": "masculine noun",
+        "level": "canolradd",
+        "unit": "1",
+        "word_english": "conductor(s); leader(s)",
+        "word_welsh": "arweinydd (arweinyddion)"
+    },
+    {
+        "category": "masculine noun",
+        "level": "canolradd",
+        "unit": "1",
+        "word_english": "patient(s)",
+        "word_welsh": "claf (cleifion)"
+    },
+    {
+        "category": "masculine noun",
+        "level": "canolradd",
+        "unit": "1",
+        "word_english": "event(s)",
+        "word_welsh": "digwyddiad(au)"
+    },
+    {
+        "category": "masculine noun",
+        "level": "canolradd",
+        "unit": "1",
+        "word_english": "difference(s)",
+        "word_welsh": "gwahaniaeth(au)"
+    },
+    {
+        "category": "masculine noun",
+        "level": "canolradd",
+        "unit": "1",
+        "word_english": "age(s)",
+        "word_welsh": "oedran(nau)"
+    },
+    {
+        "category": "masculine noun",
+        "level": "canolradd",
+        "unit": "1",
+        "word_english": "partner(s)",
+        "word_welsh": "partner(iaid)"
+    },
+    {
+        "category": "masculine noun",
+        "level": "canolradd",
+        "unit": "1",
+        "word_english": "attention, remark(s)",
+        "word_welsh": "sylw(adau)"
+    },
+    {
+        "category": "adjective",
+        "level": "canolradd",
+        "unit": "1",
+        "word_english": "meddlesome, nosy",
+        "word_welsh": "busneslyd"
+    },
+    {
+        "category": "adjective",
+        "level": "canolradd",
+        "unit": "1",
+        "word_english": "lucky",
+        "word_welsh": "lwcus"
+    },
+    {
+        "category": "verb",
+        "level": "canolradd",
+        "unit": "1",
+        "word_english": "to greet",
+        "word_welsh": "cyfarch"
+    },
+    {
+        "category": "verb",
+        "level": "canolradd",
+        "unit": "1",
+        "word_english": "to introduce, to present",
+        "word_welsh": "cyflwyno"
+    },
+    {
+        "category": "verb",
+        "level": "canolradd",
+        "unit": "1",
+        "word_english": "to sound",
+        "word_welsh": "swnio"
+    },
+    {
+        "category": "verb",
+        "level": "canolradd",
+        "unit": "1",
+        "word_english": "to join",
+        "word_welsh": "ymuno (â)"
+    },
+    {
+        "category": "other",
+        "level": "canolradd",
+        "unit": "1",
+        "word_english": "at the moment",
+        "word_welsh": "ar hyn o bryd"
+    },
+    {
+        "category": "other",
+        "level": "canolradd",
+        "unit": "1",
+        "word_english": "lockdown",
+        "word_welsh": "cyfnod clo"
+    },
+    {
+        "category": "other",
+        "level": "canolradd",
+        "unit": "1",
+        "word_english": "by the way",
+        "word_welsh": "gyda llaw"
+    },
+    {
+        "category": "other",
+        "level": "canolradd",
+        "unit": "1",
+        "word_english": "in my element",
+        "word_welsh": "wrth fy modd"
+    },
+    {
+        "category": "feminine noun",
+        "level": "canolradd",
+        "unit": "2",
+        "word_english": "brick(s)",
+        "word_welsh": "bricsen (brics)"
+    },
+    {
+        "category": "feminine noun",
+        "level": "canolradd",
+        "unit": "2",
+        "word_english": "branch(es)",
+        "word_welsh": "cangen (canghennau)"
+    },
+    {
+        "category": "feminine noun",
+        "level": "canolradd",
+        "unit": "2",
+        "word_english": "orchestra(s)",
+        "word_welsh": "cerddorfa (cerddorfeydd)"
+    },
+    {
+        "category": "feminine noun",
+        "level": "canolradd",
+        "unit": "2",
+        "word_english": "favour(s)",
+        "word_welsh": "cymwynas(au)"
+    },
+    {
+        "category": "feminine noun",
+        "level": "canolradd",
+        "unit": "2",
+        "word_english": "rule(s)",
+        "word_welsh": "rheol(au)"
+    },
+    {
+        "category": "feminine noun",
+        "level": "canolradd",
+        "unit": "2",
+        "word_english": "chance(s)",
+        "word_welsh": "siawns(iau)"
+    },
+    {
+        "category": "feminine noun",
+        "level": "canolradd",
+        "unit": "2",
+        "word_english": "order, arrangement(s)",
+        "word_welsh": "trefn(iadau)"
+    },
+    {
+        "category": "masculine noun",
+        "level": "canolradd",
+        "unit": "2",
+        "word_english": "Member(s) of the Senedd",
+        "word_welsh": "Aelod(au) o'r Senedd"
+    },
+    {
+        "category": "masculine noun",
+        "level": "canolradd",
+        "unit": "2",
+        "word_english": "Member(s) of Parliament",
+        "word_welsh": "Aelod(au) Seneddol"
+    },
+    {
+        "category": "masculine noun",
+        "level": "canolradd",
+        "unit": "2",
+        "word_english": "dirt",
+        "word_welsh": "baw"
+    },
+    {
+        "category": "masculine noun",
+        "level": "canolradd",
+        "unit": "2",
+        "word_english": "lie(s)",
+        "word_welsh": "celwydd(au)"
+    },
+    {
+        "category": "masculine noun",
+        "level": "canolradd",
+        "unit": "2",
+        "word_english": "summit(s)",
+        "word_welsh": "copa(on)"
+    },
+    {
+        "category": "masculine noun",
+        "level": "canolradd",
+        "unit": "2",
+        "word_english": "wage(s), salary (salaries)",
+        "word_welsh": "cyflog(au)"
+    },
+    {
+        "category": "masculine noun",
+        "level": "canolradd",
+        "unit": "2",
+        "word_english": "drug(s)",
+        "word_welsh": "cyffur(iau)"
+    },
+    {
+        "category": "masculine noun",
+        "level": "canolradd",
+        "unit": "2",
+        "word_english": "waste",
+        "word_welsh": "gwastraff"
+    },
+    {
+        "category": "masculine noun",
+        "level": "canolradd",
+        "unit": "2",
+        "word_english": "policy(-ies)",
+        "word_welsh": "polisi (polisïau)"
+    },
+    {
+        "category": "adjective",
+        "level": "canolradd",
+        "unit": "2",
+        "word_english": "unhappy",
+        "word_welsh": "anhapus"
+    },
+    {
+        "category": "adjective",
+        "level": "canolradd",
+        "unit": "2",
+        "word_english": "certain",
+        "word_welsh": "sicr"
+    },
+    {
+        "category": "adjective",
+        "level": "canolradd",
+        "unit": "2",
+        "word_english": "stuck",
+        "word_welsh": "sownd"
+    },
+    {
+        "category": "adjective",
+        "level": "canolradd",
+        "unit": "2",
+        "word_english": "official",
+        "word_welsh": "swyddogol"
+    },
+    {
+        "category": "adjective",
+        "level": "canolradd",
+        "unit": "2",
+        "word_english": "talented",
+        "word_welsh": "talentog"
+    },
+    {
+        "category": "verb",
+        "level": "canolradd",
+        "unit": "2",
+        "word_english": "to create",
+        "word_welsh": "creu"
+    },
+    {
+        "category": "verb",
+        "level": "canolradd",
+        "unit": "2",
+        "word_english": "to make a noise",
+        "word_welsh": "cadw sŵn"
+    },
+    {
+        "category": "verb",
+        "level": "canolradd",
+        "unit": "2",
+        "word_english": "to cross",
+        "word_welsh": "croesi"
+    },
+    {
+        "category": "verb",
+        "level": "canolradd",
+        "unit": "2",
+        "word_english": "to heat up",
+        "word_welsh": "cynhesu"
+    },
+    {
+        "category": "verb",
+        "level": "canolradd",
+        "unit": "2",
+        "word_english": "to accept, to receive",
+        "word_welsh": "derbyn"
+    },
+    {
+        "category": "verb",
+        "level": "canolradd",
+        "unit": "2",
+        "word_english": "to drop",
+        "word_welsh": "gollwng"
+    },
+    {
+        "category": "verb",
+        "level": "canolradd",
+        "unit": "2",
+        "word_english": "to lie down",
+        "word_welsh": "gorwedd"
+    },
+    {
+        "category": "verb",
+        "level": "canolradd",
+        "unit": "2",
+        "word_english": "to insist",
+        "word_welsh": "mynnu"
+    },
+    {
+        "category": "verb",
+        "level": "canolradd",
+        "unit": "2",
+        "word_english": "to jump",
+        "word_welsh": "neidio"
+    },
+    {
+        "category": "verb",
+        "level": "canolradd",
+        "unit": "2",
+        "word_english": "to grow dark",
+        "word_welsh": "tywyllu"
+    },
+    {
+        "category": "other",
+        "level": "canolradd",
+        "unit": "2",
+        "word_english": "awake",
+        "word_welsh": "ar ddihun"
+    },
+    {
+        "category": "other",
+        "level": "canolradd",
+        "unit": "2",
+        "word_english": "apart from",
+        "word_welsh": "heblaw am"
+    },
+    {
+        "category": "other",
+        "level": "canolradd",
+        "unit": "2",
+        "word_english": "supposed to",
+        "word_welsh": "i fod i"
+    },
+    {
+        "category": "other",
+        "level": "canolradd",
+        "unit": "2",
+        "word_english": "below",
+        "word_welsh": "isod"
+    },
+    {
+        "category": "other",
+        "level": "canolradd",
+        "unit": "2",
+        "word_english": "small change",
+        "word_welsh": "newid mân (arian)"
+    },
+    {
+        "category": "other",
+        "level": "canolradd",
+        "unit": "2",
+        "word_english": "in front of",
+        "word_welsh": "o flaen"
+    },
+    {
+        "category": "other",
+        "level": "canolradd",
+        "unit": "2",
+        "word_english": "small hours",
+        "word_welsh": "oriau mân"
+    },
+    {
+        "category": "other",
+        "level": "canolradd",
+        "unit": "2",
+        "word_english": "lately, recently",
+        "word_welsh": "yn ddiweddar"
+    },
+    {
+        "category": "feminine noun",
+        "level": "canolradd",
+        "unit": "3",
+        "word_english": "series",
+        "word_welsh": "cyfres(i)"
+    },
+    {
+        "category": "feminine noun",
+        "level": "canolradd",
+        "unit": "3",
+        "word_english": "article(s)",
+        "word_welsh": "erthygl(au)"
+    },
+    {
+        "category": "feminine noun",
+        "level": "canolradd",
+        "unit": "3",
+        "word_english": "death(s)",
+        "word_welsh": "marwolaeth(au)"
+    },
+    {
+        "category": "feminine noun",
+        "level": "canolradd",
+        "unit": "3",
+        "word_english": "situation(s)",
+        "word_welsh": "sefyllfa(oedd)"
+    },
+    {
+        "category": "masculine noun",
+        "level": "canolradd",
+        "unit": "3",
+        "word_english": "collection(s)",
+        "word_welsh": "casgliad(au)"
+    },
+    {
+        "category": "masculine noun",
+        "level": "canolradd",
+        "unit": "3",
+        "word_english": "councillor(s)",
+        "word_welsh": "cynghorydd (cynghorwyr)"
+    },
+    {
+        "category": "masculine noun",
+        "level": "canolradd",
+        "unit": "3",
+        "word_english": "sleet",
+        "word_welsh": "eirlaw"
+    },
+    {
+        "category": "masculine noun",
+        "level": "canolradd",
+        "unit": "3",
+        "word_english": "slope(s)",
+        "word_welsh": "llethr(au)"
+    },
+    {
+        "category": "masculine noun",
+        "level": "canolradd",
+        "unit": "3",
+        "word_english": "plastic(s)",
+        "word_welsh": "plastig(au)"
+    },
+    {
+        "category": "adjective",
+        "level": "canolradd",
+        "unit": "3",
+        "word_english": "obvious, evident",
+        "word_welsh": "amlwg"
+    },
+    {
+        "category": "adjective",
+        "level": "canolradd",
+        "unit": "3",
+        "word_english": "nasty, unpleasant",
+        "word_welsh": "annifyr"
+    },
+    {
+        "category": "adjective",
+        "level": "canolradd",
+        "unit": "3",
+        "word_english": "tired",
+        "word_welsh": "blinedig"
+    },
+    {
+        "category": "adjective",
+        "level": "canolradd",
+        "unit": "3",
+        "word_english": "comfortable",
+        "word_welsh": "cyfforddus"
+    },
+    {
+        "category": "adjective",
+        "level": "canolradd",
+        "unit": "3",
+        "word_english": "complicated",
+        "word_welsh": "cymhleth"
+    },
+    {
+        "category": "adjective",
+        "level": "canolradd",
+        "unit": "3",
+        "word_english": "entertaining",
+        "word_welsh": "difyr"
+    },
+    {
+        "category": "adjective",
+        "level": "canolradd",
+        "unit": "3",
+        "word_english": "depressed, depressing",
+        "word_welsh": "digalon"
+    },
+    {
+        "category": "adjective",
+        "level": "canolradd",
+        "unit": "3",
+        "word_english": "slippery",
+        "word_welsh": "llithrig"
+    },
+    {
+        "category": "adjective",
+        "level": "canolradd",
+        "unit": "3",
+        "word_english": "excellent",
+        "word_welsh": "rhagorol"
+    },
+    {
+        "category": "adjective",
+        "level": "canolradd",
+        "unit": "3",
+        "word_english": "icy",
+        "word_welsh": "rhewllyd"
+    },
+    {
+        "category": "adjective",
+        "level": "canolradd",
+        "unit": "3",
+        "word_english": "steep",
+        "word_welsh": "serth"
+    },
+    {
+        "category": "adjective",
+        "level": "canolradd",
+        "unit": "3",
+        "word_english": "twisty, windy",
+        "word_welsh": "troellog"
+    },
+    {
+        "category": "verb",
+        "level": "canolradd",
+        "unit": "3",
+        "word_english": "to recycle",
+        "word_welsh": "ailgylchu"
+    },
+    {
+        "category": "verb",
+        "level": "canolradd",
+        "unit": "3",
+        "word_english": "to save",
+        "word_welsh": "arbed"
+    },
+    {
+        "category": "verb",
+        "level": "canolradd",
+        "unit": "3",
+        "word_english": "to argue (with)",
+        "word_welsh": "dadlau (â)"
+    },
+    {
+        "category": "verb",
+        "level": "canolradd",
+        "unit": "3",
+        "word_english": "to kill",
+        "word_welsh": "lladd"
+    },
+    {
+        "category": "verb",
+        "level": "canolradd",
+        "unit": "3",
+        "word_english": "to slip",
+        "word_welsh": "llithro"
+    },
+    {
+        "category": "verb",
+        "level": "canolradd",
+        "unit": "3",
+        "word_english": "to surprise; to be surprised",
+        "word_welsh": "synnu"
+    },
+    {
+        "category": "other",
+        "level": "canolradd",
+        "unit": "3",
+        "word_english": "to have your say",
+        "word_welsh": "dweud eich dweud"
+    },
+    {
+        "category": "other",
+        "level": "canolradd",
+        "unit": "3",
+        "word_english": "application form",
+        "word_welsh": "ffurflen gais"
+    },
+    {
+        "category": "other",
+        "level": "canolradd",
+        "unit": "3",
+        "word_english": "away from home",
+        "word_welsh": "oddi cartre"
+    },
+    {
+        "category": "other",
+        "level": "canolradd",
+        "unit": "3",
+        "word_english": "mwy (quantity)",
+        "word_welsh": "rhagor"
+    },
+    {
+        "category": "feminine noun",
+        "level": "canolradd",
+        "unit": "4",
+        "word_english": "air, sky",
+        "word_welsh": "awyr"
+    },
+    {
+        "category": "feminine noun",
+        "level": "canolradd",
+        "unit": "4",
+        "word_english": "community (communities)",
+        "word_welsh": "cymuned(au)"
+    },
+    {
+        "category": "feminine noun",
+        "level": "canolradd",
+        "unit": "4",
+        "word_english": "trip(s), excursion(s)",
+        "word_welsh": "gwibdaith (gwibdeithiau)"
+    },
+    {
+        "category": "feminine noun",
+        "level": "canolradd",
+        "unit": "4",
+        "word_english": "fire engine(s)",
+        "word_welsh": "injan dân (injans tân)"
+    },
+    {
+        "category": "feminine noun",
+        "level": "canolradd",
+        "unit": "4",
+        "word_english": "spade(s)",
+        "word_welsh": "rhaw(iau)"
+    },
+    {
+        "category": "masculine noun",
+        "level": "canolradd",
+        "unit": "4",
+        "word_english": "lifeboat(s)",
+        "word_welsh": "bad(au) achub"
+    },
+    {
+        "category": "masculine noun",
+        "level": "canolradd",
+        "unit": "4",
+        "word_english": "business(es)",
+        "word_welsh": "busnes(au)"
+    },
+    {
+        "category": "masculine noun",
+        "level": "canolradd",
+        "unit": "4",
+        "word_english": "help",
+        "word_welsh": "cymorth"
+    },
+    {
+        "category": "masculine noun",
+        "level": "canolradd",
+        "unit": "4",
+        "word_english": "safety",
+        "word_welsh": "diogelwch"
+    },
+    {
+        "category": "masculine noun",
+        "level": "canolradd",
+        "unit": "4",
+        "word_english": "cold (tywydd)",
+        "word_welsh": "oerfel"
+    },
+    {
+        "category": "masculine noun",
+        "level": "canolradd",
+        "unit": "4",
+        "word_english": "owner(s)",
+        "word_welsh": "perchennog (perchnogion)"
+    },
+    {
+        "category": "masculine noun",
+        "level": "canolradd",
+        "unit": "4",
+        "word_english": "committee(s)",
+        "word_welsh": "pwyllgor(au)"
+    },
+    {
+        "category": "masculine noun",
+        "level": "canolradd",
+        "unit": "4",
+        "word_english": "noise(s)",
+        "word_welsh": "sŵn (synau)"
+    },
+    {
+        "category": "masculine noun",
+        "level": "canolradd",
+        "unit": "4",
+        "word_english": "officer(s), official(s)",
+        "word_welsh": "swyddog(ion)"
+    },
+    {
+        "category": "verb",
+        "level": "canolradd",
+        "unit": "4",
+        "word_english": "to injure",
+        "word_welsh": "anafu"
+    },
+    {
+        "category": "verb",
+        "level": "canolradd",
+        "unit": "4",
+        "word_english": "to appeal (to)",
+        "word_welsh": "apelio (at)"
+    },
+    {
+        "category": "verb",
+        "level": "canolradd",
+        "unit": "4",
+        "word_english": "to push",
+        "word_welsh": "gwthio"
+    },
+    {
+        "category": "verb",
+        "level": "canolradd",
+        "unit": "4",
+        "word_english": "to dig",
+        "word_welsh": "palu"
+    },
+    {
+        "category": "verb",
+        "level": "canolradd",
+        "unit": "4",
+        "word_english": "to mention",
+        "word_welsh": "sôn"
+    },
+    {
+        "category": "adjective",
+        "level": "canolradd",
+        "unit": "4",
+        "word_english": "useful",
+        "word_welsh": "defnyddiol"
+    },
+    {
+        "category": "adjective",
+        "level": "canolradd",
+        "unit": "4",
+        "word_english": "real",
+        "word_welsh": "go iawn"
+    },
+    {
+        "category": "adjective",
+        "level": "canolradd",
+        "unit": "4",
+        "word_english": "definite",
+        "word_welsh": "pendant"
+    },
+    {
+        "category": "other",
+        "level": "canolradd",
+        "unit": "4",
+        "word_english": "first aid",
+        "word_welsh": "cymorth cyntaf"
+    },
+    {
+        "category": "other",
+        "level": "canolradd",
+        "unit": "4",
+        "word_english": "health and safety",
+        "word_welsh": "iechyd a diogelwch"
+    },
+    {
+        "category": "other",
+        "level": "canolradd",
+        "unit": "4",
+        "word_english": "to give up",
+        "word_welsh": "rhoi'r gorau i"
+    },
+    {
+        "category": "other",
+        "level": "canolradd",
+        "unit": "4",
+        "word_english": "fun and games",
+        "word_welsh": "sbort a sbri"
+    },
+    {
+        "category": "feminine noun",
+        "level": "canolradd",
+        "unit": "5",
+        "word_english": "education",
+        "word_welsh": "addysg"
+    },
+    {
+        "category": "feminine noun",
+        "level": "canolradd",
+        "unit": "5",
+        "word_english": "quarry (-ies)",
+        "word_welsh": "chwarel(i)"
+    },
+    {
+        "category": "feminine noun",
+        "level": "canolradd",
+        "unit": "5",
+        "word_english": "tale(s)",
+        "word_welsh": "chwedl(au)"
+    },
+    {
+        "category": "feminine noun",
+        "level": "canolradd",
+        "unit": "5",
+        "word_english": "shore(s), bank(s)",
+        "word_welsh": "glan(nau)"
+    },
+    {
+        "category": "feminine noun",
+        "level": "canolradd",
+        "unit": "5",
+        "word_english": "seagull(s)",
+        "word_welsh": "gwylan(od)"
+    },
+    {
+        "category": "feminine noun",
+        "level": "canolradd",
+        "unit": "5",
+        "word_english": "slate(s)",
+        "word_welsh": "llechen (llechi)"
+    },
+    {
+        "category": "feminine noun",
+        "level": "canolradd",
+        "unit": "5",
+        "word_english": "lightning",
+        "word_welsh": "mellten (mellt)"
+    },
+    {
+        "category": "feminine noun",
+        "level": "canolradd",
+        "unit": "5",
+        "word_english": "cruise(s)",
+        "word_welsh": "mordaith (mordeithiau)"
+    },
+    {
+        "category": "feminine noun",
+        "level": "canolradd",
+        "unit": "5",
+        "word_english": "gallery (-ies)",
+        "word_welsh": "oriel(au)"
+    },
+    {
+        "category": "feminine noun",
+        "level": "canolradd",
+        "unit": "5",
+        "word_english": "standard(s)",
+        "word_welsh": "safon(au)"
+    },
+    {
+        "category": "feminine noun",
+        "level": "canolradd",
+        "unit": "5",
+        "word_english": "torch(es)",
+        "word_welsh": "tortsh(ys)"
+    },
+    {
+        "category": "masculine noun",
+        "level": "canolradd",
+        "unit": "5",
+        "word_english": "bone(s)",
+        "word_welsh": "asgwrn (esgyrn)"
+    },
+    {
+        "category": "masculine noun",
+        "level": "canolradd",
+        "unit": "5",
+        "word_english": "judge(s), adjudicator(s)",
+        "word_welsh": "beirniad (beirniaid)"
+    },
+    {
+        "category": "masculine noun",
+        "level": "canolradd",
+        "unit": "5",
+        "word_english": "cowshed(s)",
+        "word_welsh": "beudy (beudai)"
+    },
+    {
+        "category": "masculine noun",
+        "level": "canolradd",
+        "unit": "5",
+        "word_english": "facility (-ies)",
+        "word_welsh": "cyfleuster(au)"
+    },
+    {
+        "category": "masculine noun",
+        "level": "canolradd",
+        "unit": "5",
+        "word_english": "period(s) (amser)",
+        "word_welsh": "cyfnod(au)"
+    },
+    {
+        "category": "masculine noun",
+        "level": "canolradd",
+        "unit": "5",
+        "word_english": "use",
+        "word_welsh": "defnydd"
+    },
+    {
+        "category": "masculine noun",
+        "level": "canolradd",
+        "unit": "5",
+        "word_english": "guest(s)",
+        "word_welsh": "gwestai (gwesteion)"
+    },
+    {
+        "category": "masculine noun",
+        "level": "canolradd",
+        "unit": "5",
+        "word_english": "questionnaire(s)",
+        "word_welsh": "holiadur(on)"
+    },
+    {
+        "category": "masculine noun",
+        "level": "canolradd",
+        "unit": "5",
+        "word_english": "location(s)",
+        "word_welsh": "lleoliad(au)"
+    },
+    {
+        "category": "masculine noun",
+        "level": "canolradd",
+        "unit": "5",
+        "word_english": "lake(s)",
+        "word_welsh": "llyn(noedd)"
+    },
+    {
+        "category": "masculine noun",
+        "level": "canolradd",
+        "unit": "5",
+        "word_english": "mark(s)",
+        "word_welsh": "marc(iau)"
+    },
+    {
+        "category": "masculine noun",
+        "level": "canolradd",
+        "unit": "5",
+        "word_english": "pleasure(s)",
+        "word_welsh": "pleser(au)"
+    },
+    {
+        "category": "masculine noun",
+        "level": "canolradd",
+        "unit": "5",
+        "word_english": "skeleton(s)",
+        "word_welsh": "sgerbwd (sgerbydau)"
+    },
+    {
+        "category": "masculine noun",
+        "level": "canolradd",
+        "unit": "5",
+        "word_english": "silk",
+        "word_welsh": "sidan"
+    },
+    {
+        "category": "masculine noun",
+        "level": "canolradd",
+        "unit": "5",
+        "word_english": "tourist(s)",
+        "word_welsh": "twrist(iaid)"
+    },
+    {
+        "category": "verb",
+        "level": "canolradd",
+        "unit": "5",
+        "word_english": "to cause",
+        "word_welsh": "achosi"
+    },
+    {
+        "category": "verb",
+        "level": "canolradd",
+        "unit": "5",
+        "word_english": "to wander, to roam",
+        "word_welsh": "crwydro"
+    },
+    {
+        "category": "verb",
+        "level": "canolradd",
+        "unit": "5",
+        "word_english": "to hold (event)",
+        "word_welsh": "cynnal"
+    },
+    {
+        "category": "verb",
+        "level": "canolradd",
+        "unit": "5",
+        "word_english": "to come to an end",
+        "word_welsh": "dod i ben"
+    },
+    {
+        "category": "adjective",
+        "level": "canolradd",
+        "unit": "5",
+        "word_english": "absent",
+        "word_welsh": "absennol"
+    },
+    {
+        "category": "adjective",
+        "level": "canolradd",
+        "unit": "5",
+        "word_english": "huge",
+        "word_welsh": "anferth"
+    },
+    {
+        "category": "adjective",
+        "level": "canolradd",
+        "unit": "5",
+        "word_english": "pricey",
+        "word_welsh": "costus"
+    },
+    {
+        "category": "adjective",
+        "level": "canolradd",
+        "unit": "5",
+        "word_english": "frightening",
+        "word_welsh": "dychrynllyd"
+    },
+    {
+        "category": "adjective",
+        "level": "canolradd",
+        "unit": "5",
+        "word_english": "folk",
+        "word_welsh": "gwerin"
+    },
+    {
+        "category": "adjective",
+        "level": "canolradd",
+        "unit": "5",
+        "word_english": "brand new",
+        "word_welsh": "newydd sbon"
+    },
+    {
+        "category": "other",
+        "level": "canolradd",
+        "unit": "5",
+        "word_english": "along",
+        "word_welsh": "ar hyd"
+    },
+    {
+        "category": "other",
+        "level": "canolradd",
+        "unit": "5",
+        "word_english": "despite",
+        "word_welsh": "er gwaetha"
+    },
+    {
+        "category": "other",
+        "level": "canolradd",
+        "unit": "5",
+        "word_english": "bellyful (fed up)",
+        "word_welsh": "llond bola"
+    },
+    {
+        "category": "other",
+        "level": "canolradd",
+        "unit": "5",
+        "word_english": "at least",
+        "word_welsh": "o leia"
+    },
+    {
+        "category": "feminine noun",
+        "level": "canolradd",
+        "unit": "6",
+        "word_english": "department(s)",
+        "word_welsh": "adran(nau)"
+    },
+    {
+        "category": "feminine noun",
+        "level": "canolradd",
+        "unit": "6",
+        "word_english": "envelope(s)",
+        "word_welsh": "amlen(ni)"
+    },
+    {
+        "category": "feminine noun",
+        "level": "canolradd",
+        "unit": "6",
+        "word_english": "support",
+        "word_welsh": "cefnogaeth"
+    },
+    {
+        "category": "feminine noun",
+        "level": "canolradd",
+        "unit": "6",
+        "word_english": "audience(s); congregation(s)",
+        "word_welsh": "cynulleidfa(oedd)"
+    },
+    {
+        "category": "feminine noun",
+        "level": "canolradd",
+        "unit": "6",
+        "word_english": "loop(s); link(s); handle(s)",
+        "word_welsh": "dolen(ni)"
+    },
+    {
+        "category": "feminine noun",
+        "level": "canolradd",
+        "unit": "6",
+        "word_english": "cathedral(s)",
+        "word_welsh": "eglwys gadeiriol (eglwysi cadeiriol)"
+    },
+    {
+        "category": "feminine noun",
+        "level": "canolradd",
+        "unit": "6",
+        "word_english": "mood(s)",
+        "word_welsh": "hwyl(iau)"
+    },
+    {
+        "category": "feminine noun",
+        "level": "canolradd",
+        "unit": "6",
+        "word_english": "entrance(s)",
+        "word_welsh": "mynedfa (mynedfeydd)"
+    },
+    {
+        "category": "feminine noun",
+        "level": "canolradd",
+        "unit": "6",
+        "word_english": "tourism",
+        "word_welsh": "twristiaeth"
+    },
+    {
+        "category": "masculine noun",
+        "level": "canolradd",
+        "unit": "6",
+        "word_english": "environment",
+        "word_welsh": "amgylchedd"
+    },
+    {
+        "category": "masculine noun",
+        "level": "canolradd",
+        "unit": "6",
+        "word_english": "memory (-ies); recollection(s)",
+        "word_welsh": "atgof(ion)"
+    },
+    {
+        "category": "masculine noun",
+        "level": "canolradd",
+        "unit": "6",
+        "word_english": "dream(s)",
+        "word_welsh": "breuddwyd (ion)"
+    },
+    {
+        "category": "masculine noun",
+        "level": "canolradd",
+        "unit": "6",
+        "word_english": "note, (written) record, (minutes)",
+        "word_welsh": "cofnod(ion)"
+    },
+    {
+        "category": "masculine noun",
+        "level": "canolradd",
+        "unit": "6",
+        "word_english": "friend(s)",
+        "word_welsh": "cyfaill (cyfeillion)"
+    },
+    {
+        "category": "masculine noun",
+        "level": "canolradd",
+        "unit": "6",
+        "word_english": "accountant(s)",
+        "word_welsh": "cyfrifydd (cyfrifwyr)"
+    },
+    {
+        "category": "masculine noun",
+        "level": "canolradd",
+        "unit": "6",
+        "word_english": "boredom",
+        "word_welsh": "diflastod"
+    },
+    {
+        "category": "masculine noun",
+        "level": "canolradd",
+        "unit": "6",
+        "word_english": "industry (-ies)",
+        "word_welsh": "diwydiant (diwydiannau)"
+    },
+    {
+        "category": "masculine noun",
+        "level": "canolradd",
+        "unit": "6",
+        "word_english": "chemist(s)",
+        "word_welsh": "fferyllydd (fferyllwyr)"
+    },
+    {
+        "category": "masculine noun",
+        "level": "canolradd",
+        "unit": "6",
+        "word_english": "fitness",
+        "word_welsh": "ffitrwydd"
+    },
+    {
+        "category": "masculine noun",
+        "level": "canolradd",
+        "unit": "6",
+        "word_english": "laptop(s)",
+        "word_welsh": "gliniadur(on)"
+    },
+    {
+        "category": "masculine noun",
+        "level": "canolradd",
+        "unit": "6",
+        "word_english": "hairdresser's",
+        "word_welsh": "siop trin gwallt"
+    },
+    {
+        "category": "masculine noun",
+        "level": "canolradd",
+        "unit": "6",
+        "word_english": "rest",
+        "word_welsh": "gorffwys"
+    },
+    {
+        "category": "masculine noun",
+        "level": "canolradd",
+        "unit": "6",
+        "word_english": "workplace(s)",
+        "word_welsh": "gweithle(oedd)"
+    },
+    {
+        "category": "masculine noun",
+        "level": "canolradd",
+        "unit": "6",
+        "word_english": "note(s)",
+        "word_welsh": "nodyn (nodiadau)"
+    },
+    {
+        "category": "masculine noun",
+        "level": "canolradd",
+        "unit": "6",
+        "word_english": "injection(s)",
+        "word_welsh": "pigiad(au)"
+    },
+    {
+        "category": "masculine noun",
+        "level": "canolradd",
+        "unit": "6",
+        "word_english": "poster(s)",
+        "word_welsh": "poster(i)"
+    },
+    {
+        "category": "masculine noun",
+        "level": "canolradd",
+        "unit": "6",
+        "word_english": "prescription(s)",
+        "word_welsh": "presgripsiwn (presgripsiynau)"
+    },
+    {
+        "category": "masculine noun",
+        "level": "canolradd",
+        "unit": "6",
+        "word_english": "scissor(s)",
+        "word_welsh": "siswrn (sisyrnau)"
+    },
+    {
+        "category": "masculine noun",
+        "level": "canolradd",
+        "unit": "6",
+        "word_english": "essay(s)",
+        "word_welsh": "traethawd (traethodau)"
+    },
+    {
+        "category": "verb",
+        "level": "canolradd",
+        "unit": "6",
+        "word_english": "to blush",
+        "word_welsh": "cochi"
+    },
+    {
+        "category": "verb",
+        "level": "canolradd",
+        "unit": "6",
+        "word_english": "to plan",
+        "word_welsh": "cynllunio"
+    },
+    {
+        "category": "verb",
+        "level": "canolradd",
+        "unit": "6",
+        "word_english": "to escape",
+        "word_welsh": "dianc"
+    },
+    {
+        "category": "verb",
+        "level": "canolradd",
+        "unit": "6",
+        "word_english": "to succeed (in doing)",
+        "word_welsh": "llwyddo (i)"
+    },
+    {
+        "category": "verb",
+        "level": "canolradd",
+        "unit": "6",
+        "word_english": "to market, marketing",
+        "word_welsh": "marchnata"
+    },
+    {
+        "category": "verb",
+        "level": "canolradd",
+        "unit": "6",
+        "word_english": "to last",
+        "word_welsh": "para"
+    },
+    {
+        "category": "verb",
+        "level": "canolradd",
+        "unit": "6",
+        "word_english": "to persuade",
+        "word_welsh": "perswadio"
+    },
+    {
+        "category": "verb",
+        "level": "canolradd",
+        "unit": "6",
+        "word_english": "to trust",
+        "word_welsh": "ymddiried"
+    },
+    {
+        "category": "adjective",
+        "level": "canolradd",
+        "unit": "6",
+        "word_english": "useful",
+        "word_welsh": "defnyddiol"
+    },
+    {
+        "category": "adjective",
+        "level": "canolradd",
+        "unit": "6",
+        "word_english": "safe",
+        "word_welsh": "diogel"
+    },
+    {
+        "category": "other",
+        "level": "canolradd",
+        "unit": "6",
+        "word_english": "away",
+        "word_welsh": "bant"
+    },
+    {
+        "category": "other",
+        "level": "canolradd",
+        "unit": "6",
+        "word_english": "dentures, false teeth",
+        "word_welsh": "dannedd gosod"
+    },
+    {
+        "category": "other",
+        "level": "canolradd",
+        "unit": "6",
+        "word_english": "to come over",
+        "word_welsh": "dod draw"
+    },
+    {
+        "category": "other",
+        "level": "canolradd",
+        "unit": "6",
+        "word_english": "you poor thing",
+        "word_welsh": "druan â ti"
+    },
+    {
+        "category": "other",
+        "level": "canolradd",
+        "unit": "6",
+        "word_english": "to check, to look over",
+        "word_welsh": "edrych dros"
+    },
+    {
+        "category": "other",
+        "level": "canolradd",
+        "unit": "6",
+        "word_english": "including",
+        "word_welsh": "gan gynnwys"
+    },
+    {
+        "category": "other",
+        "level": "canolradd",
+        "unit": "6",
+        "word_english": "in the evening",
+        "word_welsh": "gyda'r hwyr / gyda'r nos"
+    },
+    {
+        "category": "feminine noun",
+        "level": "canolradd",
+        "unit": "7",
+        "word_english": "junction(s)",
+        "word_welsh": "cyffordd (cyffyrdd)"
+    },
+    {
+        "category": "feminine noun",
+        "level": "canolradd",
+        "unit": "7",
+        "word_english": "talent(s)",
+        "word_welsh": "dawn (doniau)"
+    },
+    {
+        "category": "feminine noun",
+        "level": "canolradd",
+        "unit": "7",
+        "word_english": "witch(es)",
+        "word_welsh": "gwrach(od)"
+    },
+    {
+        "category": "feminine noun",
+        "level": "canolradd",
+        "unit": "7",
+        "word_english": "bike lane",
+        "word_welsh": "lôn feicio"
+    },
+    {
+        "category": "feminine noun",
+        "level": "canolradd",
+        "unit": "7",
+        "word_english": "auction(s)",
+        "word_welsh": "ocsiwn (ocsiynau)"
+    },
+    {
+        "category": "masculine noun",
+        "level": "canolradd",
+        "unit": "7",
+        "word_english": "estuary (-ies)",
+        "word_welsh": "aber(oedd)"
+    },
+    {
+        "category": "masculine noun",
+        "level": "canolradd",
+        "unit": "7",
+        "word_english": "artist(s)",
+        "word_welsh": "artist(iaid)"
+    },
+    {
+        "category": "masculine noun",
+        "level": "canolradd",
+        "unit": "7",
+        "word_english": "sign(s)",
+        "word_welsh": "arwydd(ion)"
+    },
+    {
+        "category": "masculine noun",
+        "level": "canolradd",
+        "unit": "7",
+        "word_english": "calendar(s)",
+        "word_welsh": "calendr(au)"
+    },
+    {
+        "category": "masculine noun",
+        "level": "canolradd",
+        "unit": "7",
+        "word_english": "speed camera",
+        "word_welsh": "camera cyflymder"
+    },
+    {
+        "category": "masculine noun",
+        "level": "canolradd",
+        "unit": "7",
+        "word_english": "giant(s)",
+        "word_welsh": "cawr (cewri)"
+    },
+    {
+        "category": "masculine noun",
+        "level": "canolradd",
+        "unit": "7",
+        "word_english": "cricketer(s)",
+        "word_welsh": "cricedwr (-wyr)"
+    },
+    {
+        "category": "masculine noun",
+        "level": "canolradd",
+        "unit": "7",
+        "word_english": "direction(s), instruction(s)",
+        "word_welsh": "cyfarwyddyd (cyfarwyddiadau)"
+    },
+    {
+        "category": "masculine noun",
+        "level": "canolradd",
+        "unit": "7",
+        "word_english": "energy",
+        "word_welsh": "egni"
+    },
+    {
+        "category": "masculine noun",
+        "level": "canolradd",
+        "unit": "7",
+        "word_english": "election(s)",
+        "word_welsh": "etholiad(au)"
+    },
+    {
+        "category": "masculine noun",
+        "level": "canolradd",
+        "unit": "7",
+        "word_english": "accommodation",
+        "word_welsh": "llety"
+    },
+    {
+        "category": "masculine noun",
+        "level": "canolradd",
+        "unit": "7",
+        "word_english": "court(s)",
+        "word_welsh": "llys(oedd)"
+    },
+    {
+        "category": "masculine noun",
+        "level": "canolradd",
+        "unit": "7",
+        "word_english": "country park",
+        "word_welsh": "parc gwledig"
+    },
+    {
+        "category": "masculine noun",
+        "level": "canolradd",
+        "unit": "7",
+        "word_english": "target(s)",
+        "word_welsh": "targed(au)"
+    },
+    {
+        "category": "masculine noun",
+        "level": "canolradd",
+        "unit": "7",
+        "word_english": "subject(s); text(s)",
+        "word_welsh": "testun(au)"
+    },
+    {
+        "category": "verb",
+        "level": "canolradd",
+        "unit": "7",
+        "word_english": "to adapt",
+        "word_welsh": "addasu"
+    },
+    {
+        "category": "verb",
+        "level": "canolradd",
+        "unit": "7",
+        "word_english": "to kick",
+        "word_welsh": "cicio"
+    },
+    {
+        "category": "verb",
+        "level": "canolradd",
+        "unit": "7",
+        "word_english": "to frighten",
+        "word_welsh": "codi ofn (ar)"
+    },
+    {
+        "category": "verb",
+        "level": "canolradd",
+        "unit": "7",
+        "word_english": "to employ",
+        "word_welsh": "cyflogi"
+    },
+    {
+        "category": "verb",
+        "level": "canolradd",
+        "unit": "7",
+        "word_english": "to contribute (to)",
+        "word_welsh": "cyfrannu (at)"
+    },
+    {
+        "category": "verb",
+        "level": "canolradd",
+        "unit": "7",
+        "word_english": "to put; to set",
+        "word_welsh": "gosod"
+    },
+    {
+        "category": "verb",
+        "level": "canolradd",
+        "unit": "7",
+        "word_english": "to deny",
+        "word_welsh": "gwadu"
+    },
+    {
+        "category": "verb",
+        "level": "canolradd",
+        "unit": "7",
+        "word_english": "to serve",
+        "word_welsh": "gweini"
+    },
+    {
+        "category": "verb",
+        "level": "canolradd",
+        "unit": "7",
+        "word_english": "to establish",
+        "word_welsh": "sefydlu"
+    },
+    {
+        "category": "verb",
+        "level": "canolradd",
+        "unit": "7",
+        "word_english": "to apologise (to)",
+        "word_welsh": "ymddiheuro (i)"
+    },
+    {
+        "category": "adjective",
+        "level": "canolradd",
+        "unit": "7",
+        "word_english": "dirty",
+        "word_welsh": "brwnt / budr"
+    },
+    {
+        "category": "adjective",
+        "level": "canolradd",
+        "unit": "7",
+        "word_english": "correct",
+        "word_welsh": "cywir"
+    },
+    {
+        "category": "adjective",
+        "level": "canolradd",
+        "unit": "7",
+        "word_english": "fierce",
+        "word_welsh": "ffyrnig"
+    },
+    {
+        "category": "adjective",
+        "level": "canolradd",
+        "unit": "7",
+        "word_english": "generous",
+        "word_welsh": "hael"
+    },
+    {
+        "category": "adjective",
+        "level": "canolradd",
+        "unit": "7",
+        "word_english": "successful",
+        "word_welsh": "llwyddiannus"
+    },
+    {
+        "category": "adjective",
+        "level": "canolradd",
+        "unit": "7",
+        "word_english": "adventurous",
+        "word_welsh": "mentrus"
+    },
+    {
+        "category": "adjective",
+        "level": "canolradd",
+        "unit": "7",
+        "word_english": "romantic",
+        "word_welsh": "rhamantus"
+    },
+    {
+        "category": "adjective",
+        "level": "canolradd",
+        "unit": "7",
+        "word_english": "charming",
+        "word_welsh": "swynol"
+    },
+    {
+        "category": "other",
+        "level": "canolradd",
+        "unit": "7",
+        "word_english": "in a hurry",
+        "word_welsh": "ar frys"
+    },
+    {
+        "category": "other",
+        "level": "canolradd",
+        "unit": "7",
+        "word_english": "front door",
+        "word_welsh": "drws ffrynt"
+    },
+    {
+        "category": "other",
+        "level": "canolradd",
+        "unit": "7",
+        "word_english": "better late than never",
+        "word_welsh": "gwell hwyr na hwyrach"
+    },
+    {
+        "category": "other",
+        "level": "canolradd",
+        "unit": "7",
+        "word_english": "if it weren't for...",
+        "word_welsh": "oni bai am..."
+    },
+    {
+        "category": "other",
+        "level": "canolradd",
+        "unit": "7",
+        "word_english": "...per cent",
+        "word_welsh": "...y cant"
+    },
+    {
+        "category": "feminine noun",
+        "level": "canolradd",
+        "unit": "8",
+        "word_english": "leek(s)",
+        "word_welsh": "cenhinen (cennin)"
+    },
+    {
+        "category": "feminine noun",
+        "level": "canolradd",
+        "unit": "8",
+        "word_english": "crossroads",
+        "word_welsh": "croesffordd"
+    },
+    {
+        "category": "feminine noun",
+        "level": "canolradd",
+        "unit": "8",
+        "word_english": "law(s)",
+        "word_welsh": "cyfraith (cyfreithiau)"
+    },
+    {
+        "category": "feminine noun",
+        "level": "canolradd",
+        "unit": "8",
+        "word_english": "earth",
+        "word_welsh": "daear"
+    },
+    {
+        "category": "feminine noun",
+        "level": "canolradd",
+        "unit": "8",
+        "word_english": "fact(s)",
+        "word_welsh": "ffaith (ffeithiau)"
+    },
+    {
+        "category": "feminine noun",
+        "level": "canolradd",
+        "unit": "8",
+        "word_english": "frame(s)",
+        "word_welsh": "ffrâm (fframiau)"
+    },
+    {
+        "category": "feminine noun",
+        "level": "canolradd",
+        "unit": "8",
+        "word_english": "operation(s)",
+        "word_welsh": "llawdriniaeth(au)"
+    },
+    {
+        "category": "feminine noun",
+        "level": "canolradd",
+        "unit": "8",
+        "word_english": "heaven",
+        "word_welsh": "nefoedd"
+    },
+    {
+        "category": "feminine noun",
+        "level": "canolradd",
+        "unit": "8",
+        "word_english": "main road(s)",
+        "word_welsh": "priffordd (priffyrdd)"
+    },
+    {
+        "category": "feminine noun",
+        "level": "canolradd",
+        "unit": "8",
+        "word_english": "shock(s)",
+        "word_welsh": "sioc(iau)"
+    },
+    {
+        "category": "feminine noun",
+        "level": "canolradd",
+        "unit": "8",
+        "word_english": "tart(s)",
+        "word_welsh": "tarten(ni)"
+    },
+    {
+        "category": "feminine noun",
+        "level": "canolradd",
+        "unit": "8",
+        "word_english": "ladder(s)",
+        "word_welsh": "ysgol(ion)"
+    },
+    {
+        "category": "masculine noun",
+        "level": "canolradd",
+        "unit": "8",
+        "word_english": "toe(s)",
+        "word_welsh": "bys troed (bysedd traed)"
+    },
+    {
+        "category": "masculine noun",
+        "level": "canolradd",
+        "unit": "8",
+        "word_english": "excuse(s)",
+        "word_welsh": "esgus(odion)"
+    },
+    {
+        "category": "masculine noun",
+        "level": "canolradd",
+        "unit": "8",
+        "word_english": "vicar(s)",
+        "word_welsh": "ficer(iaid)"
+    },
+    {
+        "category": "masculine noun",
+        "level": "canolradd",
+        "unit": "8",
+        "word_english": "horizon(s)",
+        "word_welsh": "gorwel(ion)"
+    },
+    {
+        "category": "masculine noun",
+        "level": "canolradd",
+        "unit": "8",
+        "word_english": "gravy",
+        "word_welsh": "grefi"
+    },
+    {
+        "category": "masculine noun",
+        "level": "canolradd",
+        "unit": "8",
+        "word_english": "Jesus",
+        "word_welsh": "Iesu"
+    },
+    {
+        "category": "masculine noun",
+        "level": "canolradd",
+        "unit": "8",
+        "word_english": "sunset",
+        "word_welsh": "machlud"
+    },
+    {
+        "category": "masculine noun",
+        "level": "canolradd",
+        "unit": "8",
+        "word_english": "distance",
+        "word_welsh": "pellter"
+    },
+    {
+        "category": "masculine noun",
+        "level": "canolradd",
+        "unit": "8",
+        "word_english": "spice(s)",
+        "word_welsh": "sbeis(ys)"
+    },
+    {
+        "category": "masculine noun",
+        "level": "canolradd",
+        "unit": "8",
+        "word_english": "feeling(s)",
+        "word_welsh": "teimlad(au)"
+    },
+    {
+        "category": "verb",
+        "level": "canolradd",
+        "unit": "8",
+        "word_english": "to hold (on to)",
+        "word_welsh": "cydio (yn)"
+    },
+    {
+        "category": "verb",
+        "level": "canolradd",
+        "unit": "8",
+        "word_english": "to find",
+        "word_welsh": "dod o hyd i"
+    },
+    {
+        "category": "verb",
+        "level": "canolradd",
+        "unit": "8",
+        "word_english": "to stink",
+        "word_welsh": "drewi"
+    },
+    {
+        "category": "verb",
+        "level": "canolradd",
+        "unit": "8",
+        "word_english": "to become quiet; to calm down",
+        "word_welsh": "tawelu"
+    },
+    {
+        "category": "verb",
+        "level": "canolradd",
+        "unit": "8",
+        "word_english": "to stretch",
+        "word_welsh": "ymestyn"
+    },
+    {
+        "category": "verb",
+        "level": "canolradd",
+        "unit": "8",
+        "word_english": "to shake",
+        "word_welsh": "ysgwyd"
+    },
+    {
+        "category": "adjective",
+        "level": "canolradd",
+        "unit": "8",
+        "word_english": "unfortunate",
+        "word_welsh": "anffodus"
+    },
+    {
+        "category": "adjective",
+        "level": "canolradd",
+        "unit": "8",
+        "word_english": "double",
+        "word_welsh": "dwbl"
+    },
+    {
+        "category": "adjective",
+        "level": "canolradd",
+        "unit": "8",
+        "word_english": "bilingual",
+        "word_welsh": "dwyieithog"
+    },
+    {
+        "category": "adjective",
+        "level": "canolradd",
+        "unit": "8",
+        "word_english": "salty",
+        "word_welsh": "hallt"
+    },
+    {
+        "category": "adjective",
+        "level": "canolradd",
+        "unit": "8",
+        "word_english": "tight",
+        "word_welsh": "tyn(n)"
+    },
+    {
+        "category": "other",
+        "level": "canolradd",
+        "unit": "8",
+        "word_english": "outpatients department",
+        "word_welsh": "adran cleifion allanol"
+    },
+    {
+        "category": "other",
+        "level": "canolradd",
+        "unit": "8",
+        "word_english": "to laugh at",
+        "word_welsh": "chwerthin am ben"
+    },
+    {
+        "category": "other",
+        "level": "canolradd",
+        "unit": "8",
+        "word_english": "although",
+        "word_welsh": "er"
+    },
+    {
+        "category": "other",
+        "level": "canolradd",
+        "unit": "8",
+        "word_english": "up until now",
+        "word_welsh": "hyd yn hyn"
+    },
+    {
+        "category": "other",
+        "level": "canolradd",
+        "unit": "8",
+        "word_english": "around",
+        "word_welsh": "o gwmpas"
+    },
+    {
+        "category": "other",
+        "level": "canolradd",
+        "unit": "8",
+        "word_english": "especially",
+        "word_welsh": "yn enwedig"
+    },
+    {
+        "category": "other",
+        "level": "canolradd",
+        "unit": "8",
+        "word_english": "soon",
+        "word_welsh": "yn fuan"
+    },
+    {
+        "category": "feminine noun",
+        "level": "canolradd",
+        "unit": "9",
+        "word_english": "armchair(s)",
+        "word_welsh": "cadair freichiau (cadeiriau breichiau)"
+    },
+    {
+        "category": "feminine noun",
+        "level": "canolradd",
+        "unit": "9",
+        "word_english": "bell(s)",
+        "word_welsh": "cloch (clychau)"
+    },
+    {
+        "category": "feminine noun",
+        "level": "canolradd",
+        "unit": "9",
+        "word_english": "cushion(s)",
+        "word_welsh": "clustog(au)"
+    },
+    {
+        "category": "feminine noun",
+        "level": "canolradd",
+        "unit": "9",
+        "word_english": "effect(s)",
+        "word_welsh": "effaith (effeithiau)"
+    },
+    {
+        "category": "feminine noun",
+        "level": "canolradd",
+        "unit": "9",
+        "word_english": "rainbow(s)",
+        "word_welsh": "enfys(au)"
+    },
+    {
+        "category": "feminine noun",
+        "level": "canolradd",
+        "unit": "9",
+        "word_english": "bean(s)",
+        "word_welsh": "ffeuen (ffa)"
+    },
+    {
+        "category": "feminine noun",
+        "level": "canolradd",
+        "unit": "9",
+        "word_english": "violin(s)",
+        "word_welsh": "ffidil (ffidlau)"
+    },
+    {
+        "category": "feminine noun",
+        "level": "canolradd",
+        "unit": "9",
+        "word_english": "smile(s)",
+        "word_welsh": "gwên (gwenau)"
+    },
+    {
+        "category": "feminine noun",
+        "level": "canolradd",
+        "unit": "9",
+        "word_english": "sunshine",
+        "word_welsh": "heulwen"
+    },
+    {
+        "category": "feminine noun",
+        "level": "canolradd",
+        "unit": "9",
+        "word_english": "sofa(s)",
+        "word_welsh": "soffa(s)"
+    },
+    {
+        "category": "feminine noun",
+        "level": "canolradd",
+        "unit": "9",
+        "word_english": "fairy (fairies)",
+        "word_welsh": "tylwythen deg (tylwyth teg)"
+    },
+    {
+        "category": "masculine noun",
+        "level": "canolradd",
+        "unit": "9",
+        "word_english": "decoration(s)",
+        "word_welsh": "addurn(iadau)"
+    },
+    {
+        "category": "masculine noun",
+        "level": "canolradd",
+        "unit": "9",
+        "word_english": "allergy (allergies)",
+        "word_welsh": "alergedd(au)"
+    },
+    {
+        "category": "masculine noun",
+        "level": "canolradd",
+        "unit": "9",
+        "word_english": "smell(s)",
+        "word_welsh": "arogl(euon)"
+    },
+    {
+        "category": "masculine noun",
+        "level": "canolradd",
+        "unit": "9",
+        "word_english": "step(s)",
+        "word_welsh": "cam(au)"
+    },
+    {
+        "category": "masculine noun",
+        "level": "canolradd",
+        "unit": "9",
+        "word_english": "sleep",
+        "word_welsh": "cwsg"
+    },
+    {
+        "category": "masculine noun",
+        "level": "canolradd",
+        "unit": "9",
+        "word_english": "hallway(s)",
+        "word_welsh": "cyntedd(au)"
+    },
+    {
+        "category": "masculine noun",
+        "level": "canolradd",
+        "unit": "9",
+        "word_english": "shortcoming(s); lack of",
+        "word_welsh": "diffyg(ion)"
+    },
+    {
+        "category": "masculine noun",
+        "level": "canolradd",
+        "unit": "9",
+        "word_english": "snowdrop(s)",
+        "word_welsh": "eirlys(iau)"
+    },
+    {
+        "category": "masculine noun",
+        "level": "canolradd",
+        "unit": "9",
+        "word_english": "youth",
+        "word_welsh": "ieuenctid"
+    },
+    {
+        "category": "masculine noun",
+        "level": "canolradd",
+        "unit": "9",
+        "word_english": "jungle(s)",
+        "word_welsh": "jyngl(s)"
+    },
+    {
+        "category": "masculine noun",
+        "level": "canolradd",
+        "unit": "9",
+        "word_english": "fireplace(s)",
+        "word_welsh": "lle(oedd) tân"
+    },
+    {
+        "category": "masculine noun",
+        "level": "canolradd",
+        "unit": "9",
+        "word_english": "mask(s)",
+        "word_welsh": "mwgwd (mygydau)"
+    },
+    {
+        "category": "masculine noun",
+        "level": "canolradd",
+        "unit": "9",
+        "word_english": "respect",
+        "word_welsh": "parch"
+    },
+    {
+        "category": "masculine noun",
+        "level": "canolradd",
+        "unit": "9",
+        "word_english": "warning(s)",
+        "word_welsh": "rhybudd(ion)"
+    },
+    {
+        "category": "masculine noun",
+        "level": "canolradd",
+        "unit": "9",
+        "word_english": "shape(s)",
+        "word_welsh": "siâp (siapiau)"
+    },
+    {
+        "category": "masculine noun",
+        "level": "canolradd",
+        "unit": "9",
+        "word_english": "response(s)",
+        "word_welsh": "ymateb(ion)"
+    },
+    {
+        "category": "verb",
+        "level": "canolradd",
+        "unit": "9",
+        "word_english": "to reopen",
+        "word_welsh": "ailagor"
+    },
+    {
+        "category": "verb",
+        "level": "canolradd",
+        "unit": "9",
+        "word_english": "to breathe",
+        "word_welsh": "anadlu"
+    },
+    {
+        "category": "verb",
+        "level": "canolradd",
+        "unit": "9",
+        "word_english": "to smell",
+        "word_welsh": "arogli"
+    },
+    {
+        "category": "verb",
+        "level": "canolradd",
+        "unit": "9",
+        "word_english": "to taste",
+        "word_welsh": "blasu"
+    },
+    {
+        "category": "verb",
+        "level": "canolradd",
+        "unit": "9",
+        "word_english": "to bully",
+        "word_welsh": "bwlio"
+    },
+    {
+        "category": "verb",
+        "level": "canolradd",
+        "unit": "9",
+        "word_english": "to exchange",
+        "word_welsh": "cyfnewid"
+    },
+    {
+        "category": "verb",
+        "level": "canolradd",
+        "unit": "9",
+        "word_english": "to weed",
+        "word_welsh": "chwynnu"
+    },
+    {
+        "category": "verb",
+        "level": "canolradd",
+        "unit": "9",
+        "word_english": "to squeeze, to squash",
+        "word_welsh": "gwasgu"
+    },
+    {
+        "category": "verb",
+        "level": "canolradd",
+        "unit": "9",
+        "word_english": "to waste",
+        "word_welsh": "gwastraffu"
+    },
+    {
+        "category": "verb",
+        "level": "canolradd",
+        "unit": "9",
+        "word_english": "to venture, to dare",
+        "word_welsh": "mentro"
+    },
+    {
+        "category": "verb",
+        "level": "canolradd",
+        "unit": "9",
+        "word_english": "to graze; to browse",
+        "word_welsh": "pori"
+    },
+    {
+        "category": "verb",
+        "level": "canolradd",
+        "unit": "9",
+        "word_english": "to prance, to gambol",
+        "word_welsh": "prancio"
+    },
+    {
+        "category": "verb",
+        "level": "canolradd",
+        "unit": "9",
+        "word_english": "to rent",
+        "word_welsh": "rhentu"
+    },
+    {
+        "category": "verb",
+        "level": "canolradd",
+        "unit": "9",
+        "word_english": "to realise",
+        "word_welsh": "sylweddoli"
+    },
+    {
+        "category": "adjective",
+        "level": "canolradd",
+        "unit": "9",
+        "word_english": "untidy",
+        "word_welsh": "anniben"
+    },
+    {
+        "category": "adjective",
+        "level": "canolradd",
+        "unit": "9",
+        "word_english": "keen",
+        "word_welsh": "awyddus"
+    },
+    {
+        "category": "adjective",
+        "level": "canolradd",
+        "unit": "9",
+        "word_english": "courteous, polite",
+        "word_welsh": "cwrtais"
+    },
+    {
+        "category": "adjective",
+        "level": "canolradd",
+        "unit": "9",
+        "word_english": "deep",
+        "word_welsh": "dwfn"
+    },
+    {
+        "category": "adjective",
+        "level": "canolradd",
+        "unit": "9",
+        "word_english": "convenient",
+        "word_welsh": "hwylus"
+    },
+    {
+        "category": "adjective",
+        "level": "canolradd",
+        "unit": "9",
+        "word_english": "luxurious",
+        "word_welsh": "moethus"
+    },
+    {
+        "category": "adjective",
+        "level": "canolradd",
+        "unit": "9",
+        "word_english": "nervous",
+        "word_welsh": "nerfus"
+    },
+    {
+        "category": "other",
+        "level": "canolradd",
+        "unit": "9",
+        "word_english": "locked",
+        "word_welsh": "ar glo"
+    },
+    {
+        "category": "other",
+        "level": "canolradd",
+        "unit": "9",
+        "word_english": "to knock the door",
+        "word_welsh": "curo'r drws"
+    },
+    {
+        "category": "other",
+        "level": "canolradd",
+        "unit": "9",
+        "word_english": "to reminisce",
+        "word_welsh": "hel atgofion"
+    },
+    {
+        "category": "other",
+        "level": "canolradd",
+        "unit": "9",
+        "word_english": "hen bobl",
+        "word_welsh": "henoed"
+    },
+    {
+        "category": "other",
+        "level": "canolradd",
+        "unit": "9",
+        "word_english": "ground floor",
+        "word_welsh": "llawr gwaelod"
+    },
+    {
+        "category": "other",
+        "level": "canolradd",
+        "unit": "9",
+        "word_english": "a dweud y gwir",
+        "word_welsh": "mewn gwirionedd"
+    },
+    {
+        "category": "other",
+        "level": "canolradd",
+        "unit": "9",
+        "word_english": "within",
+        "word_welsh": "o fewn"
+    },
+    {
+        "category": "other",
+        "level": "canolradd",
+        "unit": "9",
+        "word_english": "far end; long run",
+        "word_welsh": "pen draw"
+    },
+    {
+        "category": "other",
+        "level": "canolradd",
+        "unit": "9",
+        "word_english": "rhywbeth yn bod",
+        "word_welsh": "rhywbeth o'i le"
+    },
+    {
+        "category": "other",
+        "level": "canolradd",
+        "unit": "9",
+        "word_english": "semi-detached house",
+        "word_welsh": "tŷ pâr/tŷ semi"
+    },
+    {
+        "category": "other",
+        "level": "canolradd",
+        "unit": "9",
+        "word_english": "completely, exactly",
+        "word_welsh": "yn hollol"
+    },
+    {
+        "category": "feminine noun",
+        "level": "canolradd",
+        "unit": "10",
+        "word_english": "exhibition(s)",
+        "word_welsh": "arddangosfa (arddangosfeydd)"
+    },
+    {
+        "category": "feminine noun",
+        "level": "canolradd",
+        "unit": "10",
+        "word_english": "stone(s)",
+        "word_welsh": "carreg (cerrig)"
+    },
+    {
+        "category": "feminine noun",
+        "level": "canolradd",
+        "unit": "10",
+        "word_english": "memorial(s)",
+        "word_welsh": "cofeb(au)"
+    },
+    {
+        "category": "feminine noun",
+        "level": "canolradd",
+        "unit": "10",
+        "word_english": "bog(s)",
+        "word_welsh": "cors(ydd)"
+    },
+    {
+        "category": "feminine noun",
+        "level": "canolradd",
+        "unit": "10",
+        "word_english": "craft(s)",
+        "word_welsh": "crefft(au)"
+    },
+    {
+        "category": "feminine noun",
+        "level": "canolradd",
+        "unit": "10",
+        "word_english": "grape(s)",
+        "word_welsh": "grawnwinen (grawnwin)"
+    },
+    {
+        "category": "feminine noun",
+        "level": "canolradd",
+        "unit": "10",
+        "word_english": "government(s)",
+        "word_welsh": "llywodraeth(au)"
+    },
+    {
+        "category": "feminine noun",
+        "level": "canolradd",
+        "unit": "10",
+        "word_english": "maid(s)",
+        "word_welsh": "morwyn (morynion)"
+    },
+    {
+        "category": "feminine noun",
+        "level": "canolradd",
+        "unit": "10",
+        "word_english": "graveyard(s), cemetery(-ies)",
+        "word_welsh": "mynwent(ydd)"
+    },
+    {
+        "category": "masculine noun",
+        "level": "canolradd",
+        "unit": "10",
+        "word_english": "disease(s)",
+        "word_welsh": "afiechyd(on)"
+    },
+    {
+        "category": "masculine noun",
+        "level": "canolradd",
+        "unit": "10",
+        "word_english": "blame; fault(s)",
+        "word_welsh": "bai (beiau)"
+    },
+    {
+        "category": "masculine noun",
+        "level": "canolradd",
+        "unit": "10",
+        "word_english": "lock(s)",
+        "word_welsh": "clo(eon)"
+    },
+    {
+        "category": "masculine noun",
+        "level": "canolradd",
+        "unit": "10",
+        "word_english": "cliff(s)",
+        "word_welsh": "clogwyn(i)"
+    },
+    {
+        "category": "masculine noun",
+        "level": "canolradd",
+        "unit": "10",
+        "word_english": "memory",
+        "word_welsh": "cof"
+    },
+    {
+        "category": "masculine noun",
+        "level": "canolradd",
+        "unit": "10",
+        "word_english": "wealth",
+        "word_welsh": "cyfoeth"
+    },
+    {
+        "category": "masculine noun",
+        "level": "canolradd",
+        "unit": "10",
+        "word_english": "shadow(s); shade(s)",
+        "word_welsh": "cysgod(ion)"
+    },
+    {
+        "category": "masculine noun",
+        "level": "canolradd",
+        "unit": "10",
+        "word_english": "use",
+        "word_welsh": "defnydd"
+    },
+    {
+        "category": "masculine noun",
+        "level": "canolradd",
+        "unit": "10",
+        "word_english": "economy (economies)",
+        "word_welsh": "economi (economïau)"
+    },
+    {
+        "category": "masculine noun",
+        "level": "canolradd",
+        "unit": "10",
+        "word_english": "twin(s)",
+        "word_welsh": "gefell (gefeilliaid)"
+    },
+    {
+        "category": "masculine noun",
+        "level": "canolradd",
+        "unit": "10",
+        "word_english": "activity(-ies)",
+        "word_welsh": "gweithgaredd(au)"
+    },
+    {
+        "category": "masculine noun",
+        "level": "canolradd",
+        "unit": "10",
+        "word_english": "wool",
+        "word_welsh": "gwlân"
+    },
+    {
+        "category": "masculine noun",
+        "level": "canolradd",
+        "unit": "10",
+        "word_english": "training",
+        "word_welsh": "hyfforddiant"
+    },
+    {
+        "category": "masculine noun",
+        "level": "canolradd",
+        "unit": "10",
+        "word_english": "success(es)",
+        "word_welsh": "llwyddiant (llwyddiannau)"
+    },
+    {
+        "category": "masculine noun",
+        "level": "canolradd",
+        "unit": "10",
+        "word_english": "stage(s)",
+        "word_welsh": "llwyfan(nau)"
+    },
+    {
+        "category": "masculine noun",
+        "level": "canolradd",
+        "unit": "10",
+        "word_english": "childhood",
+        "word_welsh": "plentyndod"
+    },
+    {
+        "category": "masculine noun",
+        "level": "canolradd",
+        "unit": "10",
+        "word_english": "purpose(s)",
+        "word_welsh": "pwrpas(au)"
+    },
+    {
+        "category": "masculine noun",
+        "level": "canolradd",
+        "unit": "10",
+        "word_english": "stance(s), viewpoint(s)",
+        "word_welsh": "safbwynt(iau)"
+    },
+    {
+        "category": "masculine noun",
+        "level": "canolradd",
+        "unit": "10",
+        "word_english": "love",
+        "word_welsh": "serch"
+    },
+    {
+        "category": "masculine noun",
+        "level": "canolradd",
+        "unit": "10",
+        "word_english": "roof(s)",
+        "word_welsh": "to(eon)"
+    },
+    {
+        "category": "verb",
+        "level": "canolradd",
+        "unit": "10",
+        "word_english": "to remind",
+        "word_welsh": "atgoffa"
+    },
+    {
+        "category": "verb",
+        "level": "canolradd",
+        "unit": "10",
+        "word_english": "to communicate",
+        "word_welsh": "cyfathrebu"
+    },
+    {
+        "category": "verb",
+        "level": "canolradd",
+        "unit": "10",
+        "word_english": "to suffer",
+        "word_welsh": "dioddef"
+    },
+    {
+        "category": "verb",
+        "level": "canolradd",
+        "unit": "10",
+        "word_english": "to mean; to edit",
+        "word_welsh": "golygu"
+    },
+    {
+        "category": "verb",
+        "level": "canolradd",
+        "unit": "10",
+        "word_english": "to graduate",
+        "word_welsh": "graddio"
+    },
+    {
+        "category": "verb",
+        "level": "canolradd",
+        "unit": "10",
+        "word_english": "to knit",
+        "word_welsh": "gwau"
+    },
+    {
+        "category": "verb",
+        "level": "canolradd",
+        "unit": "10",
+        "word_english": "to snorkel",
+        "word_welsh": "snorclo"
+    },
+    {
+        "category": "verb",
+        "level": "canolradd",
+        "unit": "10",
+        "word_english": "to raft",
+        "word_welsh": "rafftio"
+    },
+    {
+        "category": "verb",
+        "level": "canolradd",
+        "unit": "10",
+        "word_english": "to prevent",
+        "word_welsh": "rhwystro"
+    },
+    {
+        "category": "verb",
+        "level": "canolradd",
+        "unit": "10",
+        "word_english": "to melt",
+        "word_welsh": "toddi"
+    },
+    {
+        "category": "adjective",
+        "level": "canolradd",
+        "unit": "10",
+        "word_english": "loving",
+        "word_welsh": "cariadus"
+    },
+    {
+        "category": "adjective",
+        "level": "canolradd",
+        "unit": "10",
+        "word_english": "creative",
+        "word_welsh": "creadigol"
+    },
+    {
+        "category": "adjective",
+        "level": "canolradd",
+        "unit": "10",
+        "word_english": "common; general",
+        "word_welsh": "cyffredin"
+    },
+    {
+        "category": "adjective",
+        "level": "canolradd",
+        "unit": "10",
+        "word_english": "social; sociable",
+        "word_welsh": "cymdeithasol"
+    },
+    {
+        "category": "adjective",
+        "level": "canolradd",
+        "unit": "10",
+        "word_english": "serious",
+        "word_welsh": "difrifol"
+    },
+    {
+        "category": "adjective",
+        "level": "canolradd",
+        "unit": "10",
+        "word_english": "detailed",
+        "word_welsh": "manwl"
+    },
+    {
+        "category": "adjective",
+        "level": "canolradd",
+        "unit": "10",
+        "word_english": "soft",
+        "word_welsh": "meddal"
+    },
+    {
+        "category": "adjective",
+        "level": "canolradd",
+        "unit": "10",
+        "word_english": "professional",
+        "word_welsh": "proffesiynol"
+    },
+    {
+        "category": "adjective",
+        "level": "canolradd",
+        "unit": "10",
+        "word_english": "talkative",
+        "word_welsh": "siaradus"
+    },
+    {
+        "category": "adjective",
+        "level": "canolradd",
+        "unit": "10",
+        "word_english": "sour",
+        "word_welsh": "sur"
+    },
+    {
+        "category": "adjective",
+        "level": "canolradd",
+        "unit": "10",
+        "word_english": "thick",
+        "word_welsh": "trwchus"
+    },
+    {
+        "category": "adjective",
+        "level": "canolradd",
+        "unit": "10",
+        "word_english": "tourist",
+        "word_welsh": "twristaidd"
+    },
+    {
+        "category": "other",
+        "level": "canolradd",
+        "unit": "10",
+        "word_english": "on behalf of",
+        "word_welsh": "ar ran"
+    },
+    {
+        "category": "other",
+        "level": "canolradd",
+        "unit": "10",
+        "word_english": "fresh air",
+        "word_welsh": "awyr iach"
+    },
+    {
+        "category": "other",
+        "level": "canolradd",
+        "unit": "10",
+        "word_english": "around",
+        "word_welsh": "o amgylch"
+    },
+    {
+        "category": "other",
+        "level": "canolradd",
+        "unit": "10",
+        "word_english": "named, called",
+        "word_welsh": "o’r enw"
+    },
+    {
+        "category": "other",
+        "level": "canolradd",
+        "unit": "10",
+        "word_english": "the majority",
+        "word_welsh": "y rhan fwya"
+    },
+    {
+        "category": "other",
+        "level": "canolradd",
+        "unit": "10",
+        "word_english": "eisiau",
+        "word_welsh": "isio"
+    },
+    {
+        "category": "feminine noun",
+        "level": "canolradd",
+        "unit": "11",
+        "word_english": "period(s) of time",
+        "word_welsh": "adeg(au)"
+    },
+    {
+        "category": "feminine noun",
+        "level": "canolradd",
+        "unit": "11",
+        "word_english": "agriculture",
+        "word_welsh": "amaethyddiaeth"
+    },
+    {
+        "category": "feminine noun",
+        "level": "canolradd",
+        "unit": "11",
+        "word_english": "easy chair",
+        "word_welsh": "cadair esmwyth"
+    },
+    {
+        "category": "feminine noun",
+        "level": "canolradd",
+        "unit": "11",
+        "word_english": "understanding",
+        "word_welsh": "dealltwriaeth"
+    },
+    {
+        "category": "feminine noun",
+        "level": "canolradd",
+        "unit": "11",
+        "word_english": "debt(s)",
+        "word_welsh": "dyled(ion)"
+    },
+    {
+        "category": "feminine noun",
+        "level": "canolradd",
+        "unit": "11",
+        "word_english": "flame(s)",
+        "word_welsh": "fflam(au)"
+    },
+    {
+        "category": "feminine noun",
+        "level": "canolradd",
+        "unit": "11",
+        "word_english": "lip(s)",
+        "word_welsh": "gwefus(au)"
+    },
+    {
+        "category": "feminine noun",
+        "level": "canolradd",
+        "unit": "11",
+        "word_english": "politics",
+        "word_welsh": "gwleidyddiaeth"
+    },
+    {
+        "category": "feminine noun",
+        "level": "canolradd",
+        "unit": "11",
+        "word_english": "shelter(s)",
+        "word_welsh": "lloches(au)"
+    },
+    {
+        "category": "feminine noun",
+        "level": "canolradd",
+        "unit": "11",
+        "word_english": "medication(s)",
+        "word_welsh": "meddyginiaeth(au)"
+    },
+    {
+        "category": "feminine noun",
+        "level": "canolradd",
+        "unit": "11",
+        "word_english": "rope(s)",
+        "word_welsh": "rhaff(au)"
+    },
+    {
+        "category": "masculine noun",
+        "level": "canolradd",
+        "unit": "11",
+        "word_english": "injury (-ies)",
+        "word_welsh": "anaf(iadau)"
+    },
+    {
+        "category": "masculine noun",
+        "level": "canolradd",
+        "unit": "11",
+        "word_english": "cap(s)",
+        "word_welsh": "cap(iau)"
+    },
+    {
+        "category": "masculine noun",
+        "level": "canolradd",
+        "unit": "11",
+        "word_english": "cradle(s), cot(s)",
+        "word_welsh": "crud(au)"
+    },
+    {
+        "category": "masculine noun",
+        "level": "canolradd",
+        "unit": "11",
+        "word_english": "knot(s)",
+        "word_welsh": "cwlwm (clymau)"
+    },
+    {
+        "category": "masculine noun",
+        "level": "canolradd",
+        "unit": "11",
+        "word_english": "tear(s)",
+        "word_welsh": "deigryn (dagrau)"
+    },
+    {
+        "category": "masculine noun",
+        "level": "canolradd",
+        "unit": "11",
+        "word_english": "mirror(s)",
+        "word_welsh": "drych(au)"
+    },
+    {
+        "category": "masculine noun",
+        "level": "canolradd",
+        "unit": "11",
+        "word_english": "extension(s)",
+        "word_welsh": "estyniad(au)"
+    },
+    {
+        "category": "masculine noun",
+        "level": "canolradd",
+        "unit": "11",
+        "word_english": "refugee(s)",
+        "word_welsh": "ffoadur(iaid)"
+    },
+    {
+        "category": "masculine noun",
+        "level": "canolradd",
+        "unit": "11",
+        "word_english": "fireplace(s)",
+        "word_welsh": "lle tân (llefydd tân)"
+    },
+    {
+        "category": "masculine noun",
+        "level": "canolradd",
+        "unit": "11",
+        "word_english": "leather",
+        "word_welsh": "lledr"
+    },
+    {
+        "category": "masculine noun",
+        "level": "canolradd",
+        "unit": "11",
+        "word_english": "spokesperson (spokespeople)",
+        "word_welsh": "llefarydd (llefarwyr)"
+    },
+    {
+        "category": "masculine noun",
+        "level": "canolradd",
+        "unit": "11",
+        "word_english": "flood(s)",
+        "word_welsh": "llif(ogydd)"
+    },
+    {
+        "category": "masculine noun",
+        "level": "canolradd",
+        "unit": "11",
+        "word_english": "metal(s)",
+        "word_welsh": "metel(au)"
+    },
+    {
+        "category": "masculine noun",
+        "level": "canolradd",
+        "unit": "11",
+        "word_english": "smoke",
+        "word_welsh": "mwg"
+    },
+    {
+        "category": "masculine noun",
+        "level": "canolradd",
+        "unit": "11",
+        "word_english": "pattern(s)",
+        "word_welsh": "patrwm (patrymau)"
+    },
+    {
+        "category": "masculine noun",
+        "level": "canolradd",
+        "unit": "11",
+        "word_english": "danger(s)",
+        "word_welsh": "perygl(on)"
+    },
+    {
+        "category": "masculine noun",
+        "level": "canolradd",
+        "unit": "11",
+        "word_english": "fisherman (-men)",
+        "word_welsh": "pysgotwr (-wyr)"
+    },
+    {
+        "category": "masculine noun",
+        "level": "canolradd",
+        "unit": "11",
+        "word_english": "cyclist(s)",
+        "word_welsh": "seiclwr (-wyr)"
+    },
+    {
+        "category": "masculine noun",
+        "level": "canolradd",
+        "unit": "11",
+        "word_english": "square(s)",
+        "word_welsh": "sgwâr (sgwariau)"
+    },
+    {
+        "category": "masculine noun",
+        "level": "canolradd",
+        "unit": "11",
+        "word_english": "land; ground(s)",
+        "word_welsh": "tir(oedd)"
+    },
+    {
+        "category": "verb",
+        "level": "canolradd",
+        "unit": "11",
+        "word_english": "to recite, to relate",
+        "word_welsh": "adrodd"
+    },
+    {
+        "category": "verb",
+        "level": "canolradd",
+        "unit": "11",
+        "word_english": "to arrest",
+        "word_welsh": "arestio"
+    },
+    {
+        "category": "verb",
+        "level": "canolradd",
+        "unit": "11",
+        "word_english": "to print",
+        "word_welsh": "argraffu"
+    },
+    {
+        "category": "verb",
+        "level": "canolradd",
+        "unit": "11",
+        "word_english": "to hit",
+        "word_welsh": "bwrw"
+    },
+    {
+        "category": "verb",
+        "level": "canolradd",
+        "unit": "11",
+        "word_english": "to tie; to knot",
+        "word_welsh": "clymu"
+    },
+    {
+        "category": "verb",
+        "level": "canolradd",
+        "unit": "11",
+        "word_english": "to disappear",
+        "word_welsh": "diflannu"
+    },
+    {
+        "category": "verb",
+        "level": "canolradd",
+        "unit": "11",
+        "word_english": "to destroy",
+        "word_welsh": "dinistrio"
+    },
+    {
+        "category": "verb",
+        "level": "canolradd",
+        "unit": "11",
+        "word_english": "to name",
+        "word_welsh": "enwi"
+    },
+    {
+        "category": "verb",
+        "level": "canolradd",
+        "unit": "11",
+        "word_english": "to overflow",
+        "word_welsh": "gorlifo"
+    },
+    {
+        "category": "verb",
+        "level": "canolradd",
+        "unit": "11",
+        "word_english": "to swallow",
+        "word_welsh": "llyncu"
+    },
+    {
+        "category": "verb",
+        "level": "canolradd",
+        "unit": "11",
+        "word_english": "to pause; to delay",
+        "word_welsh": "oedi"
+    },
+    {
+        "category": "verb",
+        "level": "canolradd",
+        "unit": "11",
+        "word_english": "to bend, to fold",
+        "word_welsh": "plygu"
+    },
+    {
+        "category": "verb",
+        "level": "canolradd",
+        "unit": "11",
+        "word_english": "to protest",
+        "word_welsh": "protestio"
+    },
+    {
+        "category": "verb",
+        "level": "canolradd",
+        "unit": "11",
+        "word_english": "to record",
+        "word_welsh": "recordio"
+    },
+    {
+        "category": "verb",
+        "level": "canolradd",
+        "unit": "11",
+        "word_english": "to whisper",
+        "word_welsh": "sibrwd"
+    },
+    {
+        "category": "verb",
+        "level": "canolradd",
+        "unit": "11",
+        "word_english": "to rock; to shake",
+        "word_welsh": "siglo"
+    },
+    {
+        "category": "verb",
+        "level": "canolradd",
+        "unit": "11",
+        "word_english": "to store",
+        "word_welsh": "storio"
+    },
+    {
+        "category": "verb",
+        "level": "canolradd",
+        "unit": "11",
+        "word_english": "to resign",
+        "word_welsh": "ymddiswyddo"
+    },
+    {
+        "category": "adjective",
+        "level": "canolradd",
+        "unit": "11",
+        "word_english": "agricultural",
+        "word_welsh": "amaethyddol"
+    },
+    {
+        "category": "adjective",
+        "level": "canolradd",
+        "unit": "11",
+        "word_english": "round",
+        "word_welsh": "crwn"
+    },
+    {
+        "category": "adjective",
+        "level": "canolradd",
+        "unit": "11",
+        "word_english": "impatient",
+        "word_welsh": "diamynedd"
+    },
+    {
+        "category": "adjective",
+        "level": "canolradd",
+        "unit": "11",
+        "word_english": "restful; smooth",
+        "word_welsh": "esmwyth"
+    },
+    {
+        "category": "adjective",
+        "level": "canolradd",
+        "unit": "11",
+        "word_english": "oval",
+        "word_welsh": "hirgrwn"
+    },
+    {
+        "category": "adjective",
+        "level": "canolradd",
+        "unit": "11",
+        "word_english": "rectangular",
+        "word_welsh": "petryal"
+    },
+    {
+        "category": "adjective",
+        "level": "canolradd",
+        "unit": "11",
+        "word_english": "spotty",
+        "word_welsh": "smotiog"
+    },
+    {
+        "category": "adjective",
+        "level": "canolradd",
+        "unit": "11",
+        "word_english": "striped",
+        "word_welsh": "streipiog"
+    },
+    {
+        "category": "adjective",
+        "level": "canolradd",
+        "unit": "11",
+        "word_english": "thick, dense",
+        "word_welsh": "trwchus"
+    },
+    {
+        "category": "other",
+        "level": "canolradd",
+        "unit": "11",
+        "word_english": "long time ago",
+        "word_welsh": "amser maith yn ôl"
+    },
+    {
+        "category": "other",
+        "level": "canolradd",
+        "unit": "11",
+        "word_english": "at the time",
+        "word_welsh": "ar y pryd"
+    },
+    {
+        "category": "other",
+        "level": "canolradd",
+        "unit": "11",
+        "word_english": "Olympic Games",
+        "word_welsh": "Gemau Olympaidd"
+    },
+    {
+        "category": "other",
+        "level": "canolradd",
+        "unit": "11",
+        "word_english": "that",
+        "word_welsh": "hynny"
+    },
+    {
+        "category": "other",
+        "level": "canolradd",
+        "unit": "11",
+        "word_english": "from bad to worse",
+        "word_welsh": "o ddrwg i waeth"
+    },
+    {
+        "category": "other",
+        "level": "canolradd",
+        "unit": "11",
+        "word_english": "achos",
+        "word_welsh": "oherwydd"
+    },
+    {
+        "category": "other",
+        "level": "canolradd",
+        "unit": "11",
+        "word_english": "First/Prime Minister",
+        "word_welsh": "Prif Weinidog"
+    },
+    {
+        "category": "other",
+        "level": "canolradd",
+        "unit": "11",
+        "word_english": "within (amser)",
+        "word_welsh": "ymhen"
+    },
+    {
+        "category": "other",
+        "level": "canolradd",
+        "unit": "11",
+        "word_english": "as well as, in addition to",
+        "word_welsh": "yn ogystal â"
+    },
+    {
+        "category": "other",
+        "level": "canolradd",
+        "unit": "11",
+        "word_english": "these",
+        "word_welsh": "y rhain"
+    },
+    {
+        "category": "feminine noun",
+        "level": "canolradd",
+        "unit": "12",
+        "word_english": "exit(s)",
+        "word_welsh": "allanfa (allanfeydd)"
+    },
+    {
+        "category": "feminine noun",
+        "level": "canolradd",
+        "unit": "12",
+        "word_english": "area(s), region(s)",
+        "word_welsh": "bro(ydd)"
+    },
+    {
+        "category": "feminine noun",
+        "level": "canolradd",
+        "unit": "12",
+        "word_english": "breast(s), chest(s)",
+        "word_welsh": "bron(nau)"
+    },
+    {
+        "category": "feminine noun",
+        "level": "canolradd",
+        "unit": "12",
+        "word_english": "loss(es)",
+        "word_welsh": "colled(ion)"
+    },
+    {
+        "category": "feminine noun",
+        "level": "canolradd",
+        "unit": "12",
+        "word_english": "secret(s)",
+        "word_welsh": "cyfrinach(au)"
+    },
+    {
+        "category": "feminine noun",
+        "level": "canolradd",
+        "unit": "12",
+        "word_english": "desk(s)",
+        "word_welsh": "desg(iau)"
+    },
+    {
+        "category": "feminine noun",
+        "level": "canolradd",
+        "unit": "12",
+        "word_english": "birth(s)",
+        "word_welsh": "genedigaeth(au)"
+    },
+    {
+        "category": "feminine noun",
+        "level": "canolradd",
+        "unit": "12",
+        "word_english": "great-grandmother",
+        "word_welsh": "hen fam-gu"
+    },
+    {
+        "category": "feminine noun",
+        "level": "canolradd",
+        "unit": "12",
+        "word_english": "personality (-ies)",
+        "word_welsh": "personoliaeth(au)"
+    },
+    {
+        "category": "feminine noun",
+        "level": "canolradd",
+        "unit": "12",
+        "word_english": "political party (-ies)",
+        "word_welsh": "plaid (pleidiau)"
+    },
+    {
+        "category": "feminine noun",
+        "level": "canolradd",
+        "unit": "12",
+        "word_english": "row(s)",
+        "word_welsh": "rhes(i)"
+    },
+    {
+        "category": "feminine noun",
+        "level": "canolradd",
+        "unit": "12",
+        "word_english": "net(s)",
+        "word_welsh": "rhwyd(i)"
+    },
+    {
+        "category": "feminine noun",
+        "level": "canolradd",
+        "unit": "12",
+        "word_english": "voucher(s)",
+        "word_welsh": "taleb(au)"
+    },
+    {
+        "category": "feminine noun",
+        "level": "canolradd",
+        "unit": "12",
+        "word_english": "female harpist(s)",
+        "word_welsh": "telynores(au)"
+    },
+    {
+        "category": "feminine noun",
+        "level": "canolradd",
+        "unit": "12",
+        "word_english": "crowd(s)",
+        "word_welsh": "torf(eydd)"
+    },
+    {
+        "category": "feminine noun",
+        "level": "canolradd",
+        "unit": "12",
+        "word_english": "treatment(s)",
+        "word_welsh": "triniaeth(au)"
+    },
+    {
+        "category": "feminine noun",
+        "level": "canolradd",
+        "unit": "12",
+        "word_english": "crowd(s)",
+        "word_welsh": "tyrfa(oedd)"
+    },
+    {
+        "category": "masculine noun",
+        "level": "canolradd",
+        "unit": "12",
+        "word_english": "artist(s)",
+        "word_welsh": "arlunydd (-wyr)"
+    },
+    {
+        "category": "masculine noun",
+        "level": "canolradd",
+        "unit": "12",
+        "word_english": "inspector(s)",
+        "word_welsh": "arolygydd (-wyr)"
+    },
+    {
+        "category": "masculine noun",
+        "level": "canolradd",
+        "unit": "12",
+        "word_english": "taste(s)",
+        "word_welsh": "blas(au)"
+    },
+    {
+        "category": "masculine noun",
+        "level": "canolradd",
+        "unit": "12",
+        "word_english": "box(es)",
+        "word_welsh": "blwch (blychau)"
+    },
+    {
+        "category": "masculine noun",
+        "level": "canolradd",
+        "unit": "12",
+        "word_english": "hill(s)",
+        "word_welsh": "bryn(iau)"
+    },
+    {
+        "category": "masculine noun",
+        "level": "canolradd",
+        "unit": "12",
+        "word_english": "mistake(s)",
+        "word_welsh": "camgymeriad(au)"
+    },
+    {
+        "category": "masculine noun",
+        "level": "canolradd",
+        "unit": "12",
+        "word_english": "cancer(s)",
+        "word_welsh": "canser(au)"
+    },
+    {
+        "category": "masculine noun",
+        "level": "canolradd",
+        "unit": "12",
+        "word_english": "body (bodies)",
+        "word_welsh": "corff (cyrff)"
+    },
+    {
+        "category": "masculine noun",
+        "level": "canolradd",
+        "unit": "12",
+        "word_english": "crew(s)",
+        "word_welsh": "criw(iau)"
+    },
+    {
+        "category": "masculine noun",
+        "level": "canolradd",
+        "unit": "12",
+        "word_english": "strength(s)",
+        "word_welsh": "cryfder(au)"
+    },
+    {
+        "category": "masculine noun",
+        "level": "canolradd",
+        "unit": "12",
+        "word_english": "total(s)",
+        "word_welsh": "cyfanswm (cyfansymiau)"
+    },
+    {
+        "category": "masculine noun",
+        "level": "canolradd",
+        "unit": "12",
+        "word_english": "drawing(s)",
+        "word_welsh": "darlun(iau)"
+    },
+    {
+        "category": "masculine noun",
+        "level": "canolradd",
+        "unit": "12",
+        "word_english": "damage",
+        "word_welsh": "difrod"
+    },
+    {
+        "category": "masculine noun",
+        "level": "canolradd",
+        "unit": "12",
+        "word_english": "culture(s)",
+        "word_welsh": "diwylliant (diwylliannau)"
+    },
+    {
+        "category": "masculine noun",
+        "level": "canolradd",
+        "unit": "12",
+        "word_english": "piece(s) of furniture",
+        "word_welsh": "dodrefnyn (dodrefn)"
+    },
+    {
+        "category": "masculine noun",
+        "level": "canolradd",
+        "unit": "12",
+        "word_english": "great-grand father",
+        "word_welsh": "hen dad-cu"
+    },
+    {
+        "category": "masculine noun",
+        "level": "canolradd",
+        "unit": "12",
+        "word_english": "lad(s), youth(s)",
+        "word_welsh": "llanc(iau)"
+    },
+    {
+        "category": "masculine noun",
+        "level": "canolradd",
+        "unit": "12",
+        "word_english": "place(s)",
+        "word_welsh": "man(nau)"
+    },
+    {
+        "category": "masculine noun",
+        "level": "canolradd",
+        "unit": "12",
+        "word_english": "movement(s), organisation(s)",
+        "word_welsh": "mudiad(au)"
+    },
+    {
+        "category": "masculine noun",
+        "level": "canolradd",
+        "unit": "12",
+        "word_english": "package(s)",
+        "word_welsh": "pecyn(nau)"
+    },
+    {
+        "category": "masculine noun",
+        "level": "canolradd",
+        "unit": "12",
+        "word_english": "position(s), site(s)",
+        "word_welsh": "safle(oedd)"
+    },
+    {
+        "category": "masculine noun",
+        "level": "canolradd",
+        "unit": "12",
+        "word_english": "institution(s), establishment(s)",
+        "word_welsh": "sefydliad(au)"
+    },
+    {
+        "category": "masculine noun",
+        "level": "canolradd",
+        "unit": "12",
+        "word_english": "male harpist(s)",
+        "word_welsh": "telynor(ion)"
+    },
+    {
+        "category": "masculine noun",
+        "level": "canolradd",
+        "unit": "12",
+        "word_english": "sadness",
+        "word_welsh": "tristwch"
+    },
+    {
+        "category": "masculine noun",
+        "level": "canolradd",
+        "unit": "12",
+        "word_english": "temperature",
+        "word_welsh": "tymheredd"
+    },
+    {
+        "category": "masculine noun",
+        "level": "canolradd",
+        "unit": "12",
+        "word_english": "darkness",
+        "word_welsh": "tywyllwch"
+    },
+    {
+        "category": "masculine noun",
+        "level": "canolradd",
+        "unit": "12",
+        "word_english": "individual(s)",
+        "word_welsh": "unigolyn (unigolion)"
+    },
+    {
+        "category": "masculine noun",
+        "level": "canolradd",
+        "unit": "12",
+        "word_english": "research",
+        "word_welsh": "ymchwil"
+    },
+    {
+        "category": "verb",
+        "level": "canolradd",
+        "unit": "12",
+        "word_english": "to exhibit",
+        "word_welsh": "arddangos"
+    },
+    {
+        "category": "verb",
+        "level": "canolradd",
+        "unit": "12",
+        "word_english": "to imprison",
+        "word_welsh": "carcharu"
+    },
+    {
+        "category": "verb",
+        "level": "canolradd",
+        "unit": "12",
+        "word_english": "to welcome",
+        "word_welsh": "croesawu"
+    },
+    {
+        "category": "verb",
+        "level": "canolradd",
+        "unit": "12",
+        "word_english": "to laze",
+        "word_welsh": "diogi"
+    },
+    {
+        "category": "verb",
+        "level": "canolradd",
+        "unit": "12",
+        "word_english": "to say goodbye (to)",
+        "word_welsh": "ffarwelio (â)"
+    },
+    {
+        "category": "verb",
+        "level": "canolradd",
+        "unit": "12",
+        "word_english": "to claim",
+        "word_welsh": "hawlio"
+    },
+    {
+        "category": "verb",
+        "level": "canolradd",
+        "unit": "12",
+        "word_english": "to spread; to widen",
+        "word_welsh": "lledu"
+    },
+    {
+        "category": "verb",
+        "level": "canolradd",
+        "unit": "12",
+        "word_english": "to reduce",
+        "word_welsh": "lleihau"
+    },
+    {
+        "category": "verb",
+        "level": "canolradd",
+        "unit": "12",
+        "word_english": "to continue",
+        "word_welsh": "parhau"
+    },
+    {
+        "category": "verb",
+        "level": "canolradd",
+        "unit": "12",
+        "word_english": "to plant",
+        "word_welsh": "plannu"
+    },
+    {
+        "category": "verb",
+        "level": "canolradd",
+        "unit": "12",
+        "word_english": "to rush",
+        "word_welsh": "rhuthro"
+    },
+    {
+        "category": "verb",
+        "level": "canolradd",
+        "unit": "12",
+        "word_english": "to warn",
+        "word_welsh": "rhybuddio"
+    },
+    {
+        "category": "verb",
+        "level": "canolradd",
+        "unit": "12",
+        "word_english": "to shoot",
+        "word_welsh": "saethu"
+    },
+    {
+        "category": "verb",
+        "level": "canolradd",
+        "unit": "12",
+        "word_english": "to heat (up)",
+        "word_welsh": "twymo"
+    },
+    {
+        "category": "adjective",
+        "level": "canolradd",
+        "unit": "12",
+        "word_english": "second-hand",
+        "word_welsh": "ail-law"
+    },
+    {
+        "category": "adjective",
+        "level": "canolradd",
+        "unit": "12",
+        "word_english": "bach",
+        "word_welsh": "bychan"
+    },
+    {
+        "category": "adjective",
+        "level": "canolradd",
+        "unit": "12",
+        "word_english": "lively",
+        "word_welsh": "bywiog"
+    },
+    {
+        "category": "adjective",
+        "level": "canolradd",
+        "unit": "12",
+        "word_english": "equal",
+        "word_welsh": "cyfartal"
+    },
+    {
+        "category": "adjective",
+        "level": "canolradd",
+        "unit": "12",
+        "word_english": "innocent, not guilty",
+        "word_welsh": "dieuog"
+    },
+    {
+        "category": "adjective",
+        "level": "canolradd",
+        "unit": "12",
+        "word_english": "electronic",
+        "word_welsh": "electronig"
+    },
+    {
+        "category": "adjective",
+        "level": "canolradd",
+        "unit": "12",
+        "word_english": "guilty",
+        "word_welsh": "euog"
+    },
+    {
+        "category": "adjective",
+        "level": "canolradd",
+        "unit": "12",
+        "word_english": "leisurely",
+        "word_welsh": "hamddenol"
+    },
+    {
+        "category": "adjective",
+        "level": "canolradd",
+        "unit": "12",
+        "word_english": "full of fun",
+        "word_welsh": "hwyliog"
+    },
+    {
+        "category": "adjective",
+        "level": "canolradd",
+        "unit": "12",
+        "word_english": "oral",
+        "word_welsh": "llafar"
+    },
+    {
+        "category": "other",
+        "level": "canolradd",
+        "unit": "12",
+        "word_english": "physical education",
+        "word_welsh": "addysg gorfforol"
+    },
+    {
+        "category": "other",
+        "level": "canolradd",
+        "unit": "12",
+        "word_english": "mwynhau",
+        "word_welsh": "cael blas ar"
+    },
+    {
+        "category": "other",
+        "level": "canolradd",
+        "unit": "12",
+        "word_english": "to find, to discover",
+        "word_welsh": "cael hyd i"
+    },
+    {
+        "category": "other",
+        "level": "canolradd",
+        "unit": "12",
+        "word_english": "hundredth",
+        "word_welsh": "canfed"
+    },
+    {
+        "category": "other",
+        "level": "canolradd",
+        "unit": "12",
+        "word_english": "breast cancer",
+        "word_welsh": "canser y fron"
+    },
+    {
+        "category": "other",
+        "level": "canolradd",
+        "unit": "12",
+        "word_english": "draw",
+        "word_welsh": "gêm gyfartal"
+    },
+    {
+        "category": "other",
+        "level": "canolradd",
+        "unit": "12",
+        "word_english": "drizzle",
+        "word_welsh": "glaw mân"
+    },
+    {
+        "category": "other",
+        "level": "canolradd",
+        "unit": "12",
+        "word_english": "exactly",
+        "word_welsh": "i’r dim"
+    },
+    {
+        "category": "other",
+        "level": "canolradd",
+        "unit": "12",
+        "word_english": "from now on",
+        "word_welsh": "o hyn ymlaen"
+    },
+    {
+        "category": "feminine noun",
+        "level": "canolradd",
+        "unit": "13",
+        "word_english": "exit(s)",
+        "word_welsh": "allanfa (allanfeydd)"
+    },
+    {
+        "category": "feminine noun",
+        "level": "canolradd",
+        "unit": "13",
+        "word_english": "basket(s)",
+        "word_welsh": "basged(i)"
+    },
+    {
+        "category": "feminine noun",
+        "level": "canolradd",
+        "unit": "13",
+        "word_english": "gravestone(s)",
+        "word_welsh": "carreg fedd (cerrig beddau)"
+    },
+    {
+        "category": "feminine noun",
+        "level": "canolradd",
+        "unit": "13",
+        "word_english": "nut(s)",
+        "word_welsh": "cneuen (cnau)"
+    },
+    {
+        "category": "feminine noun",
+        "level": "canolradd",
+        "unit": "13",
+        "word_english": "coconut(s)",
+        "word_welsh": "cneuen goco (cnau coco)"
+    },
+    {
+        "category": "feminine noun",
+        "level": "canolradd",
+        "unit": "13",
+        "word_english": "number(s), quantity(-ies)",
+        "word_welsh": "nifer(oedd)"
+    },
+    {
+        "category": "feminine noun",
+        "level": "canolradd",
+        "unit": "13",
+        "word_english": "racket(s)",
+        "word_welsh": "raced(i)"
+    },
+    {
+        "category": "feminine noun",
+        "level": "canolradd",
+        "unit": "13",
+        "word_english": "dialect(s)",
+        "word_welsh": "tafodiaith (tafodieithoedd)"
+    },
+    {
+        "category": "feminine noun",
+        "level": "canolradd",
+        "unit": "13",
+        "word_english": "state(s)",
+        "word_welsh": "talaith (taleithiau)"
+    },
+    {
+        "category": "feminine noun",
+        "level": "canolradd",
+        "unit": "13",
+        "word_english": "handwriting",
+        "word_welsh": "ysgrifen"
+    },
+    {
+        "category": "masculine noun",
+        "level": "canolradd",
+        "unit": "13",
+        "word_english": "authority (-ies)",
+        "word_welsh": "awdurdod(au)"
+    },
+    {
+        "category": "masculine noun",
+        "level": "canolradd",
+        "unit": "13",
+        "word_english": "prison(s)",
+        "word_welsh": "carchar(dai)"
+    },
+    {
+        "category": "masculine noun",
+        "level": "canolradd",
+        "unit": "13",
+        "word_english": "supporter(s)",
+        "word_welsh": "cefnogwr (-wyr)"
+    },
+    {
+        "category": "masculine noun",
+        "level": "canolradd",
+        "unit": "13",
+        "word_english": "caretaker(s); carer(s)",
+        "word_welsh": "gofalwr (-wyr)"
+    },
+    {
+        "category": "masculine noun",
+        "level": "canolradd",
+        "unit": "13",
+        "word_english": "grammar",
+        "word_welsh": "gramadeg"
+    },
+    {
+        "category": "masculine noun",
+        "level": "canolradd",
+        "unit": "13",
+        "word_english": "location(s)",
+        "word_welsh": "lleoliad(au)"
+    },
+    {
+        "category": "masculine noun",
+        "level": "canolradd",
+        "unit": "13",
+        "word_english": "enjoyment",
+        "word_welsh": "mwynhad"
+    },
+    {
+        "category": "masculine noun",
+        "level": "canolradd",
+        "unit": "13",
+        "word_english": "prairie(s)",
+        "word_welsh": "paith (peithiau)"
+    },
+    {
+        "category": "masculine noun",
+        "level": "canolradd",
+        "unit": "13",
+        "word_english": "war(s)",
+        "word_welsh": "rhyfel(oedd)"
+    },
+    {
+        "category": "masculine noun",
+        "level": "canolradd",
+        "unit": "13",
+        "word_english": "arrangement(s)",
+        "word_welsh": "trefniad(-au)"
+    },
+    {
+        "category": "verb",
+        "level": "canolradd",
+        "unit": "13",
+        "word_english": "to chair",
+        "word_welsh": "cadeirio"
+    },
+    {
+        "category": "verb",
+        "level": "canolradd",
+        "unit": "13",
+        "word_english": "to get wet",
+        "word_welsh": "gwlychu"
+    },
+    {
+        "category": "verb",
+        "level": "canolradd",
+        "unit": "13",
+        "word_english": "to age",
+        "word_welsh": "heneiddio"
+    },
+    {
+        "category": "verb",
+        "level": "canolradd",
+        "unit": "13",
+        "word_english": "to wrap",
+        "word_welsh": "lapio"
+    },
+    {
+        "category": "verb",
+        "level": "canolradd",
+        "unit": "13",
+        "word_english": "to treat",
+        "word_welsh": "trin"
+    },
+    {
+        "category": "adjective",
+        "level": "canolradd",
+        "unit": "13",
+        "word_english": "open",
+        "word_welsh": "agored"
+    },
+    {
+        "category": "adjective",
+        "level": "canolradd",
+        "unit": "13",
+        "word_english": "necessary",
+        "word_welsh": "angenrheidiol"
+    },
+    {
+        "category": "adjective",
+        "level": "canolradd",
+        "unit": "13",
+        "word_english": "annual",
+        "word_welsh": "blynyddol"
+    },
+    {
+        "category": "adjective",
+        "level": "canolradd",
+        "unit": "13",
+        "word_english": "clever",
+        "word_welsh": "clyfar"
+    },
+    {
+        "category": "adjective",
+        "level": "canolradd",
+        "unit": "13",
+        "word_english": "responsible",
+        "word_welsh": "cyfrifol"
+    },
+    {
+        "category": "adjective",
+        "level": "canolradd",
+        "unit": "13",
+        "word_english": "intelligent",
+        "word_welsh": "deallus"
+    },
+    {
+        "category": "adjective",
+        "level": "canolradd",
+        "unit": "13",
+        "word_english": "capable, brainy",
+        "word_welsh": "galluog"
+    },
+    {
+        "category": "adjective",
+        "level": "canolradd",
+        "unit": "13",
+        "word_english": "hardworking",
+        "word_welsh": "gweithgar"
+    },
+    {
+        "category": "adjective",
+        "level": "canolradd",
+        "unit": "13",
+        "word_english": "likeable",
+        "word_welsh": "hoffus"
+    },
+    {
+        "category": "adjective",
+        "level": "canolradd",
+        "unit": "13",
+        "word_english": "private",
+        "word_welsh": "preifat"
+    },
+    {
+        "category": "adjective",
+        "level": "canolradd",
+        "unit": "13",
+        "word_english": "stable, fixed, unchanging",
+        "word_welsh": "sefydlog"
+    },
+    {
+        "category": "other",
+        "level": "canolradd",
+        "unit": "13",
+        "word_english": "to make do, to answer the purpose",
+        "word_welsh": "gwneud y tro"
+    },
+    {
+        "category": "other",
+        "level": "canolradd",
+        "unit": "13",
+        "word_english": "personal details",
+        "word_welsh": "manylion personol"
+    },
+    {
+        "category": "other",
+        "level": "canolradd",
+        "unit": "13",
+        "word_english": "from afar",
+        "word_welsh": "o bell"
+    },
+    {
+        "category": "feminine noun",
+        "level": "canolradd",
+        "unit": "14",
+        "word_english": "attitude(s)",
+        "word_welsh": "agwedd(au)"
+    },
+    {
+        "category": "feminine noun",
+        "level": "canolradd",
+        "unit": "14",
+        "word_english": "cage(s)",
+        "word_welsh": "caets(ys) / cawell (cewyll)"
+    },
+    {
+        "category": "feminine noun",
+        "level": "canolradd",
+        "unit": "14",
+        "word_english": "poem(s)",
+        "word_welsh": "cerdd(i)"
+    },
+    {
+        "category": "feminine noun",
+        "level": "canolradd",
+        "unit": "14",
+        "word_english": "complaint(s)",
+        "word_welsh": "cwyn(ion)"
+    },
+    {
+        "category": "feminine noun",
+        "level": "canolradd",
+        "unit": "14",
+        "word_english": "level(s)",
+        "word_welsh": "lefel(au)"
+    },
+    {
+        "category": "feminine noun",
+        "level": "canolradd",
+        "unit": "14",
+        "word_english": "nest(s)",
+        "word_welsh": "nyth(od)"
+    },
+    {
+        "category": "feminine noun",
+        "level": "canolradd",
+        "unit": "14",
+        "word_english": "pipe(s)",
+        "word_welsh": "pibell(i)"
+    },
+    {
+        "category": "feminine noun",
+        "level": "canolradd",
+        "unit": "14",
+        "word_english": "traffic jam(s)",
+        "word_welsh": "tagfa (tagfeydd)"
+    },
+    {
+        "category": "feminine noun",
+        "level": "canolradd",
+        "unit": "14",
+        "word_english": "thunder",
+        "word_welsh": "taran(au)"
+    },
+    {
+        "category": "masculine noun",
+        "level": "canolradd",
+        "unit": "14",
+        "word_english": "patience",
+        "word_welsh": "amynedd"
+    },
+    {
+        "category": "masculine noun",
+        "level": "canolradd",
+        "unit": "14",
+        "word_english": "athletics",
+        "word_welsh": "athletau"
+    },
+    {
+        "category": "masculine noun",
+        "level": "canolradd",
+        "unit": "14",
+        "word_english": "chat",
+        "word_welsh": "clonc"
+    },
+    {
+        "category": "masculine noun",
+        "level": "canolradd",
+        "unit": "14",
+        "word_english": "cotton",
+        "word_welsh": "cotwm"
+    },
+    {
+        "category": "masculine noun",
+        "level": "canolradd",
+        "unit": "14",
+        "word_english": "counter(s)",
+        "word_welsh": "cownter(i)"
+    },
+    {
+        "category": "masculine noun",
+        "level": "canolradd",
+        "unit": "14",
+        "word_english": "contact",
+        "word_welsh": "cyswllt"
+    },
+    {
+        "category": "masculine noun",
+        "level": "canolradd",
+        "unit": "14",
+        "word_english": "diet",
+        "word_welsh": "deiet"
+    },
+    {
+        "category": "masculine noun",
+        "level": "canolradd",
+        "unit": "14",
+        "word_english": "unemployment",
+        "word_welsh": "diweithdra"
+    },
+    {
+        "category": "masculine noun",
+        "level": "canolradd",
+        "unit": "14",
+        "word_english": "climber(s)",
+        "word_welsh": "dringwr (-wyr)"
+    },
+    {
+        "category": "masculine noun",
+        "level": "canolradd",
+        "unit": "14",
+        "word_english": "care",
+        "word_welsh": "gofal"
+    },
+    {
+        "category": "masculine noun",
+        "level": "canolradd",
+        "unit": "14",
+        "word_english": "confidence",
+        "word_welsh": "hyder"
+    },
+    {
+        "category": "masculine noun",
+        "level": "canolradd",
+        "unit": "14",
+        "word_english": "burglary (burglaries)",
+        "word_welsh": "lladrad(au)"
+    },
+    {
+        "category": "masculine noun",
+        "level": "canolradd",
+        "unit": "14",
+        "word_english": "thief (thieves)",
+        "word_welsh": "lleidr (lladron)"
+    },
+    {
+        "category": "masculine noun",
+        "level": "canolradd",
+        "unit": "14",
+        "word_english": "plural(s)",
+        "word_welsh": "lluosog(ion)"
+    },
+    {
+        "category": "masculine noun",
+        "level": "canolradd",
+        "unit": "14",
+        "word_english": "load(s)",
+        "word_welsh": "llwyth(i)"
+    },
+    {
+        "category": "masculine noun",
+        "level": "canolradd",
+        "unit": "14",
+        "word_english": "mud",
+        "word_welsh": "mwd"
+    },
+    {
+        "category": "masculine noun",
+        "level": "canolradd",
+        "unit": "14",
+        "word_english": "profession(s)",
+        "word_welsh": "proffesiwn (proffesiynau)"
+    },
+    {
+        "category": "masculine noun",
+        "level": "canolradd",
+        "unit": "14",
+        "word_english": "runner(s)",
+        "word_welsh": "rhedwr (-wyr)"
+    },
+    {
+        "category": "masculine noun",
+        "level": "canolradd",
+        "unit": "14",
+        "word_english": "stuffing",
+        "word_welsh": "stwffin"
+    },
+    {
+        "category": "masculine noun",
+        "level": "canolradd",
+        "unit": "14",
+        "word_english": "drought; dryness",
+        "word_welsh": "sychder"
+    },
+    {
+        "category": "masculine noun",
+        "level": "canolradd",
+        "unit": "14",
+        "word_english": "track(s)",
+        "word_welsh": "trac(iau)"
+    },
+    {
+        "category": "masculine noun",
+        "level": "canolradd",
+        "unit": "14",
+        "word_english": "witness(es)",
+        "word_welsh": "tyst(ion)"
+    },
+    {
+        "category": "verb",
+        "level": "canolradd",
+        "unit": "14",
+        "word_english": "to repeat",
+        "word_welsh": "ailadrodd"
+    },
+    {
+        "category": "verb",
+        "level": "canolradd",
+        "unit": "14",
+        "word_english": "to appeal",
+        "word_welsh": "apelio (at)"
+    },
+    {
+        "category": "verb",
+        "level": "canolradd",
+        "unit": "14",
+        "word_english": "to suggest",
+        "word_welsh": "awgrymu"
+    },
+    {
+        "category": "verb",
+        "level": "canolradd",
+        "unit": "14",
+        "word_english": "to transport",
+        "word_welsh": "cludo"
+    },
+    {
+        "category": "verb",
+        "level": "canolradd",
+        "unit": "14",
+        "word_english": "to crown",
+        "word_welsh": "coroni"
+    },
+    {
+        "category": "verb",
+        "level": "canolradd",
+        "unit": "14",
+        "word_english": "to itch",
+        "word_welsh": "cosi"
+    },
+    {
+        "category": "verb",
+        "level": "canolradd",
+        "unit": "14",
+        "word_english": "to mix (with)",
+        "word_welsh": "cymysgu (â)"
+    },
+    {
+        "category": "verb",
+        "level": "canolradd",
+        "unit": "14",
+        "word_english": "to deal (with)",
+        "word_welsh": "delio (â)"
+    },
+    {
+        "category": "verb",
+        "level": "canolradd",
+        "unit": "14",
+        "word_english": "to press; to weigh",
+        "word_welsh": "pwyso"
+    },
+    {
+        "category": "verb",
+        "level": "canolradd",
+        "unit": "14",
+        "word_english": "to race",
+        "word_welsh": "rasio"
+    },
+    {
+        "category": "verb",
+        "level": "canolradd",
+        "unit": "14",
+        "word_english": "to apply (for)",
+        "word_welsh": "ymgeisio (am)"
+    },
+    {
+        "category": "adjective",
+        "level": "canolradd",
+        "unit": "14",
+        "word_english": "intense; intensive",
+        "word_welsh": "dwys"
+    },
+    {
+        "category": "adjective",
+        "level": "canolradd",
+        "unit": "14",
+        "word_english": "wild",
+        "word_welsh": "gwyllt"
+    },
+    {
+        "category": "adjective",
+        "level": "canolradd",
+        "unit": "14",
+        "word_english": "all-important",
+        "word_welsh": "hollbwysig"
+    },
+    {
+        "category": "adjective",
+        "level": "canolradd",
+        "unit": "14",
+        "word_english": "muddy",
+        "word_welsh": "mwdlyd"
+    },
+    {
+        "category": "adjective",
+        "level": "canolradd",
+        "unit": "14",
+        "word_english": "odd",
+        "word_welsh": "od"
+    },
+    {
+        "category": "adjective",
+        "level": "canolradd",
+        "unit": "14",
+        "word_english": "rare, scarce",
+        "word_welsh": "prin"
+    },
+    {
+        "category": "adjective",
+        "level": "canolradd",
+        "unit": "14",
+        "word_english": "experienced",
+        "word_welsh": "profiadol"
+    },
+    {
+        "category": "adjective",
+        "level": "canolradd",
+        "unit": "14",
+        "word_english": "single",
+        "word_welsh": "sengl"
+    },
+    {
+        "category": "adjective",
+        "level": "canolradd",
+        "unit": "14",
+        "word_english": "thirsty",
+        "word_welsh": "sychedig"
+    },
+    {
+        "category": "other",
+        "level": "canolradd",
+        "unit": "14",
+        "word_english": "The Brecon Beacons",
+        "word_welsh": "Bannau Brycheiniog"
+    },
+    {
+        "category": "other",
+        "level": "canolradd",
+        "unit": "14",
+        "word_english": "over; overleaf",
+        "word_welsh": "drosodd"
+    },
+    {
+        "category": "other",
+        "level": "canolradd",
+        "unit": "14",
+        "word_english": "to make a mess of",
+        "word_welsh": "gwneud cawl o"
+    },
+    {
+        "category": "other",
+        "level": "canolradd",
+        "unit": "14",
+        "word_english": "chit-chat",
+        "word_welsh": "mân siarad"
+    },
+    {
+        "category": "other",
+        "level": "canolradd",
+        "unit": "14",
+        "word_english": "seriously",
+        "word_welsh": "o ddifri"
+    },
+    {
+        "category": "other",
+        "level": "canolradd",
+        "unit": "14",
+        "word_english": "popeth",
+        "word_welsh": "pob dim"
+    },
+    {
+        "category": "other",
+        "level": "canolradd",
+        "unit": "14",
+        "word_english": "foster parent(s)",
+        "word_welsh": "rhiant (rhieni) maeth"
+    },
+    {
+        "category": "other",
+        "level": "canolradd",
+        "unit": "14",
+        "word_english": "cross country",
+        "word_welsh": "traws gwlad"
+    },
+    {
+        "category": "other",
+        "level": "canolradd",
+        "unit": "14",
+        "word_english": "hard of hearing",
+        "word_welsh": "trwm ei glyw/chlyw"
+    },
+    {
+        "category": "other",
+        "level": "canolradd",
+        "unit": "14",
+        "word_english": "exhausted",
+        "word_welsh": "wedi blino’n lân"
+    },
+    {
+        "category": "other",
+        "level": "canolradd",
+        "unit": "14",
+        "word_english": "mainly",
+        "word_welsh": "yn bennaf"
+    },
+    {
+        "category": "other",
+        "level": "canolradd",
+        "unit": "14",
+        "word_english": "alive and kicking",
+        "word_welsh": "yn fyw ac yn iach"
+    },
+    {
+        "category": "other",
+        "level": "canolradd",
+        "unit": "14",
+        "word_english": "immediately",
+        "word_welsh": "yn syth bin"
+    },
+    {
+        "category": "feminine noun",
+        "level": "canolradd",
+        "unit": "15",
+        "word_english": "scar(s)",
+        "word_welsh": "craith (creithiau)"
+    },
+    {
+        "category": "feminine noun",
+        "level": "canolradd",
+        "unit": "15",
+        "word_english": "border(s)",
+        "word_welsh": "ffin(iau)"
+    },
+    {
+        "category": "feminine noun",
+        "level": "canolradd",
+        "unit": "15",
+        "word_english": "stick(s)",
+        "word_welsh": "ffon (ffyn)"
+    },
+    {
+        "category": "feminine noun",
+        "level": "canolradd",
+        "unit": "15",
+        "word_english": "printing press(es)",
+        "word_welsh": "gwasg (gweisg)"
+    },
+    {
+        "category": "feminine noun",
+        "level": "canolradd",
+        "unit": "15",
+        "word_english": "yard(s)",
+        "word_welsh": "iard(iau)"
+    },
+    {
+        "category": "feminine noun",
+        "level": "canolradd",
+        "unit": "15",
+        "word_english": "rocket(s)",
+        "word_welsh": "roced(i)"
+    },
+    {
+        "category": "feminine noun",
+        "level": "canolradd",
+        "unit": "15",
+        "word_english": "strike(s)",
+        "word_welsh": "streic(iau)"
+    },
+    {
+        "category": "feminine noun",
+        "level": "canolradd",
+        "unit": "15",
+        "word_english": "task(s)",
+        "word_welsh": "tasg(au)"
+    },
+    {
+        "category": "feminine noun",
+        "level": "canolradd",
+        "unit": "15",
+        "word_english": "China",
+        "word_welsh": "Tsieina"
+    },
+    {
+        "category": "feminine noun",
+        "level": "canolradd",
+        "unit": "15",
+        "word_english": "temperature",
+        "word_welsh": "tymheredd"
+    },
+    {
+        "category": "masculine noun",
+        "level": "canolradd",
+        "unit": "15",
+        "word_english": "result(s)",
+        "word_welsh": "canlyniad(au)"
+    },
+    {
+        "category": "masculine noun",
+        "level": "canolradd",
+        "unit": "15",
+        "word_english": "cloth(s), rag(s)",
+        "word_welsh": "clwtyn (clytiau)"
+    },
+    {
+        "category": "masculine noun",
+        "level": "canolradd",
+        "unit": "15",
+        "word_english": "hay hut",
+        "word_welsh": "cwt gwair"
+    },
+    {
+        "category": "masculine noun",
+        "level": "canolradd",
+        "unit": "15",
+        "word_english": "hen coop",
+        "word_welsh": "cwt ieir"
+    },
+    {
+        "category": "masculine noun",
+        "level": "canolradd",
+        "unit": "15",
+        "word_english": "drill(s)",
+        "word_welsh": "dril(iau)"
+    },
+    {
+        "category": "masculine noun",
+        "level": "canolradd",
+        "unit": "15",
+        "word_english": "steel",
+        "word_welsh": "dur"
+    },
+    {
+        "category": "masculine noun",
+        "level": "canolradd",
+        "unit": "15",
+        "word_english": "virus(es)",
+        "word_welsh": "feirws (feirysau)"
+    },
+    {
+        "category": "masculine noun",
+        "level": "canolradd",
+        "unit": "15",
+        "word_english": "gum",
+        "word_welsh": "gwm"
+    },
+    {
+        "category": "masculine noun",
+        "level": "canolradd",
+        "unit": "15",
+        "word_english": "dust",
+        "word_welsh": "llwch"
+    },
+    {
+        "category": "masculine noun",
+        "level": "canolradd",
+        "unit": "15",
+        "word_english": "decision(s)",
+        "word_welsh": "penderfyniad(au)"
+    },
+    {
+        "category": "masculine noun",
+        "level": "canolradd",
+        "unit": "15",
+        "word_english": "headline(s)",
+        "word_welsh": "pennawd (penawdau)"
+    },
+    {
+        "category": "masculine noun",
+        "level": "canolradd",
+        "unit": "15",
+        "word_english": "earth, soil",
+        "word_welsh": "pridd"
+    },
+    {
+        "category": "masculine noun",
+        "level": "canolradd",
+        "unit": "15",
+        "word_english": "sauce(s)",
+        "word_welsh": "saws(iau)"
+    },
+    {
+        "category": "masculine noun",
+        "level": "canolradd",
+        "unit": "15",
+        "word_english": "style",
+        "word_welsh": "steil"
+    },
+    {
+        "category": "masculine noun",
+        "level": "canolradd",
+        "unit": "15",
+        "word_english": "payment(s)",
+        "word_welsh": "tâl (taliadau)"
+    },
+    {
+        "category": "masculine noun",
+        "level": "canolradd",
+        "unit": "15",
+        "word_english": "tape(s)",
+        "word_welsh": "tâp (tapiau)"
+    },
+    {
+        "category": "masculine noun",
+        "level": "canolradd",
+        "unit": "15",
+        "word_english": "sty (sties)",
+        "word_welsh": "twlc (tylciau)"
+    },
+    {
+        "category": "verb",
+        "level": "canolradd",
+        "unit": "15",
+        "word_english": "to renew, to refurbish",
+        "word_welsh": "adnewyddu"
+    },
+    {
+        "category": "verb",
+        "level": "canolradd",
+        "unit": "15",
+        "word_english": "to promise",
+        "word_welsh": "addo"
+    },
+    {
+        "category": "verb",
+        "level": "canolradd",
+        "unit": "15",
+        "word_english": "gorffen",
+        "word_welsh": "cwblhau"
+    },
+    {
+        "category": "verb",
+        "level": "canolradd",
+        "unit": "15",
+        "word_english": "to flow",
+        "word_welsh": "llifo"
+    },
+    {
+        "category": "verb",
+        "level": "canolradd",
+        "unit": "15",
+        "word_english": "to measure",
+        "word_welsh": "mesur"
+    },
+    {
+        "category": "verb",
+        "level": "canolradd",
+        "unit": "15",
+        "word_english": "to slink, to sneak, to sidle",
+        "word_welsh": "sleifio"
+    },
+    {
+        "category": "adjective",
+        "level": "canolradd",
+        "unit": "15",
+        "word_english": "disgusting; sickly",
+        "word_welsh": "afiach"
+    },
+    {
+        "category": "adjective",
+        "level": "canolradd",
+        "unit": "15",
+        "word_english": "a few",
+        "word_welsh": "ambell"
+    },
+    {
+        "category": "adjective",
+        "level": "canolradd",
+        "unit": "15",
+        "word_english": "unusual",
+        "word_welsh": "anarferol"
+    },
+    {
+        "category": "adjective",
+        "level": "canolradd",
+        "unit": "15",
+        "word_english": "unlucky",
+        "word_welsh": "anlwcus"
+    },
+    {
+        "category": "adjective",
+        "level": "canolradd",
+        "unit": "15",
+        "word_english": "usual",
+        "word_welsh": "arferol"
+    },
+    {
+        "category": "adjective",
+        "level": "canolradd",
+        "unit": "15",
+        "word_english": "narrow",
+        "word_welsh": "cul"
+    },
+    {
+        "category": "adjective",
+        "level": "canolradd",
+        "unit": "15",
+        "word_english": "strange",
+        "word_welsh": "dieithr"
+    },
+    {
+        "category": "adjective",
+        "level": "canolradd",
+        "unit": "15",
+        "word_english": "daily",
+        "word_welsh": "dyddiol"
+    },
+    {
+        "category": "adjective",
+        "level": "canolradd",
+        "unit": "15",
+        "word_english": "flat",
+        "word_welsh": "gwastad"
+    },
+    {
+        "category": "adjective",
+        "level": "canolradd",
+        "unit": "15",
+        "word_english": "healthy (bwyd)",
+        "word_welsh": "iachus"
+    },
+    {
+        "category": "adjective",
+        "level": "canolradd",
+        "unit": "15",
+        "word_english": "wide",
+        "word_welsh": "llydan"
+    },
+    {
+        "category": "adjective",
+        "level": "canolradd",
+        "unit": "15",
+        "word_english": "severe",
+        "word_welsh": "llym"
+    },
+    {
+        "category": "adjective",
+        "level": "canolradd",
+        "unit": "15",
+        "word_english": "enjoyable",
+        "word_welsh": "pleserus"
+    },
+    {
+        "category": "adjective",
+        "level": "canolradd",
+        "unit": "15",
+        "word_english": "pure",
+        "word_welsh": "pur"
+    },
+    {
+        "category": "adjective",
+        "level": "canolradd",
+        "unit": "15",
+        "word_english": "sudden",
+        "word_welsh": "sydyn"
+    },
+    {
+        "category": "adjective",
+        "level": "canolradd",
+        "unit": "15",
+        "word_english": "weekly",
+        "word_welsh": "wythnosol"
+    },
+    {
+        "category": "other",
+        "level": "canolradd",
+        "unit": "15",
+        "word_english": "to keep an eye on; to keep track of",
+        "word_welsh": "cadw golwg ar"
+    },
+    {
+        "category": "other",
+        "level": "canolradd",
+        "unit": "15",
+        "word_english": "maintenance",
+        "word_welsh": "cynnal a chadw"
+    },
+    {
+        "category": "other",
+        "level": "canolradd",
+        "unit": "15",
+        "word_english": "under pressure",
+        "word_welsh": "dan bwysau"
+    },
+    {
+        "category": "other",
+        "level": "canolradd",
+        "unit": "15",
+        "word_english": "closing date",
+        "word_welsh": "dyddiad cau"
+    },
+    {
+        "category": "other",
+        "level": "canolradd",
+        "unit": "15",
+        "word_english": "chewing gum",
+        "word_welsh": "gwm cnoi"
+    },
+    {
+        "category": "other",
+        "level": "canolradd",
+        "unit": "15",
+        "word_english": "exactly! perfect!",
+        "word_welsh": "i’r dim!"
+    },
+    {
+        "category": "other",
+        "level": "canolradd",
+        "unit": "15",
+        "word_english": "per head",
+        "word_welsh": "y pen"
+    },
+    {
+        "category": "feminine noun",
+        "level": "canolradd",
+        "unit": "16",
+        "word_english": "Argentina",
+        "word_welsh": "Yr Ariannin"
+    },
+    {
+        "category": "feminine noun",
+        "level": "canolradd",
+        "unit": "16",
+        "word_english": "masters degree",
+        "word_welsh": "gradd meistr"
+    },
+    {
+        "category": "feminine noun",
+        "level": "canolradd",
+        "unit": "16",
+        "word_english": "literature",
+        "word_welsh": "llenyddiaeth"
+    },
+    {
+        "category": "feminine noun",
+        "level": "canolradd",
+        "unit": "16",
+        "word_english": "medal(s)",
+        "word_welsh": "medal(au)"
+    },
+    {
+        "category": "feminine noun",
+        "level": "canolradd",
+        "unit": "16",
+        "word_english": "venture(s); initiative(s)",
+        "word_welsh": "menter (mentrau)"
+    },
+    {
+        "category": "feminine noun",
+        "level": "canolradd",
+        "unit": "16",
+        "word_english": "championship(s)",
+        "word_welsh": "pencampwriaeth(au)"
+    },
+    {
+        "category": "feminine noun",
+        "level": "canolradd",
+        "unit": "16",
+        "word_english": "transport",
+        "word_welsh": "trafnidiaeth"
+    },
+    {
+        "category": "masculine noun",
+        "level": "canolradd",
+        "unit": "16",
+        "word_english": "habit(s)",
+        "word_welsh": "arfer(ion)"
+    },
+    {
+        "category": "masculine noun",
+        "level": "canolradd",
+        "unit": "16",
+        "word_english": "review(s); survey(s)",
+        "word_welsh": "arolwg (arolygon)"
+    },
+    {
+        "category": "masculine noun",
+        "level": "canolradd",
+        "unit": "16",
+        "word_english": "tiredness",
+        "word_welsh": "blinder"
+    },
+    {
+        "category": "masculine noun",
+        "level": "canolradd",
+        "unit": "16",
+        "word_english": "bulb(s)",
+        "word_welsh": "bylb(iau)"
+    },
+    {
+        "category": "masculine noun",
+        "level": "canolradd",
+        "unit": "16",
+        "word_english": "middle part, region (mewn gwlad)",
+        "word_welsh": "canolbarth"
+    },
+    {
+        "category": "masculine noun",
+        "level": "canolradd",
+        "unit": "16",
+        "word_english": "chemical(s)",
+        "word_welsh": "cemegyn (cemegau)"
+    },
+    {
+        "category": "masculine noun",
+        "level": "canolradd",
+        "unit": "16",
+        "word_english": "partner, companion",
+        "word_welsh": "cymar"
+    },
+    {
+        "category": "masculine noun",
+        "level": "canolradd",
+        "unit": "16",
+        "word_english": "plan(s); design(s)",
+        "word_welsh": "cynllun(iau)"
+    },
+    {
+        "category": "masculine noun",
+        "level": "canolradd",
+        "unit": "16",
+        "word_english": "silence",
+        "word_welsh": "distawrwydd"
+    },
+    {
+        "category": "masculine noun",
+        "level": "canolradd",
+        "unit": "16",
+        "word_english": "valley(s)",
+        "word_welsh": "dyffryn(noedd)"
+    },
+    {
+        "category": "masculine noun",
+        "level": "canolradd",
+        "unit": "16",
+        "word_english": "explanations(s)",
+        "word_welsh": "esboniad(au)"
+    },
+    {
+        "category": "masculine noun",
+        "level": "canolradd",
+        "unit": "16",
+        "word_english": "space",
+        "word_welsh": "gofod"
+    },
+    {
+        "category": "masculine noun",
+        "level": "canolradd",
+        "unit": "16",
+        "word_english": "lighthouse(s)",
+        "word_welsh": "goleudy (goleudai)"
+    },
+    {
+        "category": "masculine noun",
+        "level": "canolradd",
+        "unit": "16",
+        "word_english": "happiness",
+        "word_welsh": "hapusrwydd"
+    },
+    {
+        "category": "masculine noun",
+        "level": "canolradd",
+        "unit": "16",
+        "word_english": "lollypop(s)",
+        "word_welsh": "lolipop(s)"
+    },
+    {
+        "category": "masculine noun",
+        "level": "canolradd",
+        "unit": "16",
+        "word_english": "obsession(s)",
+        "word_welsh": "obsesiwn (obsesiynau)"
+    },
+    {
+        "category": "masculine noun",
+        "level": "canolradd",
+        "unit": "16",
+        "word_english": "pavement(s)",
+        "word_welsh": "palmant (palmentydd)"
+    },
+    {
+        "category": "masculine noun",
+        "level": "canolradd",
+        "unit": "16",
+        "word_english": "striker(s)",
+        "word_welsh": "streiciwr (-wyr)"
+    },
+    {
+        "category": "masculine noun",
+        "level": "canolradd",
+        "unit": "16",
+        "word_english": "cut(s)",
+        "word_welsh": "toriad(au)"
+    },
+    {
+        "category": "masculine noun",
+        "level": "canolradd",
+        "unit": "16",
+        "word_english": "mutation(s)",
+        "word_welsh": "treiglad(au)"
+    },
+    {
+        "category": "masculine noun",
+        "level": "canolradd",
+        "unit": "16",
+        "word_english": "union(s)",
+        "word_welsh": "undeb(au)"
+    },
+    {
+        "category": "masculine noun",
+        "level": "canolradd",
+        "unit": "16",
+        "word_english": "energy",
+        "word_welsh": "ynni"
+    },
+    {
+        "category": "verb",
+        "level": "canolradd",
+        "unit": "16",
+        "word_english": "to encourage",
+        "word_welsh": "annog"
+    },
+    {
+        "category": "verb",
+        "level": "canolradd",
+        "unit": "16",
+        "word_english": "to explain",
+        "word_welsh": "egluro"
+    },
+    {
+        "category": "verb",
+        "level": "canolradd",
+        "unit": "16",
+        "word_english": "to launch",
+        "word_welsh": "lansio"
+    },
+    {
+        "category": "verb",
+        "level": "canolradd",
+        "unit": "16",
+        "word_english": "to fall (gogledd Cymru)",
+        "word_welsh": "syrthio"
+    },
+    {
+        "category": "verb",
+        "level": "canolradd",
+        "unit": "16",
+        "word_english": "to mutate",
+        "word_welsh": "treiglo"
+    },
+    {
+        "category": "adjective",
+        "level": "canolradd",
+        "unit": "16",
+        "word_english": "well-known",
+        "word_welsh": "adnabyddus"
+    },
+    {
+        "category": "adjective",
+        "level": "canolradd",
+        "unit": "16",
+        "word_english": "grand",
+        "word_welsh": "crand"
+    },
+    {
+        "category": "adjective",
+        "level": "canolradd",
+        "unit": "16",
+        "word_english": "contemporary",
+        "word_welsh": "cyfoes"
+    },
+    {
+        "category": "adjective",
+        "level": "canolradd",
+        "unit": "16",
+        "word_english": "public",
+        "word_welsh": "cyhoeddus"
+    },
+    {
+        "category": "adjective",
+        "level": "canolradd",
+        "unit": "16",
+        "word_english": "ddim yn siarad Cymraeg",
+        "word_welsh": "di-Gymraeg"
+    },
+    {
+        "category": "adjective",
+        "level": "canolradd",
+        "unit": "16",
+        "word_english": "countless",
+        "word_welsh": "di-ri(f)"
+    },
+    {
+        "category": "adjective",
+        "level": "canolradd",
+        "unit": "16",
+        "word_english": "evident; clear",
+        "word_welsh": "eglur"
+    },
+    {
+        "category": "adjective",
+        "level": "canolradd",
+        "unit": "16",
+        "word_english": "vegan",
+        "word_welsh": "figan"
+    },
+    {
+        "category": "adjective",
+        "level": "canolradd",
+        "unit": "16",
+        "word_english": "vegetarian",
+        "word_welsh": "llysieuol"
+    },
+    {
+        "category": "other",
+        "level": "canolradd",
+        "unit": "16",
+        "word_english": "etc.",
+        "word_welsh": "ac yn y blaen"
+    },
+    {
+        "category": "other",
+        "level": "canolradd",
+        "unit": "16",
+        "word_english": "spoken; orally",
+        "word_welsh": "ar lafar"
+    },
+    {
+        "category": "other",
+        "level": "canolradd",
+        "unit": "16",
+        "word_english": "in the lead",
+        "word_welsh": "ar y blaen"
+    },
+    {
+        "category": "other",
+        "level": "canolradd",
+        "unit": "16",
+        "word_english": "downstairs",
+        "word_welsh": "lawr llawr"
+    },
+    {
+        "category": "other",
+        "level": "canolradd",
+        "unit": "16",
+        "word_english": "from (on); off; down from",
+        "word_welsh": "oddi ar"
+    },
+    {
+        "category": "other",
+        "level": "canolradd",
+        "unit": "16",
+        "word_english": "common sense",
+        "word_welsh": "synnwyr cyffredin"
+    },
+    {
+        "category": "other",
+        "level": "canolradd",
+        "unit": "16",
+        "word_english": "one-day",
+        "word_welsh": "undydd"
+    },
+    {
+        "category": "other",
+        "level": "canolradd",
+        "unit": "16",
+        "word_english": "above",
+        "word_welsh": "uwchben"
+    },
+    {
+        "category": "other",
+        "level": "canolradd",
+        "unit": "16",
+        "word_english": "against",
+        "word_welsh": "yn erbyn"
+    },
+    {
+        "category": "other",
+        "level": "canolradd",
+        "unit": "16",
+        "word_english": "the colony (Patagonia)",
+        "word_welsh": "y Wladfa"
+    },
+    {
+        "category": "feminine noun",
+        "level": "canolradd",
+        "unit": "17",
+        "word_english": "wing(s)",
+        "word_welsh": "adain (adenydd)"
+    },
+    {
+        "category": "feminine noun",
+        "level": "canolradd",
+        "unit": "17",
+        "word_english": "variety (-ies); variation(s)",
+        "word_welsh": "amrywiaeth(au)"
+    },
+    {
+        "category": "feminine noun",
+        "level": "canolradd",
+        "unit": "17",
+        "word_english": "lecture(s)",
+        "word_welsh": "darlith(oedd)"
+    },
+    {
+        "category": "feminine noun",
+        "level": "canolradd",
+        "unit": "17",
+        "word_english": "blackthorn",
+        "word_welsh": "draenen ddu"
+    },
+    {
+        "category": "feminine noun",
+        "level": "canolradd",
+        "unit": "17",
+        "word_english": "lovespoon(s)",
+        "word_welsh": "llwy garu (llwyau caru)"
+    },
+    {
+        "category": "feminine noun",
+        "level": "canolradd",
+        "unit": "17",
+        "word_english": "forehead(s)",
+        "word_welsh": "talcen(ni)"
+    },
+    {
+        "category": "feminine noun",
+        "level": "canolradd",
+        "unit": "17",
+        "word_english": "licence(s)",
+        "word_welsh": "trwydded(au)"
+    },
+    {
+        "category": "masculine noun",
+        "level": "canolradd",
+        "unit": "17",
+        "word_english": "thumb(s)",
+        "word_welsh": "bawd (bodiau)"
+    },
+    {
+        "category": "masculine noun",
+        "level": "canolradd",
+        "unit": "17",
+        "word_english": "kangaroo(s)",
+        "word_welsh": "cangarŵ(od)"
+    },
+    {
+        "category": "masculine noun",
+        "level": "canolradd",
+        "unit": "17",
+        "word_english": "vehicle(s)",
+        "word_welsh": "cerbyd(au)"
+    },
+    {
+        "category": "masculine noun",
+        "level": "canolradd",
+        "unit": "17",
+        "word_english": "account(s)",
+        "word_welsh": "cyfrif(on)"
+    },
+    {
+        "category": "masculine noun",
+        "level": "canolradd",
+        "unit": "17",
+        "word_english": "circle(s)",
+        "word_welsh": "cylch(oedd)"
+    },
+    {
+        "category": "masculine noun",
+        "level": "canolradd",
+        "unit": "17",
+        "word_english": "historian(s)",
+        "word_welsh": "hanesydd (-wyr)"
+    },
+    {
+        "category": "masculine noun",
+        "level": "canolradd",
+        "unit": "17",
+        "word_english": "mayor(s)",
+        "word_welsh": "maer (meiri)"
+    },
+    {
+        "category": "masculine noun",
+        "level": "canolradd",
+        "unit": "17",
+        "word_english": "beauty",
+        "word_welsh": "prydferthwch"
+    },
+    {
+        "category": "masculine noun",
+        "level": "canolradd",
+        "unit": "17",
+        "word_english": "power(s)",
+        "word_welsh": "pŵer (pwerau)"
+    },
+    {
+        "category": "masculine noun",
+        "level": "canolradd",
+        "unit": "17",
+        "word_english": "sex(es)",
+        "word_welsh": "rhyw(iau)"
+    },
+    {
+        "category": "masculine noun",
+        "level": "canolradd",
+        "unit": "17",
+        "word_english": "symbol(s)",
+        "word_welsh": "symbol(au)"
+    },
+    {
+        "category": "masculine noun",
+        "level": "canolradd",
+        "unit": "17",
+        "word_english": "type(s)",
+        "word_welsh": "teip(iau)"
+    },
+    {
+        "category": "masculine noun",
+        "level": "canolradd",
+        "unit": "17",
+        "word_english": "tradition(s)",
+        "word_welsh": "traddodiad(au)"
+    },
+    {
+        "category": "masculine noun",
+        "level": "canolradd",
+        "unit": "17",
+        "word_english": "retirement(s)",
+        "word_welsh": "ymddeoliad(au)"
+    },
+    {
+        "category": "verb",
+        "level": "canolradd",
+        "unit": "17",
+        "word_english": "to time",
+        "word_welsh": "amseru"
+    },
+    {
+        "category": "verb",
+        "level": "canolradd",
+        "unit": "17",
+        "word_english": "to dream",
+        "word_welsh": "breuddwydio"
+    },
+    {
+        "category": "verb",
+        "level": "canolradd",
+        "unit": "17",
+        "word_english": "to intend",
+        "word_welsh": "bwriadu"
+    },
+    {
+        "category": "verb",
+        "level": "canolradd",
+        "unit": "17",
+        "word_english": "to chatter",
+        "word_welsh": "clebran"
+    },
+    {
+        "category": "verb",
+        "level": "canolradd",
+        "unit": "17",
+        "word_english": "to comb",
+        "word_welsh": "cribo"
+    },
+    {
+        "category": "verb",
+        "level": "canolradd",
+        "unit": "17",
+        "word_english": "to film",
+        "word_welsh": "ffilmio"
+    },
+    {
+        "category": "verb",
+        "level": "canolradd",
+        "unit": "17",
+        "word_english": "to twin (with)",
+        "word_welsh": "gefeillio (â)"
+    },
+    {
+        "category": "verb",
+        "level": "canolradd",
+        "unit": "17",
+        "word_english": "to fear",
+        "word_welsh": "ofni"
+    },
+    {
+        "category": "verb",
+        "level": "canolradd",
+        "unit": "17",
+        "word_english": "to count",
+        "word_welsh": "rhifo"
+    },
+    {
+        "category": "verb",
+        "level": "canolradd",
+        "unit": "17",
+        "word_english": "to release",
+        "word_welsh": "rhyddhau"
+    },
+    {
+        "category": "adjective",
+        "level": "canolradd",
+        "unit": "17",
+        "word_english": "historical",
+        "word_welsh": "hanesyddol"
+    },
+    {
+        "category": "other",
+        "level": "canolradd",
+        "unit": "17",
+        "word_english": "on the whole",
+        "word_welsh": "ar y cyfan"
+    },
+    {
+        "category": "other",
+        "level": "canolradd",
+        "unit": "17",
+        "word_english": "leap year",
+        "word_welsh": "blwyddyn naid"
+    },
+    {
+        "category": "other",
+        "level": "canolradd",
+        "unit": "17",
+        "word_english": "at that time",
+        "word_welsh": "bryd hynny"
+    },
+    {
+        "category": "other",
+        "level": "canolradd",
+        "unit": "17",
+        "word_english": "finger buffet",
+        "word_welsh": "bwffe bys a bawd"
+    },
+    {
+        "category": "other",
+        "level": "canolradd",
+        "unit": "17",
+        "word_english": "May Day",
+        "word_welsh": "Calan Mai"
+    },
+    {
+        "category": "other",
+        "level": "canolradd",
+        "unit": "17",
+        "word_english": "to clap, to applaud",
+        "word_welsh": "curo dwylo"
+    },
+    {
+        "category": "other",
+        "level": "canolradd",
+        "unit": "17",
+        "word_english": "playgroup",
+        "word_welsh": "cylch chwarae"
+    },
+    {
+        "category": "other",
+        "level": "canolradd",
+        "unit": "17",
+        "word_english": "Valentine’s Day",
+        "word_welsh": "Dydd Ffolant"
+    },
+    {
+        "category": "other",
+        "level": "canolradd",
+        "unit": "17",
+        "word_english": "even so",
+        "word_welsh": "eto i gyd"
+    },
+    {
+        "category": "other",
+        "level": "canolradd",
+        "unit": "17",
+        "word_english": "tides; ebb and flow",
+        "word_welsh": "llanw a thrai"
+    },
+    {
+        "category": "other",
+        "level": "canolradd",
+        "unit": "17",
+        "word_english": "beforehand",
+        "word_welsh": "ymlaen llaw"
+    },
+    {
+        "category": "other",
+        "level": "canolradd",
+        "unit": "17",
+        "word_english": "the Middle Ages",
+        "word_welsh": "yr Oesoedd Canol"
+    },
+    {
+        "category": "feminine noun",
+        "level": "canolradd",
+        "unit": "18",
+        "word_english": "order(s)",
+        "word_welsh": "archeb(ion)"
+    },
+    {
+        "category": "feminine noun",
+        "level": "canolradd",
+        "unit": "18",
+        "word_english": "cross(es)",
+        "word_welsh": "croes(au)"
+    },
+    {
+        "category": "feminine noun",
+        "level": "canolradd",
+        "unit": "18",
+        "word_english": "spoonful(s)",
+        "word_welsh": "llwyaid (llwyeidiau)"
+    },
+    {
+        "category": "feminine noun",
+        "level": "canolradd",
+        "unit": "18",
+        "word_english": "gwraig o Brydain",
+        "word_welsh": "Prydeinwraig"
+    },
+    {
+        "category": "feminine noun",
+        "level": "canolradd",
+        "unit": "18",
+        "word_english": "effort(s)",
+        "word_welsh": "ymdrech(ion)"
+    },
+    {
+        "category": "masculine noun",
+        "level": "canolradd",
+        "unit": "18",
+        "word_english": "bat(s)",
+        "word_welsh": "bat(iau)"
+    },
+    {
+        "category": "masculine noun",
+        "level": "canolradd",
+        "unit": "18",
+        "word_english": "bomb(s)",
+        "word_welsh": "bom(iau)"
+    },
+    {
+        "category": "masculine noun",
+        "level": "canolradd",
+        "unit": "18",
+        "word_english": "catalogue(s)",
+        "word_welsh": "catalog(au)"
+    },
+    {
+        "category": "masculine noun",
+        "level": "canolradd",
+        "unit": "18",
+        "word_english": "foam",
+        "word_welsh": "ewyn"
+    },
+    {
+        "category": "masculine noun",
+        "level": "canolradd",
+        "unit": "18",
+        "word_english": "reduction(s)",
+        "word_welsh": "gostyngiad(au)"
+    },
+    {
+        "category": "masculine noun",
+        "level": "canolradd",
+        "unit": "18",
+        "word_english": "old age",
+        "word_welsh": "henaint"
+    },
+    {
+        "category": "masculine noun",
+        "level": "canolradd",
+        "unit": "18",
+        "word_english": "strength",
+        "word_welsh": "nerth"
+    },
+    {
+        "category": "masculine noun",
+        "level": "canolradd",
+        "unit": "18",
+        "word_english": "pobl o Brydain",
+        "word_welsh": "Prydeiniwr (-wyr)"
+    },
+    {
+        "category": "masculine noun",
+        "level": "canolradd",
+        "unit": "18",
+        "word_english": "storehouse(s)",
+        "word_welsh": "stordy (stordai)"
+    },
+    {
+        "category": "masculine noun",
+        "level": "canolradd",
+        "unit": "18",
+        "word_english": "lead",
+        "word_welsh": "tennyn"
+    },
+    {
+        "category": "masculine noun",
+        "level": "canolradd",
+        "unit": "18",
+        "word_english": "top(s)",
+        "word_welsh": "top(iau)"
+    },
+    {
+        "category": "verb",
+        "level": "canolradd",
+        "unit": "18",
+        "word_english": "to advise",
+        "word_welsh": "cynghori"
+    },
+    {
+        "category": "verb",
+        "level": "canolradd",
+        "unit": "18",
+        "word_english": "to explode",
+        "word_welsh": "ffrwydro"
+    },
+    {
+        "category": "verb",
+        "level": "canolradd",
+        "unit": "18",
+        "word_english": "to avoid",
+        "word_welsh": "osgoi"
+    },
+    {
+        "category": "verb",
+        "level": "canolradd",
+        "unit": "18",
+        "word_english": "to point",
+        "word_welsh": "pwyntio"
+    },
+    {
+        "category": "verb",
+        "level": "canolradd",
+        "unit": "18",
+        "word_english": "to roast",
+        "word_welsh": "rhostio"
+    },
+    {
+        "category": "verb",
+        "level": "canolradd",
+        "unit": "18",
+        "word_english": "to look (Gogledd)",
+        "word_welsh": "sbio"
+    },
+    {
+        "category": "verb",
+        "level": "canolradd",
+        "unit": "18",
+        "word_english": "to stare (at), to gaze (at)",
+        "word_welsh": "syllu (ar)"
+    },
+    {
+        "category": "verb",
+        "level": "canolradd",
+        "unit": "18",
+        "word_english": "to splutter; to choke",
+        "word_welsh": "tagu"
+    },
+    {
+        "category": "verb",
+        "level": "canolradd",
+        "unit": "18",
+        "word_english": "to fight",
+        "word_welsh": "ymladd"
+    },
+    {
+        "category": "adjective",
+        "level": "canolradd",
+        "unit": "18",
+        "word_english": "fortunate",
+        "word_welsh": "ffodus"
+    },
+    {
+        "category": "adjective",
+        "level": "canolradd",
+        "unit": "18",
+        "word_english": "native",
+        "word_welsh": "genedigol"
+    },
+    {
+        "category": "adjective",
+        "level": "canolradd",
+        "unit": "18",
+        "word_english": "punctual, prompt",
+        "word_welsh": "prydlon"
+    },
+    {
+        "category": "other",
+        "level": "canolradd",
+        "unit": "18",
+        "word_english": "belly button",
+        "word_welsh": "botwm bol"
+    },
+    {
+        "category": "other",
+        "level": "canolradd",
+        "unit": "18",
+        "word_english": "weightlifting",
+        "word_welsh": "codi pwysau"
+    },
+    {
+        "category": "other",
+        "level": "canolradd",
+        "unit": "18",
+        "word_english": "to lose hold (of)",
+        "word_welsh": "colli gafael (ar)"
+    },
+    {
+        "category": "other",
+        "level": "canolradd",
+        "unit": "18",
+        "word_english": "food craving",
+        "word_welsh": "chwant bwyd"
+    },
+    {
+        "category": "other",
+        "level": "canolradd",
+        "unit": "18",
+        "word_english": "full to the rafters",
+        "word_welsh": "dan ei sang"
+    },
+    {
+        "category": "other",
+        "level": "canolradd",
+        "unit": "18",
+        "word_english": "set book",
+        "word_welsh": "llyfr gosod"
+    },
+    {
+        "category": "other",
+        "level": "canolradd",
+        "unit": "18",
+        "word_english": "from time to time",
+        "word_welsh": "o dro i dro"
+    },
+    {
+        "category": "other",
+        "level": "canolradd",
+        "unit": "18",
+        "word_english": "to gaze in amazement",
+        "word_welsh": "syllu’n syn"
+    },
+    {
+        "category": "other",
+        "level": "canolradd",
+        "unit": "18",
+        "word_english": "amongst",
+        "word_welsh": "ymhlith"
+    },
+    {
+        "category": "feminine noun",
+        "level": "canolradd",
+        "unit": "19",
+        "word_english": "merch o Iwerddon",
+        "word_welsh": "Gwyddeles"
+    },
+    {
+        "category": "masculine noun",
+        "level": "canolradd",
+        "unit": "19",
+        "word_english": "hero(es)",
+        "word_welsh": "arwr (-wyr)"
+    },
+    {
+        "category": "masculine noun",
+        "level": "canolradd",
+        "unit": "19",
+        "word_english": "judge(s)",
+        "word_welsh": "barnwr (-wyr)"
+    },
+    {
+        "category": "masculine noun",
+        "level": "canolradd",
+        "unit": "19",
+        "word_english": "make-up",
+        "word_welsh": "colur"
+    },
+    {
+        "category": "masculine noun",
+        "level": "canolradd",
+        "unit": "19",
+        "word_english": "copy (-ies)",
+        "word_welsh": "copi (copïau)"
+    },
+    {
+        "category": "masculine noun",
+        "level": "canolradd",
+        "unit": "19",
+        "word_english": "excitement",
+        "word_welsh": "cyffro"
+    },
+    {
+        "category": "masculine noun",
+        "level": "canolradd",
+        "unit": "19",
+        "word_english": "dyn (pobl) o Iwerddon",
+        "word_welsh": "Gwyddel(od)"
+    },
+    {
+        "category": "masculine noun",
+        "level": "canolradd",
+        "unit": "19",
+        "word_english": "mural(s)",
+        "word_welsh": "murlun(iau)"
+    },
+    {
+        "category": "masculine noun",
+        "level": "canolradd",
+        "unit": "19",
+        "word_english": "heath(s), moor(s)",
+        "word_welsh": "rhos(ydd)"
+    },
+    {
+        "category": "masculine noun",
+        "level": "canolradd",
+        "unit": "19",
+        "word_english": "Romans",
+        "word_welsh": "Rhufeiniaid"
+    },
+    {
+        "category": "masculine noun",
+        "level": "canolradd",
+        "unit": "19",
+        "word_english": "obstacle(s)",
+        "word_welsh": "rhwystr(au)"
+    },
+    {
+        "category": "masculine noun",
+        "level": "canolradd",
+        "unit": "19",
+        "word_english": "treasure(s)",
+        "word_welsh": "trysor(au)"
+    },
+    {
+        "category": "masculine noun",
+        "level": "canolradd",
+        "unit": "19",
+        "word_english": "ghost(s), spirit(s)",
+        "word_welsh": "ysbryd(ion)"
+    },
+    {
+        "category": "verb",
+        "level": "canolradd",
+        "unit": "19",
+        "word_english": "to beat",
+        "word_welsh": "curo"
+    },
+    {
+        "category": "verb",
+        "level": "canolradd",
+        "unit": "19",
+        "word_english": "to affect",
+        "word_welsh": "effeithio (ar)"
+    },
+    {
+        "category": "verb",
+        "level": "canolradd",
+        "unit": "19",
+        "word_english": "to staff",
+        "word_welsh": "staffio"
+    },
+    {
+        "category": "verb",
+        "level": "canolradd",
+        "unit": "19",
+        "word_english": "to unite (with)",
+        "word_welsh": "uno (â)"
+    },
+    {
+        "category": "adjective",
+        "level": "canolradd",
+        "unit": "19",
+        "word_english": "fearful; frightened",
+        "word_welsh": "ofnus"
+    },
+    {
+        "category": "adjective",
+        "level": "canolradd",
+        "unit": "19",
+        "word_english": "British",
+        "word_welsh": "Prydeinig"
+    },
+    {
+        "category": "other",
+        "level": "canolradd",
+        "unit": "19",
+        "word_english": "the length and breadth",
+        "word_welsh": "ar hyd a lled"
+    },
+    {
+        "category": "other",
+        "level": "canolradd",
+        "unit": "19",
+        "word_english": "for rent",
+        "word_welsh": "ar osod"
+    },
+    {
+        "category": "other",
+        "level": "canolradd",
+        "unit": "19",
+        "word_english": "to get rid of",
+        "word_welsh": "cael gwared ar"
+    },
+    {
+        "category": "other",
+        "level": "canolradd",
+        "unit": "19",
+        "word_english": "to wave (to)",
+        "word_welsh": "codi llaw (ar)"
+    },
+    {
+        "category": "other",
+        "level": "canolradd",
+        "unit": "19",
+        "word_english": "to keep at it, to persevere",
+        "word_welsh": "dal ati"
+    },
+    {
+        "category": "other",
+        "level": "canolradd",
+        "unit": "19",
+        "word_english": "apparently",
+        "word_welsh": "yn ôl pob sôn"
+    },
+    {
+        "category": "feminine noun",
+        "level": "canolradd",
+        "unit": "arholiad",
+        "word_english": "disadvantage(s)",
+        "word_welsh": "anfantais (anfanteision)"
+    },
+    {
+        "category": "feminine noun",
+        "level": "canolradd",
+        "unit": "arholiad",
+        "word_english": "example(s)",
+        "word_welsh": "esiampl(au)"
+    },
+    {
+        "category": "feminine noun",
+        "level": "canolradd",
+        "unit": "arholiad",
+        "word_english": "gymnastics",
+        "word_welsh": "gymnasteg"
+    },
+    {
+        "category": "feminine noun",
+        "level": "canolradd",
+        "unit": "arholiad",
+        "word_english": "advantage(s)",
+        "word_welsh": "mantais (manteision)"
+    },
+    {
+        "category": "feminine noun",
+        "level": "canolradd",
+        "unit": "arholiad",
+        "word_english": "process(es)",
+        "word_welsh": "proses(au)"
+    },
+    {
+        "category": "feminine noun",
+        "level": "canolradd",
+        "unit": "arholiad",
+        "word_english": "circus(es)",
+        "word_welsh": "syrcas(au)"
+    },
+    {
+        "category": "feminine noun",
+        "level": "canolradd",
+        "unit": "arholiad",
+        "word_english": "system(s)",
+        "word_welsh": "system(au)"
+    },
+    {
+        "category": "masculine noun",
+        "level": "canolradd",
+        "unit": "arholiad",
+        "word_english": "cyclist(s)",
+        "word_welsh": "beiciwr (-wyr)"
+    },
+    {
+        "category": "masculine noun",
+        "level": "canolradd",
+        "unit": "arholiad",
+        "word_english": "chairperson(s)",
+        "word_welsh": "cadeirydd(ion)"
+    },
+    {
+        "category": "masculine noun",
+        "level": "canolradd",
+        "unit": "arholiad",
+        "word_english": "background(s)",
+        "word_welsh": "cefndir(oedd)"
+    },
+    {
+        "category": "masculine noun",
+        "level": "canolradd",
+        "unit": "arholiad",
+        "word_english": "edge(s), fringe(s)",
+        "word_welsh": "cwr (cyrion)"
+    },
+    {
+        "category": "masculine noun",
+        "level": "canolradd",
+        "unit": "arholiad",
+        "word_english": "interviewer(s)",
+        "word_welsh": "cyfwelydd (-wyr)"
+    },
+    {
+        "category": "masculine noun",
+        "level": "canolradd",
+        "unit": "arholiad",
+        "word_english": "charge(s), accusation(s)",
+        "word_welsh": "cyhuddiad(au)"
+    },
+    {
+        "category": "masculine noun",
+        "level": "canolradd",
+        "unit": "arholiad",
+        "word_english": "error(s)",
+        "word_welsh": "gwall(au)"
+    },
+    {
+        "category": "masculine noun",
+        "level": "canolradd",
+        "unit": "arholiad",
+        "word_english": "root(s)",
+        "word_welsh": "gwraidd (gwreiddiau)"
+    },
+    {
+        "category": "masculine noun",
+        "level": "canolradd",
+        "unit": "arholiad",
+        "word_english": "self-confidence",
+        "word_welsh": "hunanhyder"
+    },
+    {
+        "category": "masculine noun",
+        "level": "canolradd",
+        "unit": "arholiad",
+        "word_english": "pros and cons",
+        "word_welsh": "manteision ac anfanteision"
+    },
+    {
+        "category": "masculine noun",
+        "level": "canolradd",
+        "unit": "arholiad",
+        "word_english": "aim(s), goal(s)",
+        "word_welsh": "nod(au)"
+    },
+    {
+        "category": "masculine noun",
+        "level": "canolradd",
+        "unit": "arholiad",
+        "word_english": "discussion point(s)",
+        "word_welsh": "pwynt(iau) trafod"
+    },
+    {
+        "category": "masculine noun",
+        "level": "canolradd",
+        "unit": "arholiad",
+        "word_english": "zoo(s)",
+        "word_welsh": "sŵ (sweddau)"
+    },
+    {
+        "category": "masculine noun",
+        "level": "canolradd",
+        "unit": "arholiad",
+        "word_english": "type(s)",
+        "word_welsh": "teipen (teipiau)"
+    },
+    {
+        "category": "verb",
+        "level": "canolradd",
+        "unit": "arholiad",
+        "word_english": "to register",
+        "word_welsh": "cofrestru"
+    },
+    {
+        "category": "verb",
+        "level": "canolradd",
+        "unit": "arholiad",
+        "word_english": "to interview",
+        "word_welsh": "cyfweld"
+    },
+    {
+        "category": "verb",
+        "level": "canolradd",
+        "unit": "arholiad",
+        "word_english": "to accuse",
+        "word_welsh": "cyhuddo"
+    },
+    {
+        "category": "verb",
+        "level": "canolradd",
+        "unit": "arholiad",
+        "word_english": "to fund",
+        "word_welsh": "cyllido"
+    },
+    {
+        "category": "verb",
+        "level": "canolradd",
+        "unit": "arholiad",
+        "word_english": "to approve",
+        "word_welsh": "cymeradwyo"
+    },
+    {
+        "category": "verb",
+        "level": "canolradd",
+        "unit": "arholiad",
+        "word_english": "to say goodbye",
+        "word_welsh": "ffarwelio"
+    },
+    {
+        "category": "verb",
+        "level": "canolradd",
+        "unit": "arholiad",
+        "word_english": "to facilitate",
+        "word_welsh": "hwyluso"
+    },
+    {
+        "category": "verb",
+        "level": "canolradd",
+        "unit": "arholiad",
+        "word_english": "to sub-title",
+        "word_welsh": "is-deitlo"
+    },
+    {
+        "category": "verb",
+        "level": "canolradd",
+        "unit": "arholiad",
+        "word_english": "to succeed",
+        "word_welsh": "llwyddo"
+    },
+    {
+        "category": "verb",
+        "level": "canolradd",
+        "unit": "arholiad",
+        "word_english": "to pass (exam)",
+        "word_welsh": "pasiro"
+    },
+    {
+        "category": "verb",
+        "level": "canolradd",
+        "unit": "arholiad",
+        "word_english": "to perform",
+        "word_welsh": "perfformio"
+    },
+    {
+        "category": "adjective",
+        "level": "canolradd",
+        "unit": "arholiad",
+        "word_english": "definite; firm",
+        "word_welsh": "pendant"
+    },
+    {
+        "category": "adjective",
+        "level": "canolradd",
+        "unit": "arholiad",
+        "word_english": "relevant",
+        "word_welsh": "perthnasol"
+    },
+    {
+        "category": "adjective",
+        "level": "canolradd",
+        "unit": "arholiad",
+        "word_english": "deliberate; cautious",
+        "word_welsh": "pwyllog"
+    },
+    {
+        "category": "adjective",
+        "level": "canolradd",
+        "unit": "arholiad",
+        "word_english": "likely",
+        "word_welsh": "tebygol"
+    },
+    {
+        "category": "other",
+        "level": "canolradd",
+        "unit": "arholiad",
+        "word_english": "in order to",
+        "word_welsh": "er mwyn"
+    },
+    {
+        "category": "other",
+        "level": "canolradd",
+        "unit": "arholiad",
+        "word_english": "how many...?",
+        "word_welsh": "faint o...?"
+    },
+    {
+        "category": "other",
+        "level": "canolradd",
+        "unit": "arholiad",
+        "word_english": "sub-titles",
+        "word_welsh": "is-deitlau"
+    },
+    {
+        "category": "other",
+        "level": "canolradd",
+        "unit": "arholiad",
+        "word_english": "to take advantage of",
+        "word_welsh": "manteisio ar"
+    },
+    {
+        "category": "other",
+        "level": "canolradd",
+        "unit": "arholiad",
+        "word_english": "as a result of",
+        "word_welsh": "o ganlyniad i"
+    }
+]
