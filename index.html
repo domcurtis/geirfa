@@ -1186,12 +1186,28 @@ function reviewByPile(pile) {
 }
 
 // ── Review oldest "Got it" words ──────────────────────────────────────────────
+// Indices of every word in a subunit (chunk) where ALL words are currently green.
+// Only these words are eligible for the "Review" pool.
+function getFullyGreenChunkIdxSet() {
+  const eligible = new Set();
+  getUnits().forEach(unit => {
+    const total = getChunkCount(unit);
+    for (let i = 0; i < total; i++) {
+      const indices = getChunkIndices(unit, i);
+      if (getChunkMasteryState(indices) === 'mastered') indices.forEach(idx => eligible.add(idx));
+    }
+  });
+  return eligible;
+}
+
 function getDueCards() {
   const now = Date.now();
+  const eligible = getFullyGreenChunkIdxSet();
   return ALL_VOCAB
     .map((v, i) => ({ ...v, _idx: i }))
     .filter(v => {
       if (!matchLevel(v)) return false;
+      if (!eligible.has(v._idx)) return false;
       const cd = srCards[cardKey(v)];
       return cd && cd.pile === 2 && cd.reviewAfter <= now;
     })
